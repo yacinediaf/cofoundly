@@ -79,19 +79,19 @@ const logout = () => {
                                         <div class="w-60">
 
                                             <!-- Project Switcher -->
-                                            <template v-if="$page.props.auth.user.all_teams.length > 1">
+                                            <template v-if="$page.props.auth.user.team_projects.length >= 1">
                                                 <div class="border-t border-gray-200" />
 
                                                 <div class="block px-4 py-2 text-xs text-gray-400">
                                                     Switch Projects
                                                 </div>
 
-                                                <template v-for="team in $page.props.auth.user.all_teams"
-                                                    :key="team.id">
+                                                <template v-for="project in $page.props.auth.user.team_projects"
+                                                    :key="project.id">
                                                     <form @submit.prevent="switchToTeam(team)">
                                                         <DropdownLink as="button">
                                                             <div class="flex items-center">
-                                                                <svg v-if="team.id == $page.props.auth.user.current_team_id"
+                                                                <svg v-if="project.id == $page.props.auth.user.current_team_id"
                                                                     class="me-2 h-5 w-5 text-green-400"
                                                                     xmlns="http://www.w3.org/2000/svg" fill="none"
                                                                     viewBox="0 0 24 24" stroke-width="1.5"
@@ -100,14 +100,14 @@ const logout = () => {
                                                                         d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                                 </svg>
 
-                                                                <div>{{ team.name }}</div>
+                                                                <div>{{ project.title }}</div>
                                                             </div>
                                                         </DropdownLink>
                                                     </form>
                                                 </template>
                                                 <DropdownLink v-if="$page.props.jetstream.canCreateTeams"
                                                     :href="route('teams.create')">
-                                                    Create New Team
+                                                    Create New Project
                                                 </DropdownLink>
                                             </template>
                                         </div>

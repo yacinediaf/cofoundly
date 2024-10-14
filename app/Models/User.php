@@ -13,7 +13,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-     use HasApiTokens;
+    use HasApiTokens;
     use HasFactory;
     use HasProfilePhoto;
     use HasTeams;
@@ -63,5 +63,15 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function allProjects()
+    {
+        return $this->hasManyThrough(Project::class, Team::class);
+    }
+
+    public function currentProjects()
+    {
+        return $this->currentTeam->projects();
     }
 }

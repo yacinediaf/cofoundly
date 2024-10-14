@@ -46,6 +46,7 @@ class Team extends JetstreamTeam
         ];
     }
 
+    //Get teams projects
     public function Projects()
     {
         return $this->hasMany(Project::class);

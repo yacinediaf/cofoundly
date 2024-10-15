@@ -58,7 +58,7 @@ const logout = () => {
                         <div class="hidden sm:flex sm:items-center sm:ms-6">
                             <div class="ms-3 relative">
                                 <!-- Projects Dropdown -->
-                                <Dropdown v-if="$page.props.jetstream.hasTeamFeatures" align="right" width="60">
+                                <Dropdown v-if="$page.props.auth.user.team_projects.length" align="right" width="60">
                                     <template #trigger>
                                         <span class="inline-flex rounded-md">
                                             <button type="button"
@@ -91,7 +91,7 @@ const logout = () => {
                                                     <form @submit.prevent="switchToTeam(team)">
                                                         <DropdownLink as="button">
                                                             <div class="flex items-center">
-                                                                <svg v-if="project.id == $page.props.auth.user.current_team_id"
+                                                                <svg v-if="'/projects/' + project.project_code == $page.url"
                                                                     class="me-2 h-5 w-5 text-green-400"
                                                                     xmlns="http://www.w3.org/2000/svg" fill="none"
                                                                     viewBox="0 0 24 24" stroke-width="1.5"
@@ -105,10 +105,6 @@ const logout = () => {
                                                         </DropdownLink>
                                                     </form>
                                                 </template>
-                                                <DropdownLink v-if="$page.props.jetstream.canCreateTeams"
-                                                    :href="route('teams.create')">
-                                                    Create New Project
-                                                </DropdownLink>
                                             </template>
                                         </div>
                                     </template>
@@ -348,6 +344,33 @@ const logout = () => {
                                         </form>
                                     </template>
                                 </template>
+
+                                <!-- Project Switcher -->
+                                <template v-if="$page.props.auth.user.team_projects.length >= 1">
+                                    <div class="border-t border-gray-200" />
+
+                                    <div class="block px-4 py-2 text-xs text-gray-400">
+                                        Switch Projects
+                                    </div>
+
+                                    <template v-for="project in $page.props.auth.user.team_projects" :key="project.id">
+                                        <form @submit.prevent="switchToTeam(team)">
+                                            <ResponsiveNavLink as="button">
+                                                <div class="flex items-center">
+                                                    <svg v-if="'/projects/' + project.project_code == $page.props.auth.user.team_projects"
+                                                        class="me-2 h-5 w-5 text-green-400"
+                                                        xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                    </svg>
+                                                    <div>{{ project.title }}</div>
+                                                </div>
+                                            </ResponsiveNavLink>
+                                        </form>
+                                    </template>
+                                </template>
+
                             </template>
                         </div>
                     </div>
@@ -356,14 +379,28 @@ const logout = () => {
 
             <!-- Page Heading -->
             <header v-if="$slots.header" class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-2 px-4 sm:px-6 lg:px-8">
+                <!-- <div class="max-w-7xl mx-auto py-2 px-4 sm:px-6 lg:px-8">
                     <slot name="header" />
-                </div>
+                </div> -->
             </header>
 
             <!-- Page Content -->
-            <main>
-                <slot />
+            <main class="py-2">
+                <div>
+                    <div class="flex justify-between gap-2 overflow-hidden shadow-xl">
+                        <section class="bg-white w-80 px-4 py-3">
+                            <aside class="font-bold">Projects</aside>
+                            <template v-if="$page.props.auth.user.team_projects.length">
+                                <ul class="px-1 py-2">
+                                    <li v-for="project in $page.props.auth.user.team_projects" :key="project.id">
+                                        {{ project.title }}
+                                    </li>
+                                </ul>
+                            </template>
+                        </section>
+                        <slot />
+                    </div>
+                </div>
             </main>
         </div>
     </div>

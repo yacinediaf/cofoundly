@@ -1,4 +1,6 @@
 <script setup>
+import { PlusIcon } from '@radix-icons/vue';
+import Button from './ui/button/Button.vue';
 
 </script>
 <template>
@@ -17,10 +19,10 @@
                 </ul>
             </template>
             <div class="mt-4">
-                <button
-                    class="w-full text-sm font-semibold text-gray-500 bg-gray-50 rounded-lg py-1 px-4 hover:bg-gray-100">
-                    New project +
-                </button>
+                <Button variant="secondary" class="flex items-center justify-between gap-4">
+                    New project
+                    <PlusIcon class="w-4 h-4" />
+                </Button>
             </div>
         </div>
     </section>

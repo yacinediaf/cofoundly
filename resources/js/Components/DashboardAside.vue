@@ -1,4 +1,5 @@
 <script setup>
+import { useForm, usePage } from '@inertiajs/vue3'
 import { PlusIcon } from '@radix-icons/vue';
 import Button from './ui/button/Button.vue';
 import {
@@ -13,14 +14,19 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import Textarea from './ui/textarea/Textarea.vue';
-import { reactive } from 'vue';
 
-const form = reactive({
+const form = useForm({
     title: null,
     description: null
 })
 
-const createProject = () => router.post('/projects', form);
+const createProject = () => {
+    form.post('/projects', {
+        onSuccess: () => {
+            form.reset();
+        }
+    })
+};
 
 </script>
 <template>
@@ -58,10 +64,11 @@ const createProject = () => router.post('/projects', form);
                         <Label for="title">
                             Project Title
                         </Label>
-                        <Input v-model="form.title" id="title" value="Planora" class="col-span-12" />
+                        <Input v-model="form.title" id="title" placeholder="Planora" class="col-span-12" />
                     </div>
                     <div class="grid w-full gap-4">
-                        <Label for="description">Project Description</Label>
+                        <Label for="description">Project Description <span
+                                class="text-gray-500 text-sm font-normal">(Optional)</span></Label>
                         <Textarea v-model="form.description" id="description" class="w-full h-32" />
                     </div>
                 </div>

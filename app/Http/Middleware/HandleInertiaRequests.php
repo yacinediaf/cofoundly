@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\{Arr, Str};
 use Inertia\Inertia;
 use Inertia\Middleware;
 
@@ -48,7 +49,11 @@ class HandleInertiaRequests extends Middleware
                      )
                      : '';
                 }
-            ]
+            ],
+            'notifications' => collect(Arr::only($request->session()->all(), ['success', 'error']))
+                                ->mapWithKeys(function ($notification, $key) {
+                                    return ['type' => $key, 'body' => Str::title($notification)];
+                                })
         ]);
     }
 }

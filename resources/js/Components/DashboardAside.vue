@@ -1,4 +1,26 @@
 <script setup>
+import { PlusIcon } from '@radix-icons/vue';
+import Button from './ui/button/Button.vue';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import Textarea from './ui/textarea/Textarea.vue';
+import { reactive } from 'vue';
+
+const form = reactive({
+    title: null,
+    description: null
+})
+
+const createProject = () => router.post('/projects', form);
 
 </script>
 <template>
@@ -16,12 +38,39 @@
                     </li>
                 </ul>
             </template>
-            <div class="mt-4">
-                <button
-                    class="w-full text-sm font-semibold text-gray-500 bg-gray-50 rounded-lg py-1 px-4 hover:bg-gray-100">
-                    New project +
-                </button>
-            </div>
         </div>
+        <Dialog>
+            <DialogTrigger as-child>
+                <Button variant="outline" class="gap-2">
+                    New Project
+                    <PlusIcon class="w-4 h-4" />
+                </Button>
+            </DialogTrigger>
+            <DialogContent class="sm:max-w-[425px]">
+                <DialogHeader>
+                    <DialogTitle>New Project</DialogTitle>
+                    <DialogDescription>
+                        Create your new project here. Click save when you're done.
+                    </DialogDescription>
+                </DialogHeader>
+                <div class="grid gap-4 py-4 space-y-4">
+                    <div class="flex flex-col grid-cols-12 gap-4">
+                        <Label for="title">
+                            Project Title
+                        </Label>
+                        <Input v-model="form.title" id="title" value="Planora" class="col-span-12" />
+                    </div>
+                    <div class="grid w-full gap-4">
+                        <Label for="description">Project Description</Label>
+                        <Textarea v-model="form.description" id="description" class="w-full h-32" />
+                    </div>
+                </div>
+                <DialogFooter>
+                    <Button type="submit" @click="createProject">
+                        Create
+                    </Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
     </section>
 </template>

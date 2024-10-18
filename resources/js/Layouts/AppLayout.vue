@@ -7,6 +7,7 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
+import DashboardAside from '@/Components/DashboardAside.vue';
 
 defineProps({
     title: String,
@@ -56,61 +57,6 @@ const logout = () => {
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ms-6">
-                            <div class="ms-3 relative">
-                                <!-- Projects Dropdown -->
-                                <Dropdown v-if="$page.props.auth.user.team_projects.length" align="right" width="60">
-                                    <template #trigger>
-                                        <span class="inline-flex rounded-md">
-                                            <button type="button"
-                                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
-                                                Yacine's Team Projects
-
-                                                <svg class="ms-2 -me-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                                    fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                                    stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
-                                                </svg>
-                                            </button>
-                                        </span>
-                                    </template>
-
-                                    <template #content>
-                                        <div class="w-60">
-
-                                            <!-- Project Switcher -->
-                                            <template v-if="$page.props.auth.user.team_projects.length >= 1">
-                                                <div class="border-t border-gray-200" />
-
-                                                <div class="block px-4 py-2 text-xs text-gray-400">
-                                                    Switch Projects
-                                                </div>
-
-                                                <template v-for="project in $page.props.auth.user.team_projects"
-                                                    :key="project.id">
-                                                    <form @submit.prevent="switchToTeam(team)">
-                                                        <DropdownLink as="button">
-                                                            <div class="flex items-center">
-                                                                <svg v-if="'/projects/' + project.project_code == $page.url"
-                                                                    class="me-2 h-5 w-5 text-green-400"
-                                                                    xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                    viewBox="0 0 24 24" stroke-width="1.5"
-                                                                    stroke="currentColor">
-                                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                                        d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                                </svg>
-
-                                                                <div>{{ project.title }}</div>
-                                                            </div>
-                                                        </DropdownLink>
-                                                    </form>
-                                                </template>
-                                            </template>
-                                        </div>
-                                    </template>
-                                </Dropdown>
-                            </div>
-
                             <div class="ms-3 relative">
                                 <!-- Team Dropdown -->
                                 <Dropdown v-if="$page.props.jetstream.hasTeamFeatures" align="right" width="60">
@@ -388,16 +334,7 @@ const logout = () => {
             <main class="py-2">
                 <div>
                     <div class="flex justify-between gap-2 overflow-hidden shadow-xl">
-                        <section class="bg-white w-80 px-4 py-3">
-                            <aside class="font-bold">Projects</aside>
-                            <template v-if="$page.props.auth.user.team_projects.length">
-                                <ul class="px-1 py-2">
-                                    <li v-for="project in $page.props.auth.user.team_projects" :key="project.id">
-                                        {{ project.title }}
-                                    </li>
-                                </ul>
-                            </template>
-                        </section>
+                        <DashboardAside></DashboardAside>
                         <slot />
                     </div>
                 </div>

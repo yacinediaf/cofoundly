@@ -8,6 +8,7 @@ import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import DashboardAside from '@/Components/DashboardAside.vue';
+import Toaster from '@/Components/ui/toast/Toaster.vue';
 
 defineProps({
     title: String,
@@ -340,5 +341,6 @@ const logout = () => {
                 </div>
             </main>
         </div>
+        <Toaster />
     </div>
 </template>

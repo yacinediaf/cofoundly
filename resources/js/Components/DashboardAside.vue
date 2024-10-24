@@ -14,38 +14,47 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import Textarea from './ui/textarea/Textarea.vue';
+import { DialogClose } from './ui/dialog';
+import { onMounted, ref } from 'vue';
 
 const form = useForm({
     title: null,
     description: null
 })
 
+const isDialogOpen = ref(false);
+const closeBtn = ref(null);
 const createProject = () => {
     form.post('/projects', {
         onSuccess: () => {
             form.reset();
+            closeDialog()
         }
     })
 };
+
+const closeDialog = () => {
+    isDialogOpen.value = false;
+}
 
 </script>
 <template>
     <section class="bg-white w-96 px-4 py-6 text-gray-500">
         <div>
-            <aside class="font-bold">Projects</aside>
+            <aside class="font-bold mb-2">Projects 📚</aside>
             <template v-if="$page.props.auth.user.team_projects.length">
                 <div class="block text-xs text-gray-400">
                     Switch Projects
                 </div>
                 <ul class="py-2 w-full">
-                    <li class="text-gray-500 py-1 hover:bg-gray-50 px-4 rounded-lg cursor-pointer"
+                    <li class="text-gray-500 py-1 hover:bg-gray-50 px-4 rounded-lg cursor-pointer font-medium text-sm"
                         v-for="project in $page.props.auth.user.team_projects" :key="project.id">
                         {{ project.title }}
                     </li>
                 </ul>
             </template>
         </div>
-        <Dialog>
+        <Dialog v-model:open="isDialogOpen">
             <DialogTrigger as-child>
                 <Button variant="outline" class="gap-2">
                     New Project
@@ -73,6 +82,9 @@ const createProject = () => {
                     </div>
                 </div>
                 <DialogFooter>
+                    <Button variant="secondary" type="submit" @click="isDialogOpen = false">
+                        Close
+                    </Button>
                     <Button type="submit" @click="createProject">
                         Create
                     </Button>

@@ -6,13 +6,17 @@ const {toast} = useToast();
 export const notifications = () => {
     
     router.on('finish', ()=>{
-        const notifications = usePage().props.notifications 
-     
-        toast({
-            variant: notifications.type,
-            title: notifications.type.charAt(0).toUpperCase() + notifications.type.slice(1),
-            description: notifications.body
-        })
+        const notification = usePage().props.notifications 
+        
+        if (notification.length != 0) {
+            toast({
+                variant: notification.type,
+                title: notification.type?.charAt(0).toUpperCase() + notification.type?.slice(1),
+                description: notification.body
+            })
+        }
+        
+
     })
 
 }

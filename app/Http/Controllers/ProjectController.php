@@ -11,7 +11,7 @@ class ProjectController extends Controller
     {
         //validate request
         $attributes = $request->validate([
-            'title' => 'required',
+            'title' => 'required|min:5',
             'description' => 'nullable'
         ]);
         //check if user has permission (to-do)

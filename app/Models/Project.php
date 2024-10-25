@@ -26,4 +26,9 @@ class Project extends Model
     {
         return $this->belongsTo(Team::class);
     }
+
+    public function members()
+    {
+        return $this->team->users();
+    }
 }

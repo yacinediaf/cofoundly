@@ -2,11 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProjectsResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ProjectController extends Controller
 {
+    public function index()
+    {
+        //Get all the current user's projects with the partipants
+        $projects = ProjectsResource::collection(auth()->user()->allProjects()->with('team.users')->get());
+
+        return Inertia::render('Projects/Show', compact('projects'));
+    }
+
     public function store(Request $request)
     {
         //validate request
@@ -15,9 +25,6 @@ class ProjectController extends Controller
             'description' => 'nullable'
         ]);
         //check if user has permission (to-do)
-        /**
-         * @var User $user
-         */
         $user = auth()->user();
 
         if (!$user->hasTeamPermission($user->currentTeam, 'create')) {

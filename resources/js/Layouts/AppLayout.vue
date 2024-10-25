@@ -54,6 +54,9 @@ const logout = () => {
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </NavLink>
+                                <NavLink :href="route('projects')" :active="route().current('projects')">
+                                    Projects
+                                </NavLink>
                             </div>
                         </div>
 
@@ -317,7 +320,6 @@ const logout = () => {
                                         </form>
                                     </template>
                                 </template>
-
                             </template>
                         </div>
                     </div>
@@ -334,9 +336,11 @@ const logout = () => {
             <!-- Page Content -->
             <main class="py-2">
                 <div>
-                    <div class="flex justify-between gap-2 overflow-hidden shadow-xl">
+                    <div class="flex justify-between gap-2 overflow-hidden min-h-screen">
                         <DashboardAside></DashboardAside>
-                        <slot />
+                        <div class="flex-1">
+                            <slot />
+                        </div>
                     </div>
                 </div>
             </main>

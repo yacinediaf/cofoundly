@@ -39,7 +39,7 @@ const closeDialog = () => {
 
 </script>
 <template>
-    <section class="bg-white w-96 px-4 py-6 text-gray-500">
+    <section class="bg-white px-4 py-6 text-gray-500">
         <div>
             <aside class="font-bold mb-2">Projects 📚</aside>
             <template v-if="$page.props.auth.user.team_projects.length">

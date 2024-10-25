@@ -12,7 +12,7 @@ class ProjectsResource extends JsonResource
         return [
             'projectCode' => $this->project_code,
             'title' => $this->title,
-            'description' => $this->whenNotNull($this->descripiton),
+            'description' => $this->whenNotNull($this->description),
             'projectImage' => $this->project_image_path,
             'status' => $this->status,
             'createdAt' => $this->created_at->diffForHumans(),

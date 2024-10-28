@@ -17,7 +17,7 @@ class ProjectMembersResource extends JsonResource
         return [
             'name' => $this->name,
             'profilePicture' => $this->profile_photo_url,
-            'role' => $this->membership->role
+            'role' => $this->membership->role ?? null
         ];
     }
 }

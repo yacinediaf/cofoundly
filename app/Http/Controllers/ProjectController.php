@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ProjectsResource;
+use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -11,10 +12,15 @@ class ProjectController extends Controller
 {
     public function index()
     {
+        $projects = Project::query()
+                            ->with(['team.users', 'team.owner'])
+                            ->whereIn('team_id', auth()->user()->allTeams()->pluck('id'))
+                            ->get();
         //Get all the current user's projects with the partipants
-        $projects = ProjectsResource::collection(auth()->user()->allProjects()->with('team.users')->get());
-
-        return Inertia::render('Projects/Show', compact('projects'));
+        return Inertia::render(
+            'Projects/Show',
+            ['projects' => ProjectsResource::collection($projects)]
+        );
     }
 
     public function store(Request $request)

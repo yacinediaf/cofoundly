@@ -3,6 +3,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import ProjectBanner from './Partials/ProjectBanner.vue';
 
 let props = defineProps(['projects']);
+console.log(props.projects);
 
 </script>
 
@@ -14,7 +15,7 @@ let props = defineProps(['projects']);
                     My projects
                 </h1>
 
-                <div class="flex items-start justify-between flex-wrap gap-6 mt-6">
+                <div class="flex items-start flex-wrap gap-2 mt-6">
                     <ProjectBanner v-for="project in projects.data" :key="project.code" :project />
                 </div>
             </div>

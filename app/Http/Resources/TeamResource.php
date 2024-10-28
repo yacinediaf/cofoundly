@@ -16,6 +16,10 @@ class TeamResource extends JsonResource
     {
         return [
             'name' => $this->name,
+            'owner' => $this->whenLoaded('owner', [
+                'name' => $this->owner->name,
+                'profilePicture' => $this->owner->profile_photo_url,
+            ]),
             'members' => $this->whenNotNull(
                 ProjectMembersResource::collection($this->whenLoaded('users'))
             )

@@ -1,5 +1,5 @@
 <script setup>
-import { useForm, usePage } from '@inertiajs/vue3'
+import { Link, useForm, usePage } from '@inertiajs/vue3'
 import { PlusIcon } from '@radix-icons/vue';
 import Button from './ui/button/Button.vue';
 import {
@@ -49,7 +49,9 @@ const closeDialog = () => {
                 <ul class="py-2 w-full">
                     <li class="text-gray-500 py-1 hover:bg-gray-50 px-4 rounded-lg cursor-pointer font-medium text-sm"
                         v-for="project in $page.props.auth.user.team_projects" :key="project.id">
+                        <Link :href="route('projects.show', { project })">
                         {{ project.title }}
+                        </Link>
                     </li>
                 </ul>
             </template>

@@ -1,6 +1,6 @@
 <script setup>
-import { ref } from 'vue';
-import { Head, Link, router } from '@inertiajs/vue3';
+import { computed, ref } from 'vue';
+import { Head, Link, router, usePage } from '@inertiajs/vue3';
 import ApplicationMark from '@/Components/ApplicationMark.vue';
 import Banner from '@/Components/Banner.vue';
 import Dropdown from '@/Components/Dropdown.vue';
@@ -15,7 +15,7 @@ defineProps({
 });
 
 const showingNavigationDropdown = ref(false);
-
+const currentTeam = computed(() => usePage().props.auth.user.current_team)
 const switchToTeam = (team) => {
     router.put(route('current-team.update'), {
         team_id: team.id,

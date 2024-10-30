@@ -12,15 +12,28 @@ class ProjectController extends Controller
 {
     public function index()
     {
+        //Get all the current user's projects with the partipants
         $projects = Project::query()
                             ->with(['team.users', 'team.owner'])
                             ->whereIn('team_id', auth()->user()->allTeams()->pluck('id'))
                             ->get();
-        //Get all the current user's projects with the partipants
+
         return Inertia::render(
-            'Projects/Show',
+            'Projects/Index',
             ['projects' => ProjectsResource::collection($projects)]
         );
+    }
+
+    public function show(Project $project)
+    {
+        //get current team
+        $currentTeam = auth()->user()->currentTeam->id;
+        //then check if the project chosen belongs to current team
+        if ($project->team_id !== $currentTeam) {
+            //if not switch team
+            auth()->user()->switchTeam($project->team);
+        }
+        return Inertia::render('Projects/Show', compact('project'));
     }
 
     public function store(Request $request)

@@ -1,9 +1,11 @@
 <script setup>
+import { Link } from '@inertiajs/vue3';
+
 defineProps(['project'])
 </script>
 <template>
     <div class="bg-white w-64 border p-4 rounded hover:bg-gray-50">
-        <a :href="'/@' + project.projectCode">
+        <Link :href="'/projects/@' + project.projectCode">
             <div>
                 <h2 class="text-lg font-semibold text-gray-700">
                     {{ project.title }}
@@ -14,7 +16,7 @@ defineProps(['project'])
                 </h2>
                 <span class="text-xs text-gray-500">Last updated at {{ project.createdAt }}.</span>
             </div>
-        </a>
+        </Link>
         <div class="flex flex-col">
             <p class="text-sm mt-2 text-gray-700" v-if="project.description">
                 {{ project.description }}

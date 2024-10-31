@@ -45,7 +45,10 @@ class HandleInertiaRequests extends Middleware
                     return $request->user() ?
                      array_merge(
                          $jetstreamAuthUser,
-                         ['team_projects' => $request->user()->currentProjects ?? []]
+                         [
+                             'team_projects' => $request->user()->currentProjects ?? [],
+                             'current_team' => $request->user()->currentTeam
+                         ]
                      )
                      : '';
                 }

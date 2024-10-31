@@ -1,5 +1,5 @@
 <script setup>
-import { Link, useForm, usePage } from '@inertiajs/vue3'
+import { Link, useForm } from '@inertiajs/vue3'
 import { PlusIcon } from '@radix-icons/vue';
 import Button from './ui/button/Button.vue';
 import {
@@ -14,8 +14,7 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import Textarea from './ui/textarea/Textarea.vue';
-import { DialogClose } from './ui/dialog';
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 
 const form = useForm({
     title: null,
@@ -23,7 +22,6 @@ const form = useForm({
 })
 
 const isDialogOpen = ref(false);
-const closeBtn = ref(null);
 const createProject = () => {
     form.post('/projects', {
         onSuccess: () => {
@@ -47,8 +45,9 @@ const closeDialog = () => {
                     Switch Projects
                 </div>
                 <ul class="py-2 w-full">
-                    <li class="text-gray-500 py-1 hover:bg-gray-50 px-4 rounded-lg cursor-pointer font-medium text-sm"
-                        v-for="project in $page.props.auth.user.team_projects" :key="project.id">
+                    <li v-for="project in $page.props.auth.user.team_projects" :key="project.projectCode"
+                        class="text-gray-500 py-1 px-4 rounded-lg cursor-pointer font-medium text-sm"
+                        :class="{ 'bg-gray-50': $page.url.includes(project.project_code) }">
                         <Link :href="route('projects.show', { project })">
                         {{ project.title }}
                         </Link>

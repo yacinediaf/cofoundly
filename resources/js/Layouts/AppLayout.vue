@@ -15,7 +15,8 @@ defineProps({
 });
 
 const showingNavigationDropdown = ref(false);
-const currentTeam = computed(() => usePage().props.auth.user.current_team)
+const page = usePage()
+const currentTeam = computed(() => page.props.auth.user.current_team)
 const switchToTeam = (team) => {
     router.put(route('current-team.update'), {
         team_id: team.id,
@@ -31,8 +32,6 @@ const logout = () => {
 
 <template>
     <div>
-
-        <Head :title="title" />
 
         <Banner />
 
@@ -68,7 +67,7 @@ const logout = () => {
                                         <span class="inline-flex rounded-md">
                                             <button type="button"
                                                 class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
-                                                {{ $page.props.auth.user.current_team.name }}
+                                                {{ currentTeam.name }}
 
                                                 <svg class="ms-2 -me-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg"
                                                     fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -111,7 +110,7 @@ const logout = () => {
                                                     <form @submit.prevent="switchToTeam(team)">
                                                         <DropdownLink as="button">
                                                             <div class="flex items-center">
-                                                                <svg v-if="team.id == $page.props.auth.user.current_team_id"
+                                                                <svg v-if="team.id == currentTeam.id"
                                                                     class="me-2 h-5 w-5 text-green-400"
                                                                     xmlns="http://www.w3.org/2000/svg" fill="none"
                                                                     viewBox="0 0 24 24" stroke-width="1.5"

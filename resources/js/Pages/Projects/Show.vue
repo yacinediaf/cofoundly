@@ -1,15 +1,16 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
+defineOptions({
+    layout: AppLayout
+})
 defineProps(['project']);
 </script>
 <template>
-    <AppLayout title="Projects">
-        <div class="h-full">
-            <div class="h-full px-6 lg:p-8 bg-white border-b border-gray-200">
-                <h1 class="text-2xl font-medium text-gray-900">
-                    test
-                </h1>
-            </div>
+    <div class="h-full">
+        <div class="h-full px-6 lg:p-8 bg-white border-b border-gray-200">
+            <h1 class="text-2xl font-medium text-gray-900">
+                test
+            </h1>
         </div>
-    </AppLayout>
+    </div>
 </template>

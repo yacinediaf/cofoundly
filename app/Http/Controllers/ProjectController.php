@@ -24,14 +24,10 @@ class ProjectController extends Controller
         );
     }
 
-    public function show(Project $project)
+    public function show(Request $request, Project $project)
     {
-        //get current team
-        $currentTeam = auth()->user()->currentTeam->id;
-        //then check if the project chosen belongs to current team
-        if ($project->team_id !== $currentTeam) {
-            //if not switch team
-            auth()->user()->switchTeam($project->team);
+        if (!auth()->user()->switchTeam($project->team)) {
+            abort(403);
         }
         return Inertia::render('Projects/Show', compact('project'));
     }

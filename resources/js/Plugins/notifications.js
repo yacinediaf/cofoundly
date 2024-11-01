@@ -4,7 +4,6 @@ import { router, usePage } from "@inertiajs/vue3"
 const {toast} = useToast();
 
 export const notifications = () => {
-    
     router.on('finish', ()=>{
         const notification = usePage().props.notifications 
         
@@ -15,8 +14,6 @@ export const notifications = () => {
                 description: notification.body
             })
         }
-        
-
     })
 
 }

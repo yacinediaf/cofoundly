@@ -26,3 +26,4 @@ Route::middleware([
 
 Route::post('/projects', [ProjectController::class, 'store']);
 Route::get('/projects', [ProjectController::class, 'index'])->name('projects');
+Route::get('/projects/@{project:project_code}', [ProjectController::class, 'show'])->name('projects.show');

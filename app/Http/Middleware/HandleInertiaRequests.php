@@ -37,15 +37,18 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        $jetstreamAuthUser = Inertia::getShared('auth.user')();
+        //the value is a callback function that return auth user data
+        $jetstreamAuthUser = Inertia::getShared('auth.user');
 
         return array_merge(parent::share($request), [
             'auth' => [
                 'user' => function () use ($jetstreamAuthUser, $request) {
                     return $request->user() ?
                      array_merge(
-                         $jetstreamAuthUser,
-                         ['team_projects' => $request->user()->currentProjects ?? []]
+                         $jetstreamAuthUser(),
+                         [
+                             'team_projects' => $request->user()->currentProjects ?? [],
+                         ]
                      )
                      : '';
                 }

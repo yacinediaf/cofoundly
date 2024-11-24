@@ -20,6 +20,8 @@ return new class () extends Migration {
             $table->string('status')->default(ProjectStatus::IN_PROGRESS);
             $table->string('project_image_path')->nullable();
             $table->timestamps();
+
+            $table->index('project_code');
         });
     }
 

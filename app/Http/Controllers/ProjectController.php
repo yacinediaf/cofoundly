@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Carbon\Carbon;
 
 class ProjectController extends Controller
 {
@@ -29,7 +30,14 @@ class ProjectController extends Controller
         if (!auth()->user()->switchTeam($project->team)) {
             abort(403);
         }
-        return Inertia::render('Projects/Show', compact('project'));
+        return Inertia::render(
+            'Projects/Show',
+            [
+                'project' => $project,
+                'tasks' => $project->withGroupedTasks(),
+                'currentDate' => Carbon::now()->format('l, F jS, Y')
+            ]
+        );
     }
 
     public function store(Request $request)

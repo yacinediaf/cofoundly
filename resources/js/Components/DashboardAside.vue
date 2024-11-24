@@ -1,7 +1,7 @@
 <script setup>
 import { Link, useForm } from '@inertiajs/vue3'
 import { PlusIcon } from '@radix-icons/vue';
-import Button from './ui/button/Button.vue';
+import Button from '@/Components/ui/button/Button.vue';
 import {
     Dialog,
     DialogContent,

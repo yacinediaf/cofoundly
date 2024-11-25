@@ -17,7 +17,13 @@ class ProjectsResource extends JsonResource
             'status' => $this->status,
             'createdAt' => $this->created_at->diffForHumans(),
             'udpatedAt' => $this->updated_at->diffForHumans(),
-            'team' => new TeamResource($this->whenLoaded('team'))
+            'team' => new TeamResource($this->whenLoaded('team')),
+            'tasks' => [
+                'total' => $this->todo_tasks_count + $this->in_progress_tasks_count + $this->done_tasks_count,
+                'todo' => $this->todo_tasks_count,
+                'inProgress' => $this->in_progress_tasks_count,
+                'done' => $this->done_tasks_count
+            ]
         ];
     }
 }

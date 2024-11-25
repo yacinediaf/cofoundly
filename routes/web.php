@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -27,3 +28,4 @@ Route::middleware([
 Route::post('/projects', [ProjectController::class, 'store']);
 Route::get('/projects', [ProjectController::class, 'index'])->name('projects');
 Route::get('/projects/@{project:project_code}', [ProjectController::class, 'show'])->name('projects.show');
+Route::patch('/tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');

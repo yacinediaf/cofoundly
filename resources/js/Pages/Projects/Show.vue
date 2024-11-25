@@ -12,16 +12,28 @@ import {
     DropdownMenuTrigger,
 } from '@/Components/ui/dropdown-menu';
 import draggable from 'vuedraggable';
-import { Link } from '@inertiajs/vue3';
+import { Link, router } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
 defineOptions({
     layout: AppLayout
 })
+
 let props = defineProps(['project', 'tasks', 'currentDate'])
-let todos = ref(props.tasks['todo'])
-let inProgress = ref(props.tasks['In Progress'])
-let done = ref(props.tasks['Done'])
+let todos = ref(props.tasks['Todo'] ?? [])
+let inProgress = ref(props.tasks['In Progress'] ?? [])
+let done = ref(props.tasks['Done'] ?? [])
+
+const update = (e, status) => {
+    if (e.added) {
+        let task = e.added?.element.id;
+        router.post(route('tasks.update', [task]), {
+            _method: 'PATCH',
+            status: status
+        });
+    }
+}
+
 </script>
 <template>
     <div class="h-full">
@@ -49,8 +61,8 @@ let done = ref(props.tasks['Done'])
                         <div class="w-2 h-2 rounded-full bg-black mt-2"></div>
                         <span>Todo</span>
                     </h1>
-                    <draggable v-model="todos" group="test" class="w-full space-y-2 h-full" item-key="id"
-                        @change="console.log('changed')">
+                    <draggable v-model="todos" group="test" class="w-full space-y-2 h-full cursor-move" item-key="id"
+                        @change="e => update(e, 'Todo')">
                         <template #item="{ element }">
                             <div class="my-2 w-full border p-4 rounded-lg shadow-lg bg-gray-50/50 hover:bg-gray-100/55">
                                 <div class="space-y-2">
@@ -121,7 +133,8 @@ let done = ref(props.tasks['Done'])
                         <div class="w-2 h-2 rounded-full bg-orange-500 mt-2"></div>
                         <span>In Progress</span>
                     </h1>
-                    <draggable v-model="inProgress" group="test" class="w-full space-y-2 h-full" item-key="id">
+                    <draggable v-model="inProgress" group="test" class="w-full space-y-2 h-full cursor-move"
+                        item-key="id" @change="e => update(e, 'In Progress')">
                         <template #item="{ element }">
                             <div class="my-2 w-full border p-4 rounded-lg shadow-lg bg-gray-50/50 hover:bg-gray-100/55">
                                 <div class="space-y-2">
@@ -197,8 +210,8 @@ let done = ref(props.tasks['Done'])
                         <div class="w-2 h-2 rounded-full bg-green-500 mt-2"></div>
                         <span>Done</span>
                     </h1>
-                    <draggable v-model="done" group="test" class="w-full space-y-2 h-full" item-key="id"
-                        @start="isDragging = true" @end="isDragging = false">
+                    <draggable v-model="done" group="test" class="w-full space-y-2 h-full cursor-move" item-key="id"
+                        @change="e => update(e, 'Done')">
                         <template #item="{ element }">
                             <div class="my-2 w-full border p-4 rounded-lg shadow-lg bg-gray-50/50 hover:bg-gray-100/55">
                                 <div class="space-y-2">

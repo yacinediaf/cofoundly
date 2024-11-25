@@ -11,16 +11,13 @@ class TaskController extends Controller
 {
     public function update(Request $request, Task $task)
     {
+        //validate
         $attributes = $request->validate([
             'status' => [Rule::enum(TaskStatus::class)]
         ]);
-
-        tap($task, function (Task $task) use ($attributes) {
-            $task->status = $attributes['status'];
-            $task->save();
-        });
-
-        //return back
+        //Update
+        $task->updateStatus($attributes['status']);
+        //Return
         return back()->with('success', 'task status updated. ✅');
     }
 }

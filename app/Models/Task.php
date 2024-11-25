@@ -36,4 +36,10 @@ class Task extends Model
     {
         return $query->get()->groupBy('status');
     }
+
+    public function updateStatus($status)
+    {
+        $this->status = $status;
+        $this->save();
+    }
 }

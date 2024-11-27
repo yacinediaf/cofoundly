@@ -5,7 +5,6 @@ defineOptions({
     layout: AppLayout
 })
 let props = defineProps(['projects']);
-
 </script>
 
 <template>

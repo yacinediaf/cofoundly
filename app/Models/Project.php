@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\TaskStatus;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -42,5 +43,23 @@ class Project extends Model
     public function scopeWithGroupedTasks(Builder $query)
     {
         return $this->tasks()->byStatus();
+    }
+
+    public function scopeWithTasksStatistics(Builder $query)
+    {
+        return $query->withCount(
+            [
+                'tasks',
+                'tasks as todo_tasks_count' => function (Builder $query) {
+                    $query->where('status', TaskStatus::TODO);
+                },
+                'tasks as in_progress_tasks_count' => function (Builder $query) {
+                    $query->where('status', TaskStatus::INPROGRESS);
+                },
+                'tasks as done_tasks_count' => function (Builder $query) {
+                    $query->where('status', TaskStatus::DONE);
+                }
+            ]
+        );
     }
 }

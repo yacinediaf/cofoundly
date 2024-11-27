@@ -14,7 +14,7 @@ class ProjectController extends Controller
     public function index()
     {
         //Get all the current user's projects with the partipants
-        $projects = Project::query()
+        $projects = Project::withTasksStatistics()
                             ->with(['team.users', 'team.owner'])
                             ->whereIn('team_id', auth()->user()->allTeams()->pluck('id'))
                             ->get();

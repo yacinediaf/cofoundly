@@ -30,4 +30,5 @@ Route::get('/projects', [ProjectController::class, 'index'])->name('projects');
 Route::get('/projects/@{project:project_code}', [ProjectController::class, 'show'])->name('projects.show');
 
 //Tasks
+Route::get('/projects/@{project:project_code}/tasks/create', [TaskController::class, 'create'])->name('tasks.create');
 Route::patch('/tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');

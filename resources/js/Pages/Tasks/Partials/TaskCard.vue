@@ -9,6 +9,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/Components/ui/dropdown-menu';
+import { Link } from '@inertiajs/vue3';
 
 defineProps(['task'])
 

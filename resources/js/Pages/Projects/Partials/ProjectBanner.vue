@@ -35,15 +35,15 @@ let doneProgress = computed(() => calculatePercentage(props.project.tasks.done, 
         <div class="py-2 space-y-1">
             <div class="space-y-1">
                 <h2 class="text-sm font-semibold text-gray-500">Todo</h2>
-                <Progress :model-value="todoProgress" />
+                <Progress :model-value="todoProgress" progress-class="bg-black" />
             </div>
             <div class="space-y-1">
                 <h2 class="text-sm font-semibold text-gray-500">In Progress</h2>
-                <Progress :model-value="inProgressProgress" />
+                <Progress :model-value="inProgressProgress" progress-class="bg-orange-500" />
             </div>
             <div class="space-y-1">
                 <h2 class="text-sm font-semibold text-gray-500">Done</h2>
-                <Progress :model-value="doneProgress" />
+                <Progress :model-value="doneProgress" progress-class="bg-green-500" />
             </div>
         </div>
 

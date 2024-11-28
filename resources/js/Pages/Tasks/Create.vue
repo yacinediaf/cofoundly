@@ -35,10 +35,13 @@ const assignTo = ($member) => {
                     <div class="mt-5">
                         <form class="space-y-4">
                             <div>
-                                <Label>Task Title</Label>
+                                <Label class="text-md">Task Title</Label>
                                 <Input v-model="form.title" class="mt-2" />
                             </div>
-                            <MarkdownEditor v-model="form.description" />
+                            <div>
+                                <Label class="text-md">Task Detail</Label>
+                                <MarkdownEditor v-model="form.description" />
+                            </div>
                             <div>
                                 <textarea v-model="form.description" class="w-full" rows="25"></textarea>
                             </div>

@@ -14,6 +14,7 @@ import {
     PopoverTrigger,
 } from '@/Components/ui/popover'
 
+
 const props = defineProps({
     modelValue: '',
 })
@@ -32,7 +33,7 @@ const editor = useEditor({
     ],
     editorProps: {
         attributes: {
-            class: 'h-[512px] overflow-y-scroll prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none px-3 py-3',
+            class: 'h-[400px] overflow-y-scroll prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none px-3 py-3',
         },
     },
     onUpdate: () => emit('update:modelValue', editor.value?.storage.markdown.getMarkdown())

@@ -27,6 +27,7 @@
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.1.1",
         "radix-vue": "^1.9.7",
+        "remixicon": "^4.5.0",
         "tailwind-merge": "^2.5.4",
         "tailwindcss-animate": "^1.0.7",
         "tiptap-markdown": "^0.8.10",

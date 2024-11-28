@@ -1,11 +1,12 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import { usePage } from '@inertiajs/vue3';
+import { useForm, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import { Calendar } from '@/Components/ui/calendar'
 import { getLocalTimeZone, today } from '@internationalized/date'
 import Label from '@/Components/ui/label/Label.vue';
 import Input from '@/Components/ui/input/Input.vue';
+import MarkdownEditor from '@/Components/MarkdownEditor.vue';
 
 defineOptions({
     layout: AppLayout
@@ -16,7 +17,10 @@ defineProps(['members']);
 let userName = ($member) => computed(() => usePage().props.auth.user.id == $member.id ? 'Me' : $member.name)
 let selectedMember = ref(usePage().props.auth.user.id);
 const value = ref(today(getLocalTimeZone()))
-
+const form = useForm({
+    title: '',
+    description: ''
+});
 const assignTo = ($member) => {
     selectedMember.value = $member.id
 }
@@ -55,14 +59,18 @@ const assignTo = ($member) => {
                         <Calendar v-model="value" :weekday-format="'short'" class="rounded-md border" />
                     </div>
                 </div>
-                <section>
+                <section class="w-full">
                     <h1 class="font-semibold text-2xl mb-2">What's Up, New Task ? Let's go 🤩💻</h1>
 
-                    <div class="mt-5">
-                        <form>
+                    <div class="mt-5 px-6">
+                        <form class="space-y-4">
                             <div>
                                 <Label>Task Title</Label>
-                                <Input class="mt-2" />
+                                <Input v-model="form.title" class="mt-2" />
+                            </div>
+                            <MarkdownEditor v-model="form.description" />
+                            <div>
+                                <textarea v-model="form.description" class="w-full" rows="25"></textarea>
                             </div>
                         </form>
                     </div>

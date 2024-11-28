@@ -14,7 +14,7 @@ defineOptions({
 defineProps(['members']);
 
 let userName = ($member) => computed(() => usePage().props.auth.user.id == $member.id ? 'Me' : $member.name)
-let selectedMember = ref(null);
+let selectedMember = ref(usePage().props.auth.user.id);
 const value = ref(today(getLocalTimeZone()))
 
 const assignTo = ($member) => {

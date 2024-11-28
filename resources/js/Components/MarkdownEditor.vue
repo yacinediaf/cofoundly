@@ -32,7 +32,7 @@ const editor = useEditor({
     ],
     editorProps: {
         attributes: {
-            class: 'min-h-[512px] prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none px-3 py-3',
+            class: 'h-[512px] overflow-y-scroll prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none px-3 py-3',
         },
     },
     onUpdate: () => emit('update:modelValue', editor.value?.storage.markdown.getMarkdown())
@@ -63,99 +63,102 @@ watch(() => props.modelValue, (value) => {
 }, { immediate: true })
 </script>
 <template>
-    <div class="border py-1.5 px-2 rounded-md">
-        <menu v-if="editor" class="flex gap-2 border-b pb-1">
-            <li>
-                <button @click="() => editor.chain().focus().toggleBold().run()" type="button"
-                    class="px-1.5 py-1 hover:bg-gray-100 rounded-md text-sm font-semibold"
-                    :class="{ 'bg-gray-100': editor.isActive('bold') }" title="Bold">
-                    <i class="ri-bold"></i>
-                </button>
-            </li>
-            <li>
-                <button @click="() => editor.chain().focus().toggleItalic().run()" type="button"
-                    class="px-1.5 py-1 hover:bg-gray-100 rounded-md text-sm font-semibold"
-                    :class="{ 'bg-gray-100': editor.isActive('italic') }" title="Italic">
-                    <i class="ri-italic"></i>
-                </button>
-            </li>
-            <li>
-                <button @click="() => editor.chain().focus().toggleStrike().run()" type="button"
-                    class="px-1.5 py-1 hover:bg-gray-100 rounded-md text-sm font-semibold"
-                    :class="{ 'bg-gray-100': editor.isActive('strike') }" title="Strike Through">
-                    <i class="ri-strikethrough"></i>
-                </button>
-            </li>
-            <li>
-                <button @click="() => editor.chain().focus().toggleBlockquote().run()" type="button"
-                    class="px-1.5 py-1 hover:bg-gray-100 rounded-md text-sm font-semibold"
-                    :class="{ 'bg-gray-100': editor.isActive('blockquote') }" title="Block Quote">
-                    <i class="ri-double-quotes-r"></i>
-                </button>
-            </li>
-            <li>
-                <button @click="() => editor.chain().focus().toggleBulletList().run()" type="button"
-                    class="px-1.5 py-1 hover:bg-gray-100 rounded-md text-sm font-semibold"
-                    :class="{ 'bg-gray-100': editor.isActive('bulletList') }" title="Unordered List">
-                    <i class="ri-list-unordered"></i>
-                </button>
-            </li>
-            <li>
-                <button @click="() => editor.chain().focus().toggleOrderedList().run()" type="button"
-                    class="px-1.5 py-1 hover:bg-gray-100 rounded-md text-sm font-semibold"
-                    :class="{ 'bg-gray-100': editor.isActive('orderedList') }" title="Ordered List">
-                    <i class="ri-list-ordered"></i>
-                </button>
-            </li>
-            <li>
-                <Popover>
-                    <PopoverTrigger as-child>
-                        <button type="button"
-                            class="relative px-1.5 py-1 hover:bg-gray-100 rounded-md text-sm font-semibold"
-                            :class="{ 'bg-gray-100': editor.isActive('link') }" title="Set a Link">
-                            <i class="ri-link"></i>
-                        </button>
-                    </PopoverTrigger>
-                    <PopoverContent v-if="!editor.isActive('link')" class="w-80">
-                        <div class="grid gap-4">
-                            <div class="flex flex-col gap-4">
-                                <Label for="url">Url Destination.</Label>
-                                <Input v-model="promptedHref" id="url" type="text" />
+    <div>
+        <span class="text-xs text-gray-500">This text editor supports Markdonw too.</span>
+        <div class="border py-1.5 px-2 rounded-md">
+            <menu v-if="editor" class="flex gap-2 border-b pb-1">
+                <li>
+                    <button @click="() => editor.chain().focus().toggleBold().run()" type="button"
+                        class="px-1.5 py-1 hover:bg-gray-100 rounded-md text-sm font-semibold"
+                        :class="{ 'bg-gray-100': editor.isActive('bold') }" title="Bold">
+                        <i class="ri-bold"></i>
+                    </button>
+                </li>
+                <li>
+                    <button @click="() => editor.chain().focus().toggleItalic().run()" type="button"
+                        class="px-1.5 py-1 hover:bg-gray-100 rounded-md text-sm font-semibold"
+                        :class="{ 'bg-gray-100': editor.isActive('italic') }" title="Italic">
+                        <i class="ri-italic"></i>
+                    </button>
+                </li>
+                <li>
+                    <button @click="() => editor.chain().focus().toggleStrike().run()" type="button"
+                        class="px-1.5 py-1 hover:bg-gray-100 rounded-md text-sm font-semibold"
+                        :class="{ 'bg-gray-100': editor.isActive('strike') }" title="Strike Through">
+                        <i class="ri-strikethrough"></i>
+                    </button>
+                </li>
+                <li>
+                    <button @click="() => editor.chain().focus().toggleBlockquote().run()" type="button"
+                        class="px-1.5 py-1 hover:bg-gray-100 rounded-md text-sm font-semibold"
+                        :class="{ 'bg-gray-100': editor.isActive('blockquote') }" title="Block Quote">
+                        <i class="ri-double-quotes-r"></i>
+                    </button>
+                </li>
+                <li>
+                    <button @click="() => editor.chain().focus().toggleBulletList().run()" type="button"
+                        class="px-1.5 py-1 hover:bg-gray-100 rounded-md text-sm font-semibold"
+                        :class="{ 'bg-gray-100': editor.isActive('bulletList') }" title="Unordered List">
+                        <i class="ri-list-unordered"></i>
+                    </button>
+                </li>
+                <li>
+                    <button @click="() => editor.chain().focus().toggleOrderedList().run()" type="button"
+                        class="px-1.5 py-1 hover:bg-gray-100 rounded-md text-sm font-semibold"
+                        :class="{ 'bg-gray-100': editor.isActive('orderedList') }" title="Ordered List">
+                        <i class="ri-list-ordered"></i>
+                    </button>
+                </li>
+                <li>
+                    <Popover>
+                        <PopoverTrigger as-child>
+                            <button type="button"
+                                class="relative px-1.5 py-1 hover:bg-gray-100 rounded-md text-sm font-semibold"
+                                :class="{ 'bg-gray-100': editor.isActive('link') }" title="Set a Link">
+                                <i class="ri-link"></i>
+                            </button>
+                        </PopoverTrigger>
+                        <PopoverContent v-if="!editor.isActive('link')" class="w-80">
+                            <div class="grid gap-4">
+                                <div class="flex flex-col gap-4">
+                                    <Label for="url">Url Destination.</Label>
+                                    <Input v-model="promptedHref" id="url" type="text" />
+                                </div>
+                                <Button @click="createLink">Create Link</Button>
                             </div>
-                            <Button @click="createLink">Create Link</Button>
-                        </div>
-                    </PopoverContent>
-                    <PopoverContent v-if="editor.isActive('link')">
-                        <div class="flex flex-col gap-4">
-                            <Button @click="unsetLink">Unset Link</Button>
-                        </div>
-                    </PopoverContent>
-                </Popover>
-            </li>
-            <li>
-                <button @click="() => editor.chain().focus().toggleHeading({ level: 2 }).run()" type="button"
-                    class="px-1.5 py-1 hover:bg-gray-100 rounded-md text-sm font-semibold"
-                    :class="{ 'bg-gray-100': editor.isActive('heading', { level: 2 }) }" title="Heading 1">
-                    <i class="ri-h-1"></i>
-                </button>
-            </li>
-            <li>
-                <button @click="() => editor.chain().focus().toggleHeading({ level: 3 }).run()" type="button"
-                    class="px-1.5 py-1 hover:bg-gray-100 rounded-md text-sm font-semibold"
-                    :class="{ 'bg-gray-100': editor.isActive('heading', { level: 3 }) }" title="Heading 2">
-                    <i class="ri-h-2"></i>
-                </button>
-            </li>
-            <li>
-                <button @click="() => editor.chain().focus().toggleHeading({ level: 4 }).run()" type="button"
-                    class="px-1.5 py-1 hover:bg-gray-100 rounded-md text-sm font-semibold"
-                    :class="{ 'bg-gray-100': editor.isActive('heading', { level: 4 }) }" title="Heading 3">
-                    <i class="ri-h-3"></i>
-                </button>
-            </li>
-        </menu>
-        <div>
-            <EditorContent :editor="editor"></EditorContent>
+                        </PopoverContent>
+                        <PopoverContent v-if="editor.isActive('link')">
+                            <div class="flex flex-col gap-4">
+                                <Button @click="unsetLink">Unset Link</Button>
+                            </div>
+                        </PopoverContent>
+                    </Popover>
+                </li>
+                <li>
+                    <button @click="() => editor.chain().focus().toggleHeading({ level: 2 }).run()" type="button"
+                        class="px-1.5 py-1 hover:bg-gray-100 rounded-md text-sm font-semibold"
+                        :class="{ 'bg-gray-100': editor.isActive('heading', { level: 2 }) }" title="Heading 1">
+                        <i class="ri-h-1"></i>
+                    </button>
+                </li>
+                <li>
+                    <button @click="() => editor.chain().focus().toggleHeading({ level: 3 }).run()" type="button"
+                        class="px-1.5 py-1 hover:bg-gray-100 rounded-md text-sm font-semibold"
+                        :class="{ 'bg-gray-100': editor.isActive('heading', { level: 3 }) }" title="Heading 2">
+                        <i class="ri-h-2"></i>
+                    </button>
+                </li>
+                <li>
+                    <button @click="() => editor.chain().focus().toggleHeading({ level: 4 }).run()" type="button"
+                        class="px-1.5 py-1 hover:bg-gray-100 rounded-md text-sm font-semibold"
+                        :class="{ 'bg-gray-100': editor.isActive('heading', { level: 4 }) }" title="Heading 3">
+                        <i class="ri-h-3"></i>
+                    </button>
+                </li>
+            </menu>
+            <div>
+                <EditorContent :editor="editor"></EditorContent>
+            </div>
         </div>
     </div>
 </template>

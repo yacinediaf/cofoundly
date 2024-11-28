@@ -32,7 +32,7 @@ const editor = useEditor({
     ],
     editorProps: {
         attributes: {
-            class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none',
+            class: 'min-h-[512px] prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none px-3 py-3',
         },
     },
     onUpdate: () => emit('update:modelValue', editor.value?.storage.markdown.getMarkdown())
@@ -41,16 +41,18 @@ const editor = useEditor({
 let promptedHref = ref(null);
 
 const createLink = () => {
-
-    if (editor.value?.isActive('link') && promptedHref.value) {
-        return editor.value?.chain().unsetLink().run();
-    }
-
     if (!promptedHref.value) {
         return editor.value?.chain().focus().run();
     }
 
     return editor.value?.chain().focus().setLink({ href: promptedHref.value }).run();
+}
+
+const unsetLink = () => {
+    if (editor.value?.isActive('link') && promptedHref.value) {
+        promptedHref.value = null;
+        return editor.value?.chain().unsetLink().run();
+    }
 }
 
 watch(() => props.modelValue, (value) => {
@@ -114,13 +116,18 @@ watch(() => props.modelValue, (value) => {
                             <i class="ri-link"></i>
                         </button>
                     </PopoverTrigger>
-                    <PopoverContent class="w-80">
+                    <PopoverContent v-if="!editor.isActive('link')" class="w-80">
                         <div class="grid gap-4">
                             <div class="flex flex-col gap-4">
                                 <Label for="url">Url Destination.</Label>
                                 <Input v-model="promptedHref" id="url" type="text" />
                             </div>
                             <Button @click="createLink">Create Link</Button>
+                        </div>
+                    </PopoverContent>
+                    <PopoverContent v-if="editor.isActive('link')">
+                        <div class="flex flex-col gap-4">
+                            <Button @click="unsetLink">Unset Link</Button>
                         </div>
                     </PopoverContent>
                 </Popover>

@@ -3,6 +3,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import Button from '@/Components/ui/button/Button.vue';
 import TasksManager from '@/Pages/Projects/Partials/TasksManager.vue';
 import { PlusIcon } from '@radix-icons/vue';
+import { Link } from '@inertiajs/vue3';
 
 defineOptions({
     layout: AppLayout
@@ -23,10 +24,12 @@ defineProps(['project', 'tasks', 'currentDate'])
                 <div class="mt-5 w-full flex items-center justify-between">
                     <div class="text-gray-500 text-sm">{{ currentDate }}</div>
                     <div>
+                        <Link :href="route('tasks.create', [project.project_code])">
                         <Button class="flex gap-1">
                             <span>New Task</span>
                             <PlusIcon class="w-4 h-4" />
                         </Button>
+                        </Link>
                     </div>
                 </div>
             </div>

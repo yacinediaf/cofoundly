@@ -3,12 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Enums\TaskStatus;
+use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Inertia\Inertia;
 
 class TaskController extends Controller
 {
+    public function create(Project $project)
+    {
+        $members = $project->team->allUsers();
+
+        return Inertia::render('Tasks/Create', compact('members'));
+    }
+
     public function update(Request $request, Task $task)
     {
         //validate

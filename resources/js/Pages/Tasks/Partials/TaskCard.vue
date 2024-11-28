@@ -56,10 +56,10 @@ defineProps(['task'])
                 </div>
                 <h1 class="font-semibold">{{ task.title }}</h1>
             </div>
-            <div class="text-gray-500 text-sm">
+            <!-- <div class="text-gray-500 text-sm">
                 {{ task.description }}
-            </div>
-            <div class="flex items-center justify-between border-t pt-2">
+            </div> -->
+            <div class="flex items-center justify-between pt-2">
                 <div>
                     <img class="h-7 w-7 rounded-full border-2 border-white"
                         :src="$page.props.auth.user.profile_photo_url" />

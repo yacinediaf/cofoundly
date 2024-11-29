@@ -27,8 +27,8 @@ const createTask = () => {
     });
 }
 
-const assignTo = ($member) => {
-    selectedMember.value = $member.id
+const assignTo = (member) => {
+    selectedMember.value = member.id
 }
 
 const convertDate = (date) => {
@@ -39,7 +39,7 @@ const convertDate = (date) => {
 const taskData = reactive({
     title: '',
     description: '',
-    assignedTo: selectedMember.value,
+    assignedTo: selectedMember,
     deliveryDate: convertDate(deliveryDate.value)
 });
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\TaskStatus;
+use App\Http\Requests\Tasks\StoreTaskRequest;
 use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Http\Request;
@@ -21,19 +22,12 @@ class TaskController extends Controller
         ]);
     }
 
-    public function store(Request $request, Project $project)
+    public function store(StoreTaskRequest $request, Project $project)
     {
-        $attributes = $request->validate([
-            'title' => ['string', 'max:255', 'required'],
-            'description' => ['required'],
-            'assignedTo' => ['required', 'exists:users,id'],
-            'deliveryDate' => ['required', 'date_format:Y-m-d']
-        ]);
-
-        $project->tasks()->create($attributes);
+        $project->tasks()->create($request->mappedAttributes());
 
         return redirect(route('projects.show', $project))
-        ->with('success', 'New Task Created successfully.');
+                ->with('success', 'New Task Created successfully.');
     }
 
     public function update(Request $request, Task $task)

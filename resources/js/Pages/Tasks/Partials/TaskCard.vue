@@ -61,8 +61,7 @@ defineProps(['task'])
             </div> -->
             <div class="flex items-center justify-between pt-2">
                 <div>
-                    <img class="h-7 w-7 rounded-full border-2 border-white"
-                        :src="$page.props.auth.user.profile_photo_url" />
+                    <img class="h-7 w-7 rounded-full border-2 border-white" :src="task.assigned_to.profile_photo_url" />
                 </div>
                 <div class="text-xs flex items-center gap-3 text-gray-600">
                     <div class="flex items-center gap-1">

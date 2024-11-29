@@ -17,9 +17,12 @@ return new class () extends Migration {
             $table->foreignIdFor(Project::class)->cascadeOndelete();
             $table->string('title');
             $table->text('description');
-            $table->string('status')->default(TaskStatus::TODO);
+            $table->string('status', 30)->default(TaskStatus::TODO);
+            $table->string('priority', 30)->nullable();
+            $table->boolean('is_pinned')->default(false);
             $table->unsignedBigInteger('assigned_to')->nullable();
-            $table->timestamp('assigned_at')->nullable();
+            $table->date('delivery_date');
+            $table->timestamp('assigned_at');
             $table->timestamps();
         });
     }

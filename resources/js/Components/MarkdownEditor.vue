@@ -33,7 +33,7 @@ const editor = useEditor({
     ],
     editorProps: {
         attributes: {
-            class: 'h-[400px] overflow-y-scroll prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none px-3 py-3',
+            class: 'h-[400px] min-w-full overflow-y-scroll prose prose-sm focus:outline-none px-3 py-2',
         },
     },
     onUpdate: () => emit('update:modelValue', editor.value?.storage.markdown.getMarkdown())
@@ -157,8 +157,8 @@ watch(() => props.modelValue, (value) => {
                     </button>
                 </li>
             </menu>
-            <div>
-                <EditorContent :editor="editor"></EditorContent>
+            <div class="w-full">
+                <EditorContent :editor="editor" class="w-full"></EditorContent>
             </div>
         </div>
     </div>

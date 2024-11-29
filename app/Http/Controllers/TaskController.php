@@ -15,7 +15,25 @@ class TaskController extends Controller
     {
         $members = $project->team->allUsers();
 
-        return Inertia::render('Tasks/Create', compact('members'));
+        return Inertia::render('Tasks/Create', [
+            'members' => $members,
+            'project' => $project
+        ]);
+    }
+
+    public function store(Request $request, Project $project)
+    {
+        $attributes = $request->validate([
+            'title' => ['string', 'max:255', 'required'],
+            'description' => ['required'],
+            'assignedTo' => ['required', 'exists:users,id'],
+            'deliveryDate' => ['required', 'date_format:Y-m-d']
+        ]);
+
+        $project->tasks()->create($attributes);
+
+        return redirect(route('projects.show', $project))
+        ->with('success', 'New Task Created successfully.');
     }
 
     public function update(Request $request, Task $task)

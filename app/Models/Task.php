@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class Task extends Model
 {
@@ -27,8 +28,15 @@ class Task extends Model
     {
         return [
             'created_at' => 'datetime:l,jS',
-            'delivery_date' => 'datetime:l,jS',
+            'delivery_date' => 'datetime:l,jS'
         ];
+    }
+
+    protected function description(): Attribute
+    {
+        return Attribute::make(
+            get:fn ($value) => Str::markdown($value)
+        );
     }
 
     protected function assignedTo(): Attribute

@@ -26,7 +26,8 @@ class Task extends Model
     protected function casts()
     {
         return [
-            'created_at' => 'datetime:l,jS'
+            'created_at' => 'datetime:l,jS',
+            'delivery_date' => 'datetime:l,jS',
         ];
     }
 

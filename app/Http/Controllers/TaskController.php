@@ -39,6 +39,13 @@ class TaskController extends Controller
         //Update
         $task->updateStatus($attributes['status']);
         //Return
-        return back()->with('success', 'task status updated. ✅');
+        return back()->with('success', 'task status updated. ✅.');
+    }
+
+    public function delete(Project $project, Task $task)
+    {
+        $task->delete();
+
+        return back()->with('success', 'task deleted with success ✅.');
     }
 }

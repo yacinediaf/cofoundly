@@ -9,6 +9,7 @@ class BaseTaskRequest extends FormRequest
     public function mappedAttributes()
     {
         $attributesMap = [
+            'task_id' => 'id',
             'title' => 'title',
             'description' => 'description',
             'assignedTo' => 'assigned_to',

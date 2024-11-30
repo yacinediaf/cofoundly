@@ -20,9 +20,15 @@ import {
     SheetTrigger,
 } from '@/Components/ui/sheet'
 import { MixerHorizontalIcon } from '@radix-icons/vue';
-import { Link } from '@inertiajs/vue3';
+import { router, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
 
-defineProps(['task'])
+let props = defineProps(['task', 'project_code'])
+let projectcode = computed(() => usePage().url.split('@')[1]);
+
+function deleteTask() {
+    router.delete(route('tasks.delete', [projectcode.value, props.task.id]));
+}
 
 </script>
 <template>
@@ -110,14 +116,10 @@ defineProps(['task'])
                                             </SheetContent>
                                         </Sheet>
                                         <DropdownMenuItem>
-                                            <Link href="#" class="w-full">
                                             Edit
-                                            </Link>
                                         </DropdownMenuItem>
-                                        <DropdownMenuItem>
-                                            <Link href="#" class="w-full">
+                                        <DropdownMenuItem class="text-red-500" @click.prevent="deleteTask">
                                             Delete
-                                            </Link>
                                         </DropdownMenuItem>
                                     </DropdownMenuGroup>
                                 </DropdownMenuContent>

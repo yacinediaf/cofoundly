@@ -15,13 +15,12 @@ import {
 } from '@/Components/ui/popover'
 
 
-const props = defineProps({
-    modelValue: '',
-})
+const props = defineProps(['modelValue'])
 
 let emit = defineEmits(['update:modelValue']);
 
 const editor = useEditor({
+    content: props.modelValue,
     extensions: [
         StarterKit.configure({
             heading: {

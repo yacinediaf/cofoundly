@@ -11,23 +11,23 @@ import {
 } from '@/Components/ui/dropdown-menu';
 import {
     Sheet,
-    SheetClose,
     SheetContent,
     SheetDescription,
-    SheetFooter,
     SheetHeader,
     SheetTitle,
     SheetTrigger,
 } from '@/Components/ui/sheet'
 import { MixerHorizontalIcon } from '@radix-icons/vue';
-import { router, usePage } from '@inertiajs/vue3';
-import { computed } from 'vue';
+import { router, Link } from '@inertiajs/vue3';
+import { diffForHumans } from '@/Composables/UseDiffForHumans';
+import { inject } from 'vue';
 
-let props = defineProps(['task', 'project_code'])
-let projectcode = computed(() => usePage().url.split('@')[1]);
+let props = defineProps(['task'])
+
+let project = inject('project');
 
 function deleteTask() {
-    router.delete(route('tasks.delete', [projectcode.value, props.task.id]));
+    router.delete(route('tasks.delete', [project.project_code, props.task.id]));
 }
 
 </script>
@@ -116,8 +116,11 @@ function deleteTask() {
                                             </SheetContent>
                                         </Sheet>
                                         <DropdownMenuItem>
+                                            <Link :href="route('tasks.edit', [project.project_code, task.id])">
                                             Edit
+                                            </Link>
                                         </DropdownMenuItem>
+
                                         <DropdownMenuItem class="text-red-500" @click.prevent="deleteTask">
                                             Delete
                                         </DropdownMenuItem>
@@ -136,7 +139,7 @@ function deleteTask() {
                 <div class="text-xs flex items-center font-semibold gap-3 text-gray-600">
                     <div class="flex items-center gap-1">
                         <StopwatchIcon></StopwatchIcon>
-                        <span>{{ task.delivery_date }}</span>
+                        <span>{{ diffForHumans(task.delivery_date) }}</span>
                     </div>
                     <div>
                         <ChatBubbleIcon></ChatBubbleIcon>

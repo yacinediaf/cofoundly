@@ -54,7 +54,7 @@ const update = (e, status) => {
             <draggable v-model="done" group="test" class="w-full space-y-2 h-full cursor-move" item-key="id"
                 @change="e => update(e, 'Done')">
                 <template #item="{ element }">
-                    <TaskCard :task="element"></TaskCard>
+                    <TaskCard :task="element" :project="project"></TaskCard>
                 </template>
             </draggable>
         </div>

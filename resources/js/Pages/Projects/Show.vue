@@ -4,13 +4,15 @@ import Button from '@/Components/ui/button/Button.vue';
 import TasksManager from '@/Pages/Projects/Partials/TasksManager.vue';
 import { PlusIcon } from '@radix-icons/vue';
 import { Link } from '@inertiajs/vue3';
+import { provide } from 'vue';
 
 defineOptions({
     layout: AppLayout
 })
 
-defineProps(['project', 'tasks', 'currentDate'])
+let props = defineProps(['project', 'tasks', 'currentDate'])
 
+provide('project', props.project)
 </script>
 <template>
     <div class="h-full">

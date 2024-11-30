@@ -11,18 +11,24 @@ import {
 } from '@/Components/ui/dropdown-menu';
 import {
     Sheet,
-    SheetClose,
     SheetContent,
     SheetDescription,
-    SheetFooter,
     SheetHeader,
     SheetTitle,
     SheetTrigger,
 } from '@/Components/ui/sheet'
 import { MixerHorizontalIcon } from '@radix-icons/vue';
-import { Link } from '@inertiajs/vue3';
+import { router, Link } from '@inertiajs/vue3';
+import { diffForHumans } from '@/Composables/UseDiffForHumans';
+import { inject } from 'vue';
 
-defineProps(['task'])
+let props = defineProps(['task'])
+
+let project = inject('project');
+
+function deleteTask() {
+    router.delete(route('tasks.delete', [project.project_code, props.task.id]));
+}
 
 </script>
 <template>
@@ -110,14 +116,13 @@ defineProps(['task'])
                                             </SheetContent>
                                         </Sheet>
                                         <DropdownMenuItem>
-                                            <Link href="#" class="w-full">
+                                            <Link :href="route('tasks.edit', [project.project_code, task.id])">
                                             Edit
                                             </Link>
                                         </DropdownMenuItem>
-                                        <DropdownMenuItem>
-                                            <Link href="#" class="w-full">
+
+                                        <DropdownMenuItem class="text-red-500" @click.prevent="deleteTask">
                                             Delete
-                                            </Link>
                                         </DropdownMenuItem>
                                     </DropdownMenuGroup>
                                 </DropdownMenuContent>
@@ -134,7 +139,7 @@ defineProps(['task'])
                 <div class="text-xs flex items-center font-semibold gap-3 text-gray-600">
                     <div class="flex items-center gap-1">
                         <StopwatchIcon></StopwatchIcon>
-                        <span>{{ task.delivery_date }}</span>
+                        <span>{{ diffForHumans(task.delivery_date) }}</span>
                     </div>
                     <div>
                         <ChatBubbleIcon></ChatBubbleIcon>

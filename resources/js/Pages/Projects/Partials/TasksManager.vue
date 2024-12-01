@@ -22,10 +22,10 @@ const update = (e, status) => {
 </script>
 <template>
     <div class="grid grid-cols-12 gap-3 mt-8">
-        <div class="col-span-4 border rounded-lg px-3 py-4 flex flex-col items-center gap-3">
-            <h1 class="font-bold text-xl flex items-center gap-2">
-                <div class="w-2 h-2 rounded-full bg-black mt-2"></div>
-                <span>Todo</span>
+        <div
+            class="col-span-4 border rounded-lg px-3 py-4 flex flex-col items-center gap-3 md:min-h-screen bg-blue-200">
+            <h1 class="font-bold text-white">
+                <span class="bg-blue-500 py-1 px-3 rounded-md">Done</span>
             </h1>
             <draggable v-model="todos" group="test" class="w-full space-y-2 h-full cursor-move" item-key="id"
                 @change="e => update(e, 'Todo')">
@@ -34,10 +34,9 @@ const update = (e, status) => {
                 </template>
             </draggable>
         </div>
-        <div class="col-span-4 border rounded-lg px-3 py-4 flex flex-col items-center gap-3">
-            <h1 class="font-bold text-xl flex items-center gap-2">
-                <div class="w-2 h-2 rounded-full bg-orange-500 mt-2"></div>
-                <span>In Progress</span>
+        <div class="col-span-4 border rounded-lg px-3 py-4 flex flex-col items-center gap-3 max-h-screen bg-orange-200">
+            <h1 class="font-bold text-white">
+                <span class="bg-orange-500 py-1 px-3 rounded-md">In Progress</span>
             </h1>
             <draggable v-model="inProgress" group="test" class="w-full space-y-2 h-full cursor-move" item-key="id"
                 @change="e => update(e, 'In Progress')">
@@ -46,10 +45,9 @@ const update = (e, status) => {
                 </template>
             </draggable>
         </div>
-        <div class="col-span-4 border rounded-lg px-3 py-4 flex flex-col items-center gap-3">
-            <h1 class="font-bold text-xl flex items-center gap-2">
-                <div class="w-2 h-2 rounded-full bg-green-500 mt-2"></div>
-                <span>Done</span>
+        <div class="col-span-4 border rounded-lg px-3 py-4 flex flex-col items-center gap-3 max-h-screen bg-green-200">
+            <h1 class="font-bold text-white">
+                <span class="bg-green-500 py-1 px-3 rounded-md">Done</span>
             </h1>
             <draggable v-model="done" group="test" class="w-full space-y-2 h-full cursor-move" item-key="id"
                 @change="e => update(e, 'Done')">

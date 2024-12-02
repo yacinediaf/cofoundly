@@ -33,8 +33,8 @@ function canDrag(evt) {
             <h1 class="font-bold text-white">
                 <span class="bg-blue-500 py-1 px-3 rounded-md">Done</span>
             </h1>
-            <draggable v-model="todos" group="test" :move="canDrag" class="w-full space-y-2 h-full" item-key="id"
-                @change="e => update(e, 'Todo')">
+            <draggable v-model="todos" group="test" :move="canDrag" class="w-full space-y-2 h-full cursor-move"
+                item-key="id" @change="e => update(e, 'Todo')">
                 <template #item="{ element }">
                     <TaskCard :task="element"></TaskCard>
                 </template>
@@ -44,8 +44,8 @@ function canDrag(evt) {
             <h1 class="font-bold text-white">
                 <span class="bg-orange-500 py-1 px-3 rounded-md">In Progress</span>
             </h1>
-            <draggable v-model="inProgress" group="test" :move="canDrag" class="w-full space-y-2 h-full" item-key="id"
-                @change="e => update(e, 'In Progress')">
+            <draggable v-model="inProgress" group="test" :move="canDrag" class="w-full space-y-2 h-full cursor-move"
+                item-key="id" @change="e => update(e, 'In Progress')">
                 <template #item="{ element }">
                     <TaskCard :task="element"></TaskCard>
                 </template>
@@ -55,8 +55,8 @@ function canDrag(evt) {
             <h1 class="font-bold text-white">
                 <span class="bg-green-500 py-1 px-3 rounded-md">Done</span>
             </h1>
-            <draggable v-model="done" group="test" :move="canDrag" class="w-full space-y-2 h-full" item-key="id"
-                @change="e => update(e, 'Done')">
+            <draggable v-model="done" group="test" :move="canDrag" class="w-full space-y-2 h-full cursor-move"
+                item-key="id" @change="e => update(e, 'Done')">
                 <template #item="{ element }">
                     <TaskCard :task="element"></TaskCard>
                 </template>

@@ -52,6 +52,10 @@ class TaskController extends Controller
 
     public function update(Request $request, Task $task)
     {
+        //Update to a real policy or gate (TODO)
+        if ($request->user()->id !== $task->assigned_to->id) {
+            return back()->with('error', 'youre not allowed');
+        }
         //validate
         $attributes = $request->validate([
             'status' => [Rule::enum(TaskStatus::class)]

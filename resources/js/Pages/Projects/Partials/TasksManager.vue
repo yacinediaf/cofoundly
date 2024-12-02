@@ -21,9 +21,8 @@ const update = (e, status) => {
 }
 </script>
 <template>
-    <div class="grid grid-cols-12 gap-3 mt-8">
-        <div
-            class="col-span-4 border rounded-lg px-3 py-4 flex flex-col items-center gap-3 md:min-h-screen bg-blue-200">
+    <div class="grid grid-cols-12 gap-3 mt-8 h-full">
+        <div class="col-span-4 border rounded-lg px-3 py-4 flex flex-col items-center gap-3 h-full bg-blue-200">
             <h1 class="font-bold text-white">
                 <span class="bg-blue-500 py-1 px-3 rounded-md">Done</span>
             </h1>
@@ -34,7 +33,7 @@ const update = (e, status) => {
                 </template>
             </draggable>
         </div>
-        <div class="col-span-4 border rounded-lg px-3 py-4 flex flex-col items-center gap-3 max-h-screen bg-orange-200">
+        <div class="col-span-4 border rounded-lg px-3 py-4 flex flex-col items-center gap-3 h-full bg-orange-200">
             <h1 class="font-bold text-white">
                 <span class="bg-orange-500 py-1 px-3 rounded-md">In Progress</span>
             </h1>
@@ -45,7 +44,7 @@ const update = (e, status) => {
                 </template>
             </draggable>
         </div>
-        <div class="col-span-4 border rounded-lg px-3 py-4 flex flex-col items-center gap-3 max-h-screen bg-green-200">
+        <div class="col-span-4 border rounded-lg px-3 py-4 flex flex-col items-center gap-3 h-full bg-green-200">
             <h1 class="font-bold text-white">
                 <span class="bg-green-500 py-1 px-3 rounded-md">Done</span>
             </h1>

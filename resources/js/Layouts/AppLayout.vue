@@ -337,7 +337,7 @@ const logout = () => {
                 <div>
                     <div class="flex justify-between gap-2 overflow-hidden min-h-screen">
                         <DashboardAside></DashboardAside>
-                        <div class="flex-1">
+                        <div class="flex-1 h-full">
                             <slot />
                         </div>
                     </div>

@@ -20,6 +20,7 @@
     },
     "dependencies": {
         "@radix-icons/vue": "^1.0.0",
+        "@tiptap/extension-code-block-lowlight": "^2.10.3",
         "@tiptap/extension-link": "^2.10.3",
         "@tiptap/pm": "^2.10.3",
         "@tiptap/starter-kit": "^2.10.3",
@@ -28,6 +29,8 @@
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.1.1",
         "date-fns": "^4.1.0",
+        "highlight.js": "^11.10.0",
+        "lowlight": "^3.2.0",
         "radix-vue": "^1.9.7",
         "remixicon": "^4.5.0",
         "tailwind-merge": "^2.5.4",

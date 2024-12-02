@@ -2,9 +2,9 @@
 import StarterKit from '@tiptap/starter-kit';
 import { EditorContent, useEditor } from '@tiptap/vue-3';
 import { Markdown } from 'tiptap-markdown';
-import { ref, watch } from 'vue';
+import { onBeforeUnmount, ref, watch } from 'vue';
 import 'remixicon/fonts/remixicon.css';
-import Link from '@tiptap/extension-link';
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import { Input } from '@/Components/ui/input'
 import { Button } from '@/Components/ui/button'
 import { Label } from '@/Components/ui/label'
@@ -13,7 +13,9 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from '@/Components/ui/popover'
-
+import Link from '@tiptap/extension-link';
+import { createLowlight } from 'lowlight';
+import { all } from 'lowlight';
 
 const props = defineProps(['modelValue'])
 
@@ -25,14 +27,19 @@ const editor = useEditor({
         StarterKit.configure({
             heading: {
                 levels: [2, 3, 4]
-            }
+            },
+            codeBlock: false
         }),
         Link,
-        Markdown
+        Markdown,
+        CodeBlockLowlight.configure({
+            lowlight: createLowlight(all),
+            defaultLanguage: 'php'
+        })
     ],
     editorProps: {
         attributes: {
-            class: 'h-[400px] min-w-full overflow-y-scroll prose prose-sm focus:outline-none px-3 py-2',
+            class: 'h-[512px] min-w-full overflow-y-scroll prose prose-sm focus:outline-none px-3 py-2',
         },
     },
     onUpdate: () => emit('update:modelValue', editor.value?.storage.markdown.getMarkdown())
@@ -60,7 +67,11 @@ watch(() => props.modelValue, (value) => {
         return;
     }
     editor.value?.commands.setContent(value);
-}, { immediate: true })
+}, { immediate: true });
+
+onBeforeUnmount(() => {
+    editor.value.destroy()
+})
 </script>
 <template>
     <div>
@@ -155,6 +166,13 @@ watch(() => props.modelValue, (value) => {
                         <i class="ri-h-3"></i>
                     </button>
                 </li>
+                <li>
+                    <button @click="() => editor.chain().focus().toggleCodeBlock().run()" type="button"
+                        class="px-1.5 py-1 hover:bg-gray-100 rounded-md text-sm font-semibold"
+                        :class="{ 'bg-gray-100': editor.isActive('codeBlock') }" title="Code">
+                        <i class="ri-code-s-slash-line"></i>
+                    </button>
+                </li>
             </menu>
             <div class="w-full">
                 <EditorContent :editor="editor" class="w-full"></EditorContent>
@@ -162,3 +180,71 @@ watch(() => props.modelValue, (value) => {
         </div>
     </div>
 </template>
+<style>
+pre {
+    background: #bebebe;
+    color: #FFF;
+    font-family: 'JetBrainsMono', monospace;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+}
+
+code {
+    color: inherit;
+    padding: 0;
+    background: none;
+    font-size: 0.9rem !important;
+}
+
+.hljs-comment,
+.hljs-quote {
+    color: #616161;
+}
+
+.hljs-variable,
+.hljs-template-variable,
+.hljs-attribute,
+.hljs-tag,
+.hljs-name,
+.hljs-regexp,
+.hljs-link,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class {
+    color: #F98181;
+}
+
+.hljs-number,
+.hljs-meta,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params {
+    color: #FBBC88;
+}
+
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet {
+    color: #B9F18D;
+}
+
+.hljs-title,
+.hljs-section {
+    color: #FAF594;
+}
+
+.hljs-keyword,
+.hljs-selector-tag {
+    color: #70CFF8;
+}
+
+.hljs-emphasis {
+    font-style: italic;
+}
+
+.hljs-strong {
+    font-weight: 700;
+}
+</style>

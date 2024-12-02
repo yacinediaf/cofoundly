@@ -109,7 +109,7 @@ function deleteTask() {
                                                             </div>
                                                         </div>
                                                     </SheetTitle>
-                                                    <SheetDescription class="prose prose-sm lg:prose-lg min-w-full"
+                                                    <SheetDescription class="code prose prose-sm lg:prose-lg min-w-full"
                                                         v-html="task.description">
                                                     </SheetDescription>
                                                 </SheetHeader>

@@ -1,6 +1,6 @@
 <script setup>
 import draggable from 'vuedraggable';
-import { router } from '@inertiajs/vue3';
+import { router, usePage } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import TaskCard from '@/Pages/Tasks/Partials/TaskCard.vue';
 
@@ -12,12 +12,19 @@ let done = ref(props.tasks['Done'] ?? [])
 
 const update = (e, status) => {
     if (e.added) {
-        let task = e.added?.element.id;
-        router.post(route('tasks.update', [task]), {
-            _method: 'PATCH',
-            status: status
-        });
+        let task = e.added?.element;
+        if (usePage().props.auth.user.id === task.assigned_to.id) {
+            router.post(route('tasks.update', [task.id]), {
+                _method: 'PATCH',
+                status: status
+            });
+        }
+        return false;
     }
+}
+
+function canDrag(evt) {
+    return (usePage().props.auth.user.id === evt.draggedContext.element.assigned_to.id)
 }
 </script>
 <template>
@@ -26,7 +33,7 @@ const update = (e, status) => {
             <h1 class="font-bold text-white">
                 <span class="bg-blue-500 py-1 px-3 rounded-md">Done</span>
             </h1>
-            <draggable v-model="todos" group="test" class="w-full space-y-2 h-full cursor-move" item-key="id"
+            <draggable v-model="todos" group="test" :move="canDrag" class="w-full space-y-2 h-full" item-key="id"
                 @change="e => update(e, 'Todo')">
                 <template #item="{ element }">
                     <TaskCard :task="element"></TaskCard>
@@ -37,7 +44,7 @@ const update = (e, status) => {
             <h1 class="font-bold text-white">
                 <span class="bg-orange-500 py-1 px-3 rounded-md">In Progress</span>
             </h1>
-            <draggable v-model="inProgress" group="test" class="w-full space-y-2 h-full cursor-move" item-key="id"
+            <draggable v-model="inProgress" group="test" :move="canDrag" class="w-full space-y-2 h-full" item-key="id"
                 @change="e => update(e, 'In Progress')">
                 <template #item="{ element }">
                     <TaskCard :task="element"></TaskCard>
@@ -48,7 +55,7 @@ const update = (e, status) => {
             <h1 class="font-bold text-white">
                 <span class="bg-green-500 py-1 px-3 rounded-md">Done</span>
             </h1>
-            <draggable v-model="done" group="test" class="w-full space-y-2 h-full cursor-move" item-key="id"
+            <draggable v-model="done" group="test" :move="canDrag" class="w-full space-y-2 h-full" item-key="id"
                 @change="e => update(e, 'Done')">
                 <template #item="{ element }">
                     <TaskCard :task="element"></TaskCard>

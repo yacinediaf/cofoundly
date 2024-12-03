@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\TaskStatus;
+use App\Events\TaskStatusUpdated;
 use App\Http\Requests\Tasks\ReplaceTaskRequest;
 use App\Http\Requests\Tasks\StoreTaskRequest;
 use App\Models\Project;
@@ -62,6 +63,8 @@ class TaskController extends Controller
         ]);
         //Update
         $task->updateStatus($attributes['status']);
+        //Broadcast
+        broadcast(new TaskStatusUpdated($task))->toOthers();
         //Return
         return back()->with('success', 'task status updated. ✅.');
     }

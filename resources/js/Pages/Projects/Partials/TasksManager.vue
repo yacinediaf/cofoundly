@@ -31,6 +31,8 @@ function canDrag(evt) {
 Echo.private('projects.' + project.project_code).listen('TaskStatusUpdated', (event) => {
     removeFromPreviousStatusList(event.task);
     InsertInNewStatusList(event.task);
+}).listen('TaskDeleted', (event) => {
+    removeFromPreviousStatusList(event.task);
 })
 
 function removeFromPreviousStatusList(updatedTask) {

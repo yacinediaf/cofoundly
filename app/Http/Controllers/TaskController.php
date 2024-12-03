@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\TaskStatus;
+use App\Events\TaskDeleted;
 use App\Events\TaskStatusUpdated;
 use App\Http\Requests\Tasks\ReplaceTaskRequest;
 use App\Http\Requests\Tasks\StoreTaskRequest;
@@ -71,8 +72,9 @@ class TaskController extends Controller
 
     public function delete(Project $project, Task $task)
     {
+        $deletedTask = $task;
         $task->delete();
-
+        broadcast(new TaskDeleted($deletedTask));
         return back()->with('success', 'task deleted with success ✅.');
     }
 }

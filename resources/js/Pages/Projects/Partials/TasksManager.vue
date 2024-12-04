@@ -33,6 +33,10 @@ Echo.private('projects.' + project.project_code).listen('TaskStatusUpdated', (ev
     InsertInNewStatusList(event.task);
 }).listen('TaskDeleted', (event) => {
     removeFromPreviousStatusList(event.task);
+}).listen('TaskCreated', (event) => {
+    console.log(event);
+
+    InsertInNewStatusList(event.task);
 })
 
 function removeFromPreviousStatusList(updatedTask) {

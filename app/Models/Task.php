@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\TaskStatus;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,6 +22,7 @@ class Task extends Model
     {
         static::creating(function (Task $task) {
             $task->assigned_at = today();
+            $task->status = TaskStatus::TODO;
         });
     }
 
@@ -28,7 +30,7 @@ class Task extends Model
     {
         return [
             'created_at' => 'datetime:Y-m-d',
-            'delivery_date' => 'datetime:Y-m-d'
+            'delivery_date' => 'datetime:Y-m-d',
         ];
     }
 

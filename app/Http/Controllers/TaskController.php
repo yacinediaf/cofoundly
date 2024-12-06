@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Enums\TaskStatus;
+use App\Events\TaskCreated;
+use App\Events\TaskDeleted;
+use App\Events\TaskStatusUpdated;
 use App\Http\Requests\Tasks\ReplaceTaskRequest;
 use App\Http\Requests\Tasks\StoreTaskRequest;
 use App\Models\Project;
@@ -25,7 +28,9 @@ class TaskController extends Controller
 
     public function store(StoreTaskRequest $request, Project $project)
     {
-        $project->tasks()->create($request->mappedAttributes());
+        $task = $project->tasks()->create($request->mappedAttributes());
+
+        broadcast(new TaskCreated($task))->toOthers();
 
         return redirect(route('projects.show', $project))
                 ->with('success', 'New Task Created successfully.');
@@ -62,14 +67,17 @@ class TaskController extends Controller
         ]);
         //Update
         $task->updateStatus($attributes['status']);
+        //Broadcast
+        broadcast(new TaskStatusUpdated($task))->toOthers();
         //Return
         return back()->with('success', 'task status updated. ✅.');
     }
 
     public function delete(Project $project, Task $task)
     {
+        $deletedTask = $task;
         $task->delete();
-
+        broadcast(new TaskDeleted($deletedTask));
         return back()->with('success', 'task deleted with success ✅.');
     }
 }

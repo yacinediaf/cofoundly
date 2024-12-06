@@ -1,10 +1,11 @@
 <script setup>
 import draggable from 'vuedraggable';
 import { router, usePage } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { inject, ref } from 'vue';
 import TaskCard from '@/Pages/Tasks/Partials/TaskCard.vue';
 
 let props = defineProps(['tasks']);
+let project = inject('project');
 
 let todos = ref(props.tasks['Todo'] ?? [])
 let inProgress = ref(props.tasks['In Progress'] ?? [])
@@ -25,6 +26,38 @@ const update = (e, status) => {
 
 function canDrag(evt) {
     return (usePage().props.auth.user.id === evt.draggedContext.element.assigned_to.id)
+}
+
+Echo.private('projects.' + project.project_code).listen('TaskStatusUpdated', (event) => {
+    removeFromPreviousStatusList(event.task);
+    InsertInNewStatusList(event.task);
+}).listen('TaskDeleted', (event) => {
+    removeFromPreviousStatusList(event.task);
+}).listen('TaskCreated', (event) => {
+    console.log(event);
+
+    InsertInNewStatusList(event.task);
+})
+
+function removeFromPreviousStatusList(updatedTask) {
+    const allTasks = [todos.value, inProgress.value, done.value];
+
+    allTasks.forEach((array) => {
+        const index = array.findIndex((task) => task.id === updatedTask.id);
+        if (index !== -1) {
+            array.splice(index, 1); // Remove the task from the array
+        }
+    });
+}
+
+function InsertInNewStatusList(updatedTask) {
+    if (updatedTask.status === "Todo") {
+        todos.value.push(updatedTask);
+    } else if (updatedTask.status === "In Progress") {
+        inProgress.value.push(updatedTask);
+    } else if (updatedTask.status === "Done") {
+        done.value.push(updatedTask);
+    }
 }
 </script>
 <template>

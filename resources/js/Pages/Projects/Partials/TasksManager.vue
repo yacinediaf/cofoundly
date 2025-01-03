@@ -3,8 +3,19 @@ import draggable from 'vuedraggable';
 import { router, usePage } from '@inertiajs/vue3';
 import { inject, ref } from 'vue';
 import TaskCard from '@/Pages/Tasks/Partials/TaskCard.vue';
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/Components/ui/table';
 
 let props = defineProps(['tasks']);
+console.log(props.tasks);
+
 let project = inject('project');
 
 let todos = ref(props.tasks['Todo'] ?? [])
@@ -34,8 +45,6 @@ Echo.private('projects.' + project.project_code).listen('TaskStatusUpdated', (ev
 }).listen('TaskDeleted', (event) => {
     removeFromPreviousStatusList(event.task);
 }).listen('TaskCreated', (event) => {
-    console.log(event);
-
     InsertInNewStatusList(event.task);
 })
 
@@ -61,39 +70,77 @@ function InsertInNewStatusList(updatedTask) {
 }
 </script>
 <template>
-    <div class="grid grid-cols-12 gap-3 mt-8 h-full">
-        <div class="col-span-4 border rounded-lg px-3 py-4 flex flex-col items-center gap-3 h-full bg-blue-200">
-            <h1 class="font-bold text-white">
-                <span class="bg-blue-500 py-1 px-3 rounded-md">Done</span>
-            </h1>
-            <draggable v-model="todos" group="test" :move="canDrag" class="w-full space-y-2 h-full cursor-move"
-                item-key="id" @change="e => update(e, 'Todo')">
-                <template #item="{ element }">
-                    <TaskCard :task="element"></TaskCard>
-                </template>
-            </draggable>
+    <div class="mt-8 h-full">
+        <div class="hidden lg:grid grid-cols-12 gap-3 h-full">
+            <div class="col-span-4 border rounded-lg px-3 py-4 flex flex-col items-center gap-3 h-full bg-blue-200">
+                <h1 class="font-bold text-white">
+                    <span class="bg-blue-500 py-1 px-3 rounded-md">Done</span>
+                </h1>
+                <draggable v-model="todos" group="test" :move="canDrag" class="w-full space-y-2 h-full cursor-move"
+                    item-key="id" @change="e => update(e, 'Todo')">
+                    <template #item="{ element }">
+                        <TaskCard :task="element"></TaskCard>
+                    </template>
+                </draggable>
+            </div>
+            <div class="col-span-4 border rounded-lg px-3 py-4 flex flex-col items-center gap-3 h-full bg-orange-200">
+                <h1 class="font-bold text-white">
+                    <span class="bg-orange-500 py-1 px-3 rounded-md">In Progress</span>
+                </h1>
+                <draggable v-model="inProgress" group="test" :move="canDrag" class="w-full space-y-2 h-full cursor-move"
+                    item-key="id" @change="e => update(e, 'In Progress')">
+                    <template #item="{ element }">
+                        <TaskCard :task="element"></TaskCard>
+                    </template>
+                </draggable>
+            </div>
+            <div class="col-span-4 border rounded-lg px-3 py-4 flex flex-col items-center gap-3 h-full bg-green-200">
+                <h1 class="font-bold text-white">
+                    <span class="bg-green-500 py-1 px-3 rounded-md">Done</span>
+                </h1>
+                <draggable v-model="done" group="test" :move="canDrag" class="w-full space-y-2 h-full cursor-move"
+                    item-key="id" @change="e => update(e, 'Done')">
+                    <template #item="{ element }">
+                        <TaskCard :task="element"></TaskCard>
+                    </template>
+                </draggable>
+            </div>
         </div>
-        <div class="col-span-4 border rounded-lg px-3 py-4 flex flex-col items-center gap-3 h-full bg-orange-200">
-            <h1 class="font-bold text-white">
-                <span class="bg-orange-500 py-1 px-3 rounded-md">In Progress</span>
-            </h1>
-            <draggable v-model="inProgress" group="test" :move="canDrag" class="w-full space-y-2 h-full cursor-move"
-                item-key="id" @change="e => update(e, 'In Progress')">
-                <template #item="{ element }">
-                    <TaskCard :task="element"></TaskCard>
-                </template>
-            </draggable>
-        </div>
-        <div class="col-span-4 border rounded-lg px-3 py-4 flex flex-col items-center gap-3 h-full bg-green-200">
-            <h1 class="font-bold text-white">
-                <span class="bg-green-500 py-1 px-3 rounded-md">Done</span>
-            </h1>
-            <draggable v-model="done" group="test" :move="canDrag" class="w-full space-y-2 h-full cursor-move"
-                item-key="id" @change="e => update(e, 'Done')">
-                <template #item="{ element }">
-                    <TaskCard :task="element"></TaskCard>
-                </template>
-            </draggable>
+        <div class="lg:hidden h-full">
+            <Table class="w-full rounded border mb-4">
+                <TableHeader>
+                    <TableRow>
+                        <TableHead>ID</TableHead>
+                        <TableHead>Task</TableHead>
+                        <TableHead>Assigned To</TableHead>
+                        <TableHead>Due Date</TableHead>
+                        <TableHead>Status</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    <TableRow v-for="task in todos.concat(inProgress).concat(done)" :key="task.id">
+                        <TableCell>
+                            <h1 class="font-semibold">{{ '#' + task.id }}</h1>
+                        </TableCell>
+                        <TableCell>
+                            <span class="truncate">{{ task.title }}</span>
+                        </TableCell>
+                        <TableCell>
+                            {{ task.assigned_to.name }}
+                        </TableCell>
+                        <TableCell>
+                            {{ task.delivery_date }}
+                        </TableCell>
+                        <TableCell>
+                            <span class="py-1 px-3 rounded-full text-xs" :class="{
+                                'bg-green-500 text-white': task.status == 'Done',
+                                'bg-orange-500 text-white': task.status == 'In Progress',
+                                'bg-gray-800 text-white': task.status == 'Todo'
+                            }">{{ task.status }}</span>
+                        </TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
         </div>
     </div>
 </template>

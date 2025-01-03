@@ -67,7 +67,14 @@ class User extends Authenticatable
 
     public function allProjects()
     {
-        return $this->hasManyThrough(Project::class, Membership::class, 'user_id', 'team_id', 'id', 'user_id');
+        return $this->hasManyThrough(
+            Project::class,
+            Membership::class,
+            'user_id',
+            'team_id',
+            'id',
+            'user_id'
+        );
     }
 
     public function currentProjects()

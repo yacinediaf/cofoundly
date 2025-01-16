@@ -10,8 +10,6 @@ class Tag extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
-
     public function tasks():BelongsToMany
     {
         return $this->belongsToMany(Task::class);

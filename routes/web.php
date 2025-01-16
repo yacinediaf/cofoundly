@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -36,3 +37,5 @@ Route::post('projects/@{project:project_code}/tasks', [TaskController::class, 's
 Route::put('projects/@{project:project_code}/tasks/{task}', [TaskController::class, 'replace'])->name('tasks.replace');
 Route::patch('tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
 Route::delete('projects/@{project:project_code}/tasks/{task}', [TaskController::class, 'delete'])->name('tasks.delete');
+//Tags
+Route::post('projects/@{project:project_code}/tags', [TagController::class, 'store'])->name('tags.store');

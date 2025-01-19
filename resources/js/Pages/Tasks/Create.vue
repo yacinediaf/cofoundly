@@ -1,32 +1,36 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
+import CreateTag from './Partials/CreateTag.vue';
+import Tags from './Partials/Tags.vue';
 import { router, usePage } from '@inertiajs/vue3';
-import { computed, onMounted, reactive, ref, watch } from 'vue';
+import { computed, reactive, ref, watch } from 'vue';
 import { Calendar } from '@/Components/ui/calendar'
 import { getLocalTimeZone, today } from '@internationalized/date'
 import Label from '@/Components/ui/label/Label.vue';
-import Button from '@/Components/ui/button/Button.vue';
+import LoadedButton from '@/Components/LoadedButton.vue';
 import Input from '@/Components/ui/input/Input.vue';
 import MarkdownEditor from '@/Components/MarkdownEditor.vue';
-
 
 defineOptions({
     layout: AppLayout
 })
 
 let props = defineProps(['members', 'project']);
-
 let userName = ($member) => computed(() => usePage().props.auth.user.id == $member.id ? 'Me' : $member.name)
-
 let selectedMember = ref(usePage().props.auth.user.id);
 let deliveryDate = ref(today(getLocalTimeZone()))
 
+const selectedTags = ref([])
+const isLoading = ref(false);
 const createTask = () => {
+    isLoading.value = true;
+    if (selectedTags.value.length) {
+        taskData.tags = selectedTags.value
+    }
     router.post(route('tasks.store', props.project.project_code), taskData, {
-        onError: () => console.log(usePage().props.errors)
+        onFinish: () => isLoading.value = false
     });
 }
-
 const assignTo = (member) => {
     selectedMember.value = member.id
 }
@@ -57,8 +61,8 @@ watch(() => deliveryDate.value, (newDate) => {
             <div class="w-full flex gap-10">
                 <section class="w-full px-6">
                     <div class="flex justify-between">
-                        <h1 class="font-semibold text-2xl mb-2">What's Up, New Task ? Let's go 🤩💻</h1>
-                        <Button @click.prevent="createTask">Create Task</Button>
+                        <h1 class="font-semibold text-2xl mb-2">What's Up, New Task ? Let's go 💻</h1>
+                        <LoadedButton title="Create" :isLoading="isLoading" @click="createTask"></LoadedButton>
                     </div>
 
                     <div class="mt-5">
@@ -83,6 +87,10 @@ watch(() => deliveryDate.value, (newDate) => {
                 </section>
 
                 <div class="w-64 flex flex-col gap-8">
+                    <div class="space-y-4">
+                        <CreateTag :project></CreateTag>
+                        <Tags :project v-model:selectedTags="selectedTags"></Tags>
+                    </div>
                     <div class="space-y-4">
                         <div>
                             <h1 class="font-semibold text-2xl mb-2">Team Members</h1>

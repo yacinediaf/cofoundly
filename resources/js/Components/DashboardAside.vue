@@ -70,7 +70,7 @@ const closeDialog = () => {
                     </DialogDescription>
                 </DialogHeader>
                 <div class="grid gap-4 py-4 space-y-4">
-                    <div class="flex flex-col grid-cols-12 gap-4">
+                    <div class="flex flex-col grid-cols-12 gap-2">
                         <Label for="title">
                             Project Title
                         </Label>

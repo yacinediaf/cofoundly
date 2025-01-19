@@ -5,25 +5,33 @@ import { computed, reactive, ref, watch } from 'vue';
 import { Calendar } from '@/Components/ui/calendar'
 import { getLocalTimeZone, today } from '@internationalized/date'
 import Label from '@/Components/ui/label/Label.vue';
-import Button from '@/Components/ui/button/Button.vue';
 import Input from '@/Components/ui/input/Input.vue';
 import MarkdownEditor from '@/Components/MarkdownEditor.vue';
 import { calendarDateFormatter } from '@/Composables/UseCalendarDateFormatter';
+import LoadedButton from '@/Components/LoadedButton.vue';
+import EditTag from './Partials/EditTag.vue';
+import Tags from './Partials/Tags.vue';
 
 defineOptions({
     layout: AppLayout
 })
 
-let props = defineProps(['members', 'task', 'project_code']);
+let props = defineProps(['members', 'task', 'project']);
 
 let userName = ($member) => computed(() => usePage().props.auth.user.id == $member.id ? 'Me' : $member.name)
 
 let selectedMember = ref(props.task.assigned_to.id);
 let deliveryDate = ref(calendarDateFormatter(props.task.delivery_date))
+const isLoading = ref(false);
+const selectedTags = ref(props.task.tags.map((tag) => tag.id));
 
 const updateTask = () => {
-    router.put(route('tasks.replace', [props.project_code, props.task.id]), taskData, {
-        onError: () => console.log(usePage().props.errors)
+    isLoading.value = true;
+    if (selectedTags.value.length) {
+        taskData.tags = selectedTags.value;
+    }
+    router.put(route('tasks.replace', [props.project.project_code, props.task.id]), taskData, {
+        onFinish: () => isLoading.value = false
     });
 }
 
@@ -58,7 +66,7 @@ watch(() => deliveryDate.value, (newDate) => {
                 <section class="w-full px-6">
                     <div class="flex justify-between">
                         <h1 class="font-semibold text-2xl mb-2">What's Up, New Task ? Let's go 🤩💻</h1>
-                        <Button @click="updateTask">Edit Task</Button>
+                        <LoadedButton title="Update" :isLoading="isLoading" @click="updateTask"></LoadedButton>
                     </div>
 
                     <div class="mt-5">
@@ -83,6 +91,10 @@ watch(() => deliveryDate.value, (newDate) => {
                 </section>
 
                 <div class="w-64 flex flex-col gap-8">
+                    <div class="space-y-4">
+                        <EditTag :project></EditTag>
+                        <Tags :project v-model:selectedTags="selectedTags"></Tags>
+                    </div>
                     <div class="space-y-4">
                         <div>
                             <h1 class="font-semibold text-2xl mb-2">Team Members</h1>

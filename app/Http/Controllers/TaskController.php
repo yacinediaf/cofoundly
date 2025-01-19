@@ -3,14 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Enums\TaskStatus;
-use App\Events\TaskCreated;
 use App\Events\TaskDeleted;
-use App\Events\TaskStatusUpdated;
 use App\Http\Requests\Tasks\ReplaceTaskRequest;
 use App\Http\Requests\Tasks\StoreTaskRequest;
 use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
@@ -22,15 +21,18 @@ class TaskController extends Controller
 
         return Inertia::render('Tasks/Create', [
             'members' => $members,
-            'project' => $project
+            'project' => $project->load('tags')
         ]);
     }
 
     public function store(StoreTaskRequest $request, Project $project)
     {
-        $task = $project->tasks()->create($request->mappedAttributes());
-
-        broadcast(new TaskCreated($task))->toOthers();
+        DB::transaction(function () use ($request, $project) {
+            $project->createTask(
+                $request->mappedAttributes(),
+                $request->tags
+            );
+        });
 
         return redirect(route('projects.show', $project))
                 ->with('success', 'New Task Created successfully.');
@@ -43,13 +45,18 @@ class TaskController extends Controller
         return Inertia::render('Tasks/Edit', [
             'task' => $task,
             'members' => $members,
-            'project_code' => $project->project_code
+            'project' => $project->load('tags')
         ]);
     }
 
     public function replace(ReplaceTaskRequest $request, Project $project, Task $task)
     {
-        $task->update($request->mappedAttributes());
+        DB::transaction(function () use ($task, $request) {
+            tap($task, function ($task) use ($request) {
+                $task->update($request->mappedAttributes());
+                $task->assignTags($request->tags);
+            });
+        });
 
         return redirect(route('projects.show', $project))
                         ->with('success', 'Task Updated successfully.');
@@ -65,10 +72,8 @@ class TaskController extends Controller
         $attributes = $request->validate([
             'status' => [Rule::enum(TaskStatus::class)]
         ]);
-        //Update
+        //Update status
         $task->updateStatus($attributes['status']);
-        //Broadcast
-        broadcast(new TaskStatusUpdated($task))->toOthers();
         //Return
         return back()->with('success', 'task status updated. ✅.');
     }

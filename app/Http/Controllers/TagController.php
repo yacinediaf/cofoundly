@@ -12,13 +12,14 @@ class TagController extends Controller
     public function store(Request $request, Project $project)
     {
         $attributes = $request->validate([
-            'name' => ['required', 'max:255', 'unique:tags'],
+            'name' => ['required', 'max:255'],
             'color' => 'required'
         ]);
 
-        $project->tags()->create($attributes);
+        $project->addTag($attributes);
 
-        return redirect(route('projects.show', $project))
+        return redirect()
+                ->back()
                 ->with('success', 'Tag created successfully.');
     }
 

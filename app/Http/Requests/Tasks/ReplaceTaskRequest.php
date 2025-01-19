@@ -15,7 +15,8 @@ class ReplaceTaskRequest extends BaseTaskRequest
             'title' => ['string', 'max:255', 'sometimes'],
             'description' => ['sometimes'],
             'assignedTo' => ['sometimes', 'exists:users,id'],
-            'deliveryDate' => ['sometimes', 'date_format:Y-m-d']
+            'deliveryDate' => ['sometimes', 'date_format:Y-m-d'],
+            'tasks' => ['array', 'in:' . $this->project->tags()->pluck('id')->implode(',')],
         ];
     }
 }

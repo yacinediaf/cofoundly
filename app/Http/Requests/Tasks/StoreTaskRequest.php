@@ -15,7 +15,8 @@ class StoreTaskRequest extends BaseTaskRequest
             'title' => ['string', 'max:255', 'required'],
             'description' => ['required'],
             'assignedTo' => ['required', 'exists:users,id'],
-            'deliveryDate' => ['required', 'date_format:Y-m-d']
+            'deliveryDate' => ['required', 'date_format:Y-m-d'],
+            'tasks' => ['array', 'in:' . $this->project->tags()->pluck('id')->implode(',')],
         ];
     }
 }

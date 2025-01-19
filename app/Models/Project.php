@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\TaskStatus;
+use App\Events\TaskCreated;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -38,6 +39,24 @@ class Project extends Model
     public function tasks(): HasMany
     {
         return $this->hasMany(Task::class);
+    }
+
+    public function createTask($attributes, $tags)
+    {
+        $task = $this->tasks()
+                    ->create($attributes)
+                    ->assignTags($tags);
+        broadcast(new TaskCreated($task))->toOthers();
+    }
+
+    public function tags(): HasMany
+    {
+        return $this->hasMany(Tag::class);
+    }
+
+    public function addTag(array $attributes)
+    {
+        return $this->tags()->create($attributes);
     }
 
     public function scopeWithGroupedTasks(Builder $query)

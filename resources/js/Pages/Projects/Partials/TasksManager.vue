@@ -1,12 +1,11 @@
 <script setup>
 import draggable from 'vuedraggable';
 import { router, usePage } from '@inertiajs/vue3';
-import { inject, ref } from 'vue';
+import { inject, computed } from 'vue';
 import TaskCard from '@/Pages/Tasks/Partials/TaskCard.vue';
 import {
     Table,
     TableBody,
-    TableCaption,
     TableCell,
     TableHead,
     TableHeader,
@@ -14,13 +13,11 @@ import {
 } from '@/Components/ui/table';
 
 let props = defineProps(['tasks']);
-console.log(props.tasks);
-
 let project = inject('project');
 
-let todos = ref(props.tasks['Todo'] ?? [])
-let inProgress = ref(props.tasks['In Progress'] ?? [])
-let done = ref(props.tasks['Done'] ?? [])
+let todos = computed(() => props.tasks['Todo'] ?? [])
+let inProgress = computed(() => props.tasks['In Progress'] ?? [])
+let done = computed(() => props.tasks['Done'] ?? [])
 
 const update = (e, status) => {
     if (e.added) {
@@ -74,7 +71,7 @@ function InsertInNewStatusList(updatedTask) {
         <div class="hidden lg:grid grid-cols-12 gap-3 h-full">
             <div class="col-span-4 border rounded-lg px-3 py-4 flex flex-col items-center gap-3 h-full bg-blue-200">
                 <h1 class="font-bold text-white">
-                    <span class="bg-blue-500 py-1 px-3 rounded-md">Done</span>
+                    <span class="bg-blue-500 py-1 px-3 rounded-md">Todo</span>
                 </h1>
                 <draggable v-model="todos" group="test" :move="canDrag" class="w-full space-y-2 h-full cursor-move"
                     item-key="id" @change="e => update(e, 'Todo')">

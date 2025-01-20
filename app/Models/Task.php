@@ -74,7 +74,8 @@ class Task extends Model
 
     public function scopeByStatus(Builder $query): Collection
     {
-        return $query->get()->groupBy('status');
+        return $query->get()
+                ->groupBy('status');
     }
 
     public function updateStatus($status)

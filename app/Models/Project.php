@@ -59,7 +59,7 @@ class Project extends Model
         return $this->tags()->create($attributes);
     }
 
-    public function scopeWithGroupedTasks(Builder $query)
+    public function WithGroupedTasks()
     {
         return $this->tasks()->byStatus();
     }

@@ -36,7 +36,7 @@ function deleteTask() {
         <div class="space-y-2">
             <div class="space-y-2">
                 <div class="flex items-center justify-between">
-                    <div v-if="task.tags.length" class="flex items-center gap-2">
+                    <div v-if="task.tags?.length" class="flex items-center gap-2">
                         <span v-for="tag in task.tags" class="py-1 px-2 rounded-full text-white text-xs"
                             :style="{ 'background-color': tag.color }">
                             {{ tag.name }}

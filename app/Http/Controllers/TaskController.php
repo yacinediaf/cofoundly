@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\TaskStatus;
 use App\Events\TaskDeleted;
+use App\Events\TaskStatusUpdated;
 use App\Http\Requests\Tasks\ReplaceTaskRequest;
 use App\Http\Requests\Tasks\StoreTaskRequest;
 use App\Models\Project;
@@ -17,6 +18,7 @@ class TaskController extends Controller
 {
     public function create(Project $project)
     {
+        $project = $project->setRelation('team', auth()->user()->currentTeam);
         $members = $project->team->allUsers();
 
         return Inertia::render('Tasks/Create', [
@@ -40,6 +42,7 @@ class TaskController extends Controller
 
     public function edit(Project $project, Task $task)
     {
+        $project = $project->setRelation('team', auth()->user()->currentTeam);
         $members = $project->team->allUsers();
 
         return Inertia::render('Tasks/Edit', [
@@ -65,7 +68,7 @@ class TaskController extends Controller
     public function update(Request $request, Task $task)
     {
         //Update to a real policy or gate (TODO)
-        if ($request->user()->id !== $task->assigned_to->id) {
+        if ($request->user()->id !== $task->assignedTo->id) {
             return back()->with('error', 'youre not allowed');
         }
         //validate
@@ -74,6 +77,8 @@ class TaskController extends Controller
         ]);
         //Update status
         $task->updateStatus($attributes['status']);
+        //Broadcast
+        broadcast(new TaskStatusUpdated($task))->toOthers();
         //Return
         return back()->with('success', 'task status updated. ✅.');
     }

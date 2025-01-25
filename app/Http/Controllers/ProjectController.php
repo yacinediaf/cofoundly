@@ -27,7 +27,6 @@ class ProjectController extends Controller
 
     public function show(Request $request, Project $project)
     {
-        $selecetedTags = $request->selectedTags ?? [];
         if (!auth()->user()->switchTeam($project->team)) {
             abort(403);
         }
@@ -35,13 +34,7 @@ class ProjectController extends Controller
             'Projects/Show',
             [
                 'project' => $project->load('tags'),
-                'tasks' => fn () => $project->load(['tasks' => function ($query) use ($selecetedTags) {
-                    $query->when($selecetedTags, function ($query) use ($selecetedTags) {
-                        $query->whereHas('tags', function ($query) use ($selecetedTags) {
-                            $query->whereIn('id', array_values($selecetedTags));
-                        });
-                    });
-                }])->tasks->groupBy('status'),
+                'tasks' => fn () => $project->WithGroupedTasks($request->selectedTags),
                 'currentDate' => Carbon::now()->format('l, F jS, Y')
             ]
         );

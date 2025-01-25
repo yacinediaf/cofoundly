@@ -33,8 +33,8 @@ class ProjectController extends Controller
         return Inertia::render(
             'Projects/Show',
             [
-                'project' => $project,
-                'tasks' => $project->withGroupedTasks(),
+                'project' => $project->load('tags'),
+                'tasks' => fn () => $project->WithGroupedTasks($request->selectedTags),
                 'currentDate' => Carbon::now()->format('l, F jS, Y')
             ]
         );

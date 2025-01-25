@@ -20,10 +20,10 @@ let props = defineProps(['members', 'task', 'project']);
 
 let userName = ($member) => computed(() => usePage().props.auth.user.id == $member.id ? 'Me' : $member.name)
 
-let selectedMember = ref(props.task.assigned_to.id);
+let selectedMember = ref(props.task.assigned_to);
 let deliveryDate = ref(calendarDateFormatter(props.task.delivery_date))
 const isLoading = ref(false);
-const selectedTags = ref(props.task.tags.map((tag) => tag.id));
+const selectedTags = ref(props.task.tags ? props.task.tags.map((tag) => tag.id) : []);
 
 const updateTask = () => {
     isLoading.value = true;

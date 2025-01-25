@@ -17,7 +17,8 @@ class TaskFactory extends Factory
             'title' => $this->faker->sentence(nbWords:3),
             'description' => $this->faker->sentence(),
             'assigned_to' => 1,
-            'assigned_at' => now()
+            'assigned_at' => now(),
+            'delivery_date' => now()->addWeek(),
         ];
     }
 

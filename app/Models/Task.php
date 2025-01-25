@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\TaskStatus;
-use App\Events\TaskStatusUpdated;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,7 +16,6 @@ class Task extends Model
     use HasFactory;
 
     protected $guarded = [];
-    protected $with = ['tags'];
 
     protected static function booted()
     {
@@ -42,11 +40,9 @@ class Task extends Model
         );
     }
 
-    protected function assignedTo(): Attribute
+    public function assignedTo(): BelongsTo
     {
-        return Attribute::make(
-            get:fn ($id) => User::find($id)
-        );
+        return $this->belongsTo(User::class, 'assigned_to');
     }
 
     public function project(): BelongsTo
@@ -82,7 +78,5 @@ class Task extends Model
     {
         $this->status = $status;
         $this->save();
-        //Broadcast
-        broadcast(new TaskStatusUpdated($this))->toOthers();
     }
 }

@@ -59,9 +59,15 @@ class Project extends Model
         return $this->tags()->create($attributes);
     }
 
-    public function WithGroupedTasks()
+    public function WithGroupedTasks($tags = [])
     {
-        return $this->tasks()->byStatus();
+        return $this->load(['tasks.assignedTo', 'tasks.tags', 'tasks' => function ($query) use ($tags) {
+            $query->when($tags, function ($query) use ($tags) {
+                $query->whereHas('tags', function ($query) use ($tags) {
+                    $query->whereIn('id', array_values($tags));
+                });
+            });
+        }])->tasks->groupBy('status');
     }
 
     public function scopeWithTasksStatistics(Builder $query)

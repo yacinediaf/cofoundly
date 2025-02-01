@@ -19,7 +19,6 @@ import {
 } from '@/Components/ui/sheet'
 import { MixerHorizontalIcon } from '@radix-icons/vue';
 import { router, Link } from '@inertiajs/vue3';
-import { diffForHumans } from '@/Composables/UseDiffForHumans';
 import { inject } from 'vue';
 
 let props = defineProps(['task'])
@@ -85,9 +84,9 @@ function deleteTask() {
 
                                                                     <div class="flex items-center gap-1">
                                                                         <img class="h-7 w-7 rounded-full border-2 border-white"
-                                                                            :src="task.assigned_to.profile_photo_url" />
+                                                                            :src="task.assignedTo.profile_photo_url" />
                                                                         <span class="text-xs">
-                                                                            {{ task.assigned_to.name }}
+                                                                            {{ task.assignedTo.name }}
                                                                         </span>
                                                                     </div>
                                                                 </div>
@@ -97,7 +96,7 @@ function deleteTask() {
 
                                                                     <div class="flex items-center gap-1">
                                                                         <span class="text-xs">
-                                                                            {{ task.delivery_date }}
+                                                                            {{ task.deliveryDate }}
                                                                         </span>
                                                                     </div>
                                                                 </div>
@@ -132,12 +131,12 @@ function deleteTask() {
             </div>
             <div class="flex items-center justify-between pt-1">
                 <div>
-                    <img class="h-7 w-7 rounded-full border-2 border-white" :src="task.assigned_to.profile_photo_url" />
+                    <img class="h-7 w-7 rounded-full border-2 border-white" :src="task.assignedTo.profile_photo_url" />
                 </div>
                 <div class="text-xs flex items-center font-semibold gap-3 text-gray-600">
                     <div class="flex items-center gap-1">
                         <StopwatchIcon></StopwatchIcon>
-                        <span>{{ diffForHumans(task.delivery_date) }}</span>
+                        <span>{{ task.deliveryDate }}</span>
                     </div>
                     <div>
                         <ChatBubbleIcon></ChatBubbleIcon>

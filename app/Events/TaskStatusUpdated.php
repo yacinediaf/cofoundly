@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -15,8 +16,12 @@ class TaskStatusUpdated implements ShouldBroadcastNow
     use InteractsWithSockets;
     use SerializesModels;
 
-    public function __construct(public Task $task)
+    public TaskResource $task;
+
+
+    public function __construct(Task $task)
     {
+        $this->task = new TaskResource($task);
     }
 
     /**

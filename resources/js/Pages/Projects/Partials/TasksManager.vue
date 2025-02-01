@@ -22,7 +22,7 @@ let done = computed(() => props.tasks['Done'] ?? [])
 const update = (e, status) => {
     if (e.added) {
         let task = e.added?.element;
-        if (usePage().props.auth.user.id === task.assigned_to.id) {
+        if (usePage().props.auth.user.id === task.assignedTo.id) {
             router.post(route('tasks.update', [task.id]), {
                 _method: 'PATCH',
                 status: status
@@ -33,7 +33,7 @@ const update = (e, status) => {
 }
 
 function canDrag(evt) {
-    return (usePage().props.auth.user.id === evt.draggedContext.element.assigned_to.id)
+    return (usePage().props.auth.user.id === evt.draggedContext.element.assignedTo.id)
 }
 
 Echo.private('projects.' + project.project_code).listen('TaskStatusUpdated', (event) => {
@@ -123,10 +123,10 @@ function InsertInNewStatusList(updatedTask) {
                             <span class="truncate">{{ task.title }}</span>
                         </TableCell>
                         <TableCell>
-                            {{ task.assigned_to.name }}
+                            {{ task.assignedTo.name }}
                         </TableCell>
                         <TableCell>
-                            {{ task.delivery_date }}
+                            {{ task.deliveryDate }}
                         </TableCell>
                         <TableCell>
                             <span class="py-1 px-3 rounded-full text-xs" :class="{

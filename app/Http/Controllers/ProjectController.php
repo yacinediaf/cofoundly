@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\GroupedTaskResource;
 use App\Http\Resources\ProjectsResource;
+use App\Http\Resources\TaskResource;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -34,7 +36,9 @@ class ProjectController extends Controller
             'Projects/Show',
             [
                 'project' => $project->load('tags'),
-                'tasks' => fn () => $project->WithGroupedTasks($request->selectedTags),
+                'tasks' => fn () => GroupedTaskResource::make(
+                    TaskResource::collection($project->WithGroupedTasks($request->selectedTags))
+                ),
                 'currentDate' => Carbon::now()->format('l, F jS, Y')
             ]
         );

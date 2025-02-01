@@ -67,7 +67,7 @@ class Project extends Model
                     $query->whereIn('id', array_values($tags));
                 });
             });
-        }])->tasks->groupBy('status');
+        }])->tasks;
     }
 
     public function scopeWithTasksStatistics(Builder $query)

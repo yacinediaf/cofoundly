@@ -37,7 +37,7 @@ class ProjectController extends Controller
             [
                 'project' => $project->load('tags'),
                 'tasks' => fn () => GroupedTaskResource::make(
-                    TaskResource::collection($project->WithGroupedTasks($request->selectedTags))
+                    TaskResource::collection($project->WithTasks($request->selectedTags))
                 ),
                 'currentDate' => Carbon::now()->format('l, F jS, Y')
             ]

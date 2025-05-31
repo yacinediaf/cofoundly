@@ -112,13 +112,14 @@ function deleteTask() {
                                                 </SheetHeader>
                                             </SheetContent>
                                         </Sheet>
-                                        <DropdownMenuItem>
+                                        <DropdownMenuItem v-if="task.can.editTask">
                                             <Link :href="route('tasks.edit', [project.project_code, task.id])">
                                             Edit
                                             </Link>
                                         </DropdownMenuItem>
 
-                                        <DropdownMenuItem class="text-red-500" @click.prevent="deleteTask">
+                                        <DropdownMenuItem v-if="task.can.deleteTask" class="text-red-500"
+                                            @click.prevent="deleteTask">
                                             Delete
                                         </DropdownMenuItem>
                                     </DropdownMenuGroup>

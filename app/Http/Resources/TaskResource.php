@@ -25,6 +25,7 @@ class TaskResource extends JsonResource
             'tags' => TagResource::collection($this->whenLoaded('tags')),
             'can' => [
                 'editTask' => Gate::check('edit-task', $this->resource),
+                'deleteTask' => Gate::check('delete-task', $this->resource)
             ]
         ];
     }

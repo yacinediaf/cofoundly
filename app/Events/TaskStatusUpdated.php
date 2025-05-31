@@ -18,10 +18,9 @@ class TaskStatusUpdated implements ShouldBroadcastNow
 
     public TaskResource $task;
 
-
     public function __construct(Task $task)
     {
-        $this->task = new TaskResource($task);
+        $this->task = new TaskResource($task->load('tags'));
     }
 
     /**

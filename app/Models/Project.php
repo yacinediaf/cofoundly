@@ -59,15 +59,19 @@ class Project extends Model
         return $this->tags()->create($attributes);
     }
 
-    public function WithGroupedTasks($tags = [])
+    public function WithTasks($tags = [])
     {
-        return $this->load(['tasks.assignedTo', 'tasks.tags', 'tasks' => function ($query) use ($tags) {
-            $query->when($tags, function ($query) use ($tags) {
-                $query->whereHas('tags', function ($query) use ($tags) {
-                    $query->whereIn('id', array_values($tags));
+        return $this->load([
+            'tasks.assignedTo',
+            'tasks.tags',
+            'tasks' => static function ($query) use ($tags) {
+                //get the tasks with the selected tags if any
+                $query->when($tags, function ($query) use ($tags) {
+                    $query->whereHas('tags', function ($query) use ($tags) {
+                        $query->whereIn('id', array_values($tags));
+                    });
                 });
-            });
-        }])->tasks->groupBy('status');
+            }])->tasks;
     }
 
     public function scopeWithTasksStatistics(Builder $query)

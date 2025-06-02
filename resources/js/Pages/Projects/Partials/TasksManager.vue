@@ -1,7 +1,7 @@
 <script setup>
 import draggable from 'vuedraggable';
 import { router, usePage } from '@inertiajs/vue3';
-import { inject, computed } from 'vue';
+import { inject, computed, reactive, ref } from 'vue';
 import TaskCard from '@/Pages/Tasks/Partials/TaskCard.vue';
 import {
     Table,
@@ -12,12 +12,13 @@ import {
     TableRow,
 } from '@/Components/ui/table';
 
-let props = defineProps(['tasks']);
+let props = defineProps(['modelValue']);
+let emit = defineEmits(['update:modelValue']);
 let project = inject('project');
 
-let todos = computed(() => props.tasks['Todo'] ?? [])
-let inProgress = computed(() => props.tasks['In Progress'] ?? [])
-let done = computed(() => props.tasks['Done'] ?? [])
+let todos = ref(props.modelValue['Todo'] ?? [])
+let inProgress = ref(props.modelValue['In Progress'] ?? [])
+let done = ref(props.modelValue['Done'] ?? [])
 
 const update = (e, status) => {
     if (e.added) {
@@ -36,14 +37,15 @@ function canDrag(evt) {
     return (usePage().props.auth.user.id === evt.draggedContext.element.assignedTo.id)
 }
 
-Echo.private('projects.' + project.project_code).listen('TaskStatusUpdated', (event) => {
-    removeFromPreviousStatusList(event.task);
-    InsertInNewStatusList(event.task);
-}).listen('TaskDeleted', (event) => {
-    removeFromPreviousStatusList(event.task);
-}).listen('TaskCreated', (event) => {
-    InsertInNewStatusList(event.task);
-})
+Echo.private('projects.' + project.project_code)
+    .listen('TaskStatusUpdated', (event) => {
+        removeFromPreviousStatusList(event.task);
+        InsertInNewStatusList(event.task);
+    }).listen('TaskDeleted', (event) => {
+        removeFromPreviousStatusList(event.task);
+    }).listen('TaskCreated', (event) => {
+        InsertInNewStatusList(event.task);
+    })
 
 function removeFromPreviousStatusList(updatedTask) {
     const allTasks = [todos.value, inProgress.value, done.value];

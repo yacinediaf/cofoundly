@@ -9,11 +9,10 @@ import { provide, ref } from 'vue';
 defineOptions({
     layout: AppLayout
 })
-
 let props = defineProps(['project', 'tasks', 'currentDate'])
-provide('project', props.project)
-
+let tasks = props.tasks
 let selectedTags = ref([])
+provide('project', props.project)
 
 const assignTag = (tag) => {
     if (selectedTags.value.includes(tag)) {
@@ -77,7 +76,7 @@ const removeTag = (tag) => {
                 </div>
             </div>
 
-            <TasksManager :tasks="tasks"></TasksManager>
+            <TasksManager v-model="tasks"></TasksManager>
 
         </div>
     </div>

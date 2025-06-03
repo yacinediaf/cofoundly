@@ -11,7 +11,7 @@ import {
 } from '@/Components/ui/dropdown-menu';
 import { router, Link } from '@inertiajs/vue3';
 import { inject } from 'vue';
-import ShowTask from '@/Components/ShowTask.vue';
+import ShowTask from '@/Components/task/ShowTask.vue';
 
 let props = defineProps(['task'])
 
@@ -43,10 +43,10 @@ function deleteTask() {
                                         Options
                                     </DropdownMenuLabel>
                                     <DropdownMenuSeparator />
-                                    <DropdownMenuGroup>
+                                    <DropdownMenuGroup class="text-sm">
                                         <!--Start Task Content -->
                                         <ShowTask :task="task"></ShowTask>
-                                        
+
                                         <DropdownMenuItem v-if="task.can.editTask">
                                             <Link :href="route('tasks.edit', [project.project_code, task.id])">
                                             Edit

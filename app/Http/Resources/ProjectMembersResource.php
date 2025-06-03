@@ -15,6 +15,7 @@ class ProjectMembersResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'name' => $this->name,
             'profilePicture' => $this->profile_photo_url,
             'role' => $this->membership->role ?? null

@@ -23,6 +23,7 @@ class TaskResource extends JsonResource
             'assignedat' => $this->assigned_at,
             'deliveryDate' => $this->delivery_date->diffForHumans(),
             'tags' => TagResource::collection($this->whenLoaded('tags')),
+            'comments' => CommentResource::collection($this->whenLoaded('comments')),
             'can' => [
                 'editTask' => Gate::check('edit-task', $this->resource),
                 'deleteTask' => Gate::check('delete-task', $this->resource)

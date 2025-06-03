@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TagController;
+use App\Http\Controllers\TaskCommentController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -57,4 +58,6 @@ Route::middleware([
     Route::delete('projects/@{project:project_code}/tasks/{task}', [TaskController::class, 'delete'])->name('tasks.delete');
     //Tags
     Route::post('projects/@{project:project_code}/tags', [TagController::class, 'store'])->name('tags.store');
+    //Comments
+    Route::post('/task/{task}/comments', [TaskCommentController::class, 'store'])->name('task.comment.store');
 });

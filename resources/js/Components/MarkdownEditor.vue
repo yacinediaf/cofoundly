@@ -17,7 +17,10 @@ import Link from '@tiptap/extension-link';
 import { createLowlight } from 'lowlight';
 import { all } from 'lowlight';
 
-const props = defineProps(['modelValue'])
+const props = defineProps({
+    modelValue: String,
+    attrs: { type: String, default: 'h-[512px] min-w-full' }
+})
 
 let emit = defineEmits(['update:modelValue']);
 
@@ -39,7 +42,7 @@ const editor = useEditor({
     ],
     editorProps: {
         attributes: {
-            class: 'h-[512px] min-w-full overflow-y-scroll prose prose-sm focus:outline-none px-3 py-2',
+            class: props.attrs + 'overflow-y-scroll prose prose-sm focus:outline-none px-3 py-2',
         },
     },
     onUpdate: () => emit('update:modelValue', editor.value?.storage.markdown.getMarkdown())
@@ -76,7 +79,7 @@ onBeforeUnmount(() => {
 <template>
     <div>
         <span class="text-xs text-gray-500">This text editor supports Markdonw too.</span>
-        <div class="border py-1.5 px-2 rounded-md">
+        <div class="w-full border py-1.5 px-2 rounded-md">
             <menu v-if="editor" class="flex gap-2 border-b pb-1">
                 <li>
                     <button @click="() => editor.chain().focus().toggleBold().run()" type="button"
@@ -174,8 +177,8 @@ onBeforeUnmount(() => {
                     </button>
                 </li>
             </menu>
-            <div class="w-full">
-                <EditorContent :editor="editor" class="w-full"></EditorContent>
+            <div class="min-w-full">
+                <EditorContent :editor="editor" class="min-w-full"></EditorContent>
             </div>
         </div>
     </div>

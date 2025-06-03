@@ -64,6 +64,7 @@ class Project extends Model
         return $this->load([
             'tasks.assignedTo',
             'tasks.tags',
+            'tasks.comments.user',
             'tasks' => static function ($query) use ($tags) {
                 //get the tasks with the selected tags if any
                 $query->when($tags, function ($query) use ($tags) {

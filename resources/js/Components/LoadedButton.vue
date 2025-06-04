@@ -17,7 +17,10 @@ defineProps({
 </script>
 
 <template>
-    <Button v-if="!isLoading" @click="callback">{{ title }}</Button>
+    <Button v-if="!isLoading" @click="callback">
+        <slot />
+        {{ title }}
+    </Button>
     <Button v-else disabled>
         <ReloadIcon class="w-4 h-4 mr-2 animate-spin" />
         Loading

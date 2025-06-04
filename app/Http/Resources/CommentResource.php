@@ -10,6 +10,7 @@ class CommentResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'user' => ProjectMembersResource::make($this->whenLoaded('user')),
             'content' => $this->content,
             'createdAt' => $this->created_at->diffForHumans()

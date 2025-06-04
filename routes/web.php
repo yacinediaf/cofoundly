@@ -60,4 +60,6 @@ Route::middleware([
     Route::post('projects/@{project:project_code}/tags', [TagController::class, 'store'])->name('tags.store');
     //Comments
     Route::post('/task/{task}/comments', [TaskCommentController::class, 'store'])->name('task.comment.store');
+    Route::put('comments/{comment}', [TaskCommentController::class, 'update'])->name('task.comment.update');
+    Route::delete('comments/{comment}', [TaskCommentController::class, 'delete'])->name('task.comment.delete');
 });

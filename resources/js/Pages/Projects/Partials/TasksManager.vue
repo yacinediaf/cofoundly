@@ -1,7 +1,7 @@
 <script setup>
 import draggable from 'vuedraggable';
 import { router, usePage } from '@inertiajs/vue3';
-import { inject, computed, reactive, ref } from 'vue';
+import { inject, watch, ref } from 'vue';
 import TaskCard from '@/Pages/Tasks/Partials/TaskCard.vue';
 import {
     Table,
@@ -67,6 +67,11 @@ function InsertInNewStatusList(updatedTask) {
         done.value.push(updatedTask);
     }
 }
+watch(() => props.modelValue, (newValue) => {
+    todos.value = newValue['Todo'] ?? []
+    inProgress.value = newValue['In Progress'] ?? []
+    done.value = newValue['Done'] ?? []
+}, { deep: true })
 </script>
 <template>
     <div class="mt-8 h-full">

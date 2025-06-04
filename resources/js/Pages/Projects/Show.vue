@@ -4,13 +4,13 @@ import Button from '@/Components/ui/button/Button.vue';
 import TasksManager from '@/Pages/Projects/Partials/TasksManager.vue';
 import { PlusIcon } from '@radix-icons/vue';
 import { Link, router } from '@inertiajs/vue3';
-import { provide, ref } from 'vue';
+import { provide, ref, computed } from 'vue';
 
 defineOptions({
     layout: AppLayout
 })
 let props = defineProps(['project', 'tasks', 'currentDate'])
-let tasks = props.tasks
+let tasks = computed(() => props.tasks)
 let selectedTags = ref([])
 provide('project', props.project)
 

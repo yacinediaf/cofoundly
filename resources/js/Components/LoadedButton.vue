@@ -18,7 +18,7 @@ defineProps({
 
 <template>
     <Button v-if="!isLoading" @click="callback">
-        
+        <slot />
         {{ title }}
     </Button>
     <Button v-else disabled>

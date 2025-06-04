@@ -14,7 +14,7 @@ let doneProgress = computed(() => calculatePercentage(props.project.tasks.done, 
 </script>
 <template>
     <div class="bg-white w-64 border p-4 rounded hover:bg-gray-50">
-        <Link :href="route('projects.show', project.projectCode)">
+        <Link :href="route('projects.show', project.projectCode)" prefetch>
         <div>
             <h2 class="text-lg font-semibold text-gray-700 flex items-center gap-1">
                 <Share1Icon></Share1Icon>

@@ -48,7 +48,7 @@ const closeDialog = () => {
                     <li v-for="project in $page.props.auth.user.team_projects" :key="project.projectCode"
                         class="text-gray-500 py-1 px-4 rounded-lg cursor-pointer font-medium text-sm"
                         :class="{ 'bg-gray-50': $page.url.includes(project.project_code) }">
-                        <Link :href="route('projects.show', { project })">
+                        <Link :href="route('projects.show', { project })" prefetch>
                         {{ project.title }}
                         </Link>
                     </li>

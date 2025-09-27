@@ -1,9 +1,13 @@
 <?php
 
+use App\Http\Controllers\CurrentStartupController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\StartupBannerController;
+use App\Http\Controllers\StartupLogoController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TaskCommentController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\UserStartupController;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
@@ -43,6 +47,17 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
+
+    //Switch Current Startup
+    Route::put('/current-startup', [CurrentStartupController::class, 'update'])->name('current-startup.update');
+    //Startups
+    Route::get('/startups/create', [UserStartupController::class, 'create'])->name('user-startups.create');
+    Route::post('/startups', [UserStartupController::class, 'store'])->name('user-startups.store');
+    Route::get('user/startups/{startup}', [UserStartupController::class, 'show'])->name('user-startups.show');
+    Route::put('user/startups/{startup}', [UserStartupController::class, 'update'])->name('user-startups.update');
+
+    Route::delete('/startups/{startup}/logo', [StartupLogoController::class, 'destroy'])->name('current-startup-logo.destroy');
+    Route::delete('/startups/{startup}/banner', [StartupBannerController::class, 'destroy'])->name('current-startup-banner.destroy');
 
     //Projects
     Route::post('/projects', [ProjectController::class, 'store']);

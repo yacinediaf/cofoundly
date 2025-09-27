@@ -43,14 +43,19 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
             'auth' => [
                 'user' => function () use ($jetstreamAuthUser, $request) {
-                    return $request->user() ?
-                     array_merge(
-                         $jetstreamAuthUser(),
-                         [
-                             'team_projects' => $request->user()->currentProjects ?? [],
-                         ]
-                     )
-                     : '';
+                    if (!$user = $request->user()) {
+                        return;
+                    }
+
+                    $user->currentStartup;
+
+                    return array_merge(
+                        $jetstreamAuthUser(),
+                        array_filter([
+                            'all_startups' => $request->user()->allStartups()->values() ?? [],
+                            'team_projects' => $request->user()->currentProjects ?? [],
+                        ])
+                    );
                 }
             ],
             'notifications' => collect(Arr::only($request->session()->all(), ['success', 'error']))

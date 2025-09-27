@@ -2,6 +2,7 @@
 
 namespace App\Actions\Fortify;
 
+use App\Models\Startup;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
@@ -34,7 +35,8 @@ class CreateNewUser implements CreatesNewUsers
                 'email' => $input['email'],
                 'password' => Hash::make($input['password']),
             ]), function (User $user) {
-                $this->createTeam($user);
+                $startup = $this->createStartup($user);
+                $this->createTeam($startup);
             });
         });
     }
@@ -42,12 +44,24 @@ class CreateNewUser implements CreatesNewUsers
     /**
      * Create a personal team for the user.
      */
-    protected function createTeam(User $user): void
+    protected function createStartup(User $user): Startup
     {
-        $user->ownedTeams()->save(Team::forceCreate([
-            'user_id' => $user->id,
-            'name' => explode(' ', $user->name, 2)[0]."'s Team",
+        return $user->ownedStartups()->create([
+            'owner_id' => $user->id,
+            'name' => explode(' ', $user->name, 2)[0] . "'s Startup",
+            'personal_startup' => true,
+        ]);
+    }
+
+    /**
+     * Create a personal team for the user.
+     */
+    protected function createTeam(Startup $startup): void
+    {
+        $startup->teams()->create([
+            'user_id' => $startup->owner_id,
+            'name' => explode(' ', $startup->name, 2)[0] . ' Team',
             'personal_team' => true,
-        ]));
+        ]);
     }
 }

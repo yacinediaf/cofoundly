@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Concerns\HasStartups;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -20,6 +21,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasFactory;
     use HasProfilePhoto;
     use HasTeams;
+    use HasStartups;
     use Notifiable;
     use TwoFactorAuthenticatable;
 
@@ -63,6 +65,11 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
+    public function ownedStartups(): HasMany
+    {
+        return $this->hasMany(Startup::class, 'owner_id');
+    }
+
     public function allProjects()
     {
         return $this->hasManyThrough(
@@ -75,6 +82,10 @@ class User extends Authenticatable implements MustVerifyEmail
         );
     }
 
+    /**
+     * Get the user's current team projects.
+     *
+     */
     public function currentProjects()
     {
         return $this->currentTeam->projects();

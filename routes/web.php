@@ -3,25 +3,19 @@
 use App\Http\Controllers\CurrentStartupController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\StartupBannerController;
+use App\Http\Controllers\StartupController;
 use App\Http\Controllers\StartupLogoController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TaskCommentController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserStartupController;
-use Illuminate\Foundation\Application;
+use App\Models\Startup;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+Route::get('/', [StartupController::class, 'index'])->name('startups.index');
 
 Route::get('/email/verify', function () {
     return Inertia::render('Auth/VerifyEmail');
@@ -51,6 +45,9 @@ Route::middleware([
     //Switch Current Startup
     Route::put('/current-startup', [CurrentStartupController::class, 'update'])->name('current-startup.update');
     //Startups
+    Route::get('/startups', [StartupController::class, 'index'])->name('startups.index');
+    Route::get('/startups/{startup}', [StartupController::class, 'show'])->name('startups.show');
+
     Route::get('/startups/create', [UserStartupController::class, 'create'])->name('user-startups.create');
     Route::post('/startups', [UserStartupController::class, 'store'])->name('user-startups.store');
     Route::get('user/startups/{startup}', [UserStartupController::class, 'show'])->name('user-startups.show');

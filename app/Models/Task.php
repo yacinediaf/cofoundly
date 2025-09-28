@@ -61,9 +61,9 @@ class Task extends Model
         return $this->belongsToMany(Tag::class);
     }
 
-    public function assignTags(array $tags)
+    public function assignTags(array|null $tags)
     {
-        if ($tags) {
+        if ((!is_null($tags))) {
             $this->syncTags($tags);
         }
         return $this;

@@ -1,12 +1,15 @@
 <script setup>
+import IndustryTag from '@/Components/IndustryTag.vue';
 import LocationTag from '@/Components/LocationTag.vue';
 import { Link } from '@inertiajs/vue3';
 import { RocketIcon } from '@radix-icons/vue';
+import { delay, Motion } from "motion-v"
 
 defineProps(['startup'])
 </script>
 <template>
-    <div class="bg-white p-4 rounded-lg shadow-sm col-span-6 md:col-span-3 border">
+    <Motion :initial="{ opacity: 0, y: 100 }" :whileInView="{ opacity: 1, y: 0, delay: 100 }"
+        :inViewOptions="{ once: true }" class="bg-white p-4 rounded-lg shadow-sm col-span-6 md:col-span-3 border">
         <div class="flex items-start gap-6">
             <div v-if="startup.logo_path">
                 <span
@@ -23,9 +26,7 @@ defineProps(['startup'])
                     <LocationTag :location="startup.location" />
                 </div>
                 <div>
-                    <span class="text-gray-500 border px-2 py-0.5 rounded-lg text-xs flex items-center">
-                        IA and Machine Learning
-                    </span>
+                    <IndustryTag :industry="startup.industry" />
                 </div>
             </div>
         </div>
@@ -41,7 +42,7 @@ defineProps(['startup'])
                     <path d="M4 18v3" />
                     <path d="M8 14v7" />
                 </svg>
-                <span>Current Phase : MVP</span>
+                <span>Current Phase : {{ startup.stage }}</span>
             </div>
             <div class="flex items-center gap-1 text-xs">
 
@@ -66,5 +67,5 @@ defineProps(['startup'])
             Read more
             </Link>
         </div>
-    </div>
+    </Motion>
 </template>

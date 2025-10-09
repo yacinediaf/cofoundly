@@ -13,12 +13,14 @@ return new class () extends Migration {
         Schema::create('startups', function (Blueprint $table) {
             $table->id();
             $table->foreignId('owner_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('industry_id')->nullable();
             $table->string('name');
             $table->string('description')->nullable();
             $table->string('logo_path', 2048)->nullable();
             $table->string('banner_path', 2048)->nullable();
             $table->string('website')->nullable();
             $table->string('location')->nullable();
+            $table->string('stage')->nullable();
             $table->boolean('personal_startup');
             $table->timestamps();
         });

@@ -19,9 +19,21 @@ class Startup extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function industry(): BelongsTo
+    {
+        return $this->belongsTo(Industry::class);
+    }
+
     public function teams(): HasMany
     {
         return $this->hasMany(Team::class);
+    }
+
+    public function members()
+    {
+        return $this->teams->map(function ($team) {
+            return $team->users;
+        })->flatten()->unique('id');
     }
 
     protected function location(): Attribute

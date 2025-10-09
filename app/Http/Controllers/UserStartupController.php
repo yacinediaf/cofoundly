@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\StartupStage;
+use App\Http\Requests\UpdateStartupRequest;
+use App\Models\Industry;
 use App\Models\Startup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -58,41 +61,15 @@ class UserStartupController extends Controller
     {
         return Inertia::render('UserStartups/Show', [
             'startup' => $startup,
-            'wilayas' => config('wilayas')
+            'wilayas' => config('wilayas'),
+            'industries' => Industry::all(),
+            'startupStages' => StartupStage::labels(),
         ]);
     }
 
-    public function update(Request $request, Startup $startup)
+    public function update(UpdateStartupRequest $request, Startup $startup)
     {
-        $attributes = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
-            'website' => 'sometimes|max:255',
-            'location' => [
-                'required',
-                'in:' . Rule::in(
-                    collect(config('wilayas'))
-                    ->pluck('id')
-                    ->toArray()
-                )
-            ],
-            'logo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-            'banner' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
-        ])->validate();
-
-        if (isset($attributes['logo'])) {
-            $startup->updateLogo($attributes['logo']);
-        }
-        if (isset($attributes['banner'])) {
-            $startup->updateBanner($attributes['banner']);
-        }
-
-        $startup->update([
-            'name' => $attributes['name'],
-            'description' => $attributes['description'],
-            'website' => $attributes['website'],
-            'location' => $attributes['location'],
-        ]);
+        $startup->update($request->mappedAttributes());
 
         return redirect()->back();
     }

@@ -17,10 +17,10 @@ const form = useForm({
     _method: 'PUT',
     name: props.startup.name,
     description: props.startup.description,
-    website: props.startup.website,
-    location: props.startup.location,
+    location: props.startup.location.id,
     logo: props.startup.logo_path ?? null,
     banner: props.startup.banner_path ?? null,
+    industry: props.startup.industry_id ?? null,
 });
 
 const verificationLinkSent = ref(null);
@@ -29,7 +29,7 @@ const bannerPreview = ref(form.banner);
 const logoInput = ref(null);
 const bannerInput = ref(null);
 
-const updateProfileInformation = () => {
+const updateStartupInformation = () => {
     if (logoInput.value) {
         form.logo = logoInput.value.files[0];
     }
@@ -121,7 +121,7 @@ const clearbannerFileInput = () => {
 </script>
 
 <template>
-    <FormSection @submitted="updateProfileInformation">
+    <FormSection @submitted="updateStartupInformation">
         <template #title>
             Startup Information
         </template>
@@ -211,12 +211,27 @@ const clearbannerFileInput = () => {
                 <InputLabel for="location" value="Location" />
                 <select id="location" v-model="form.location"
                     class="block mt-1 py-2 border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm px-2 w-full font-medium text-sm text-gray-700">
+                    <option :selected="form.location == null" value="" class="text-gray-900">Select a location</option>
                     <option :selected="wilaya.id == form.location" class="text-gray-900"
                         v-for="wilaya in $page.props.wilayas" :value="wilaya.id">
                         {{ wilaya.name }}
                     </option>
                 </select>
                 <InputError :message="form.errors.location" class="mt-2" />
+            </div>
+
+            <!-- Industry -->
+            <div class="col-span-6">
+                <InputLabel for="industry" value="Industry" />
+                <select id="industry" v-model="form.industry"
+                    class="block mt-1 py-2 border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm px-2 w-full font-medium text-sm text-gray-700">
+                    <option value="" class="text-gray-900">Select an industry</option>
+                    <option :selected="industry.id == form.industry_id" class="text-gray-900"
+                        v-for="industry in $page.props.industries" :value="industry.id">
+                        {{ industry.name }}
+                    </option>
+                </select>
+                <InputError :message="form.errors.industry" class="mt-2" />
             </div>
         </template>
 

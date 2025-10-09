@@ -2,6 +2,8 @@
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import StartupCard from '@/Pages/Startups/Partials/StartupCard.vue';
+import { Motion } from "motion-v"
+
 
 defineProps({
     startups: Array
@@ -16,16 +18,23 @@ defineProps({
 
         <div class="bg-gray-100">
             <header class="py-6 md:py-20 px-4 md:w-[600px] mx-auto">
-                <h2 class="text-4xl/relaxed text-black text-center font-bold">
-                    Explore <br>
-                    <span class="bg-orange-500 text-white py-1 px-3 rounded">Innovative Startup Ideas 🚀</span><br>
+                <div class="text-3xl/relaxed md:text-4xl/relaxed text-black text-center font-bold">
+                    Explore
+                    <br>
+                    <div class="bg-orange-500 text-white rounded flex items-center justify-center">
+                        <h1>Innovative Startup Ideas</h1>
+                        <Motion as="span" :initial="{ x: -100, y: 100, opacity: 0 }"
+                            :animate="{ x: 0, y: 0, opacity: 1, transition: { duration: 0.5 } }">
+                            🚀
+                        </Motion>
+                    </div>
                     and Join the Revolution.
-                </h2>
+                </div>
                 <p class="font-semibold text-center mt-4">
                     Here you find startup in starter phase and ideas where you can join and co-found, teams, investors
                     and mentors, from Algeria.
                 </p>
-            </header>
+            </Header>
 
             <section class="w-full h-full lg:w-[900px] mx-auto py-10 md:py-20 px-2">
                 <h1 v-if="startups.length > 0" class="font-semibold text-2xl">Startups</h1>
@@ -53,7 +62,8 @@ defineProps({
                                 Create
                                 one </Link>
                                 or
-                                <Link class="mx-2 text-orange-500 font-semibold" :href="route('login')">Join one</Link>
+                                <Link class="mx-2 text-orange-500 font-semibold" :href="route('login')">Join one
+                                </Link>
                             </p>
                         </div>
                     </div>

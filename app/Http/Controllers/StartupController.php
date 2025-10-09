@@ -10,14 +10,16 @@ class StartupController extends Controller
     public function index()
     {
         return Inertia::render('Startups/Index', [
-            'startups' => Startup::latest()->get()
+            //Get only active startups (with a defined data)
+            'startups' => Startup::with('industry')->latest()->where('stage', '!=', null)->get()
         ]);
     }
 
     public function show(Startup $startup)
     {
         return Inertia::render('Startups/Show', [
-            'startup' => $startup
+            'startup' => $startup->load(['industry', 'owner']),
+            'members' => $startup->members(),
         ]);
     }
 }

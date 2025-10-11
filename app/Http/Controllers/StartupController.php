@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\MemberResource;
 use App\Models\Startup;
 use Inertia\Inertia;
 
@@ -19,7 +20,7 @@ class StartupController extends Controller
     {
         return Inertia::render('Startups/Show', [
             'startup' => $startup->load(['industry', 'owner']),
-            'members' => $startup->members(),
+            'members' => MemberResource::collection($startup->members()),
         ]);
     }
 }

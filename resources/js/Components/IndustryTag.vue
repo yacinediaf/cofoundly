@@ -1,8 +1,7 @@
 <script setup>
-let props = defineProps({
+defineProps({
     industry: Object
 })
-console.log(props.industry);
 </script>
 <template>
     <div>

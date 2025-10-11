@@ -1,6 +1,7 @@
 <script setup>
 import IndustryTag from '@/Components/IndustryTag.vue';
 import LocationTag from '@/Components/LocationTag.vue';
+import StartupStage from '@/Components/StartupStage.vue';
 import { Link } from '@inertiajs/vue3';
 import { RocketIcon } from '@radix-icons/vue';
 import { delay, Motion } from "motion-v"
@@ -31,19 +32,7 @@ defineProps(['startup'])
             </div>
         </div>
         <div class="my-4 space-y-1">
-            <div class="flex items-center gap-1 text-xs">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="gray"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="lucide lucide-chart-no-axes-combined-icon lucide-chart-no-axes-combined">
-                    <path d="M12 16v5" />
-                    <path d="M16 14v7" />
-                    <path d="M20 10v11" />
-                    <path d="m22 3-8.646 8.646a.5.5 0 0 1-.708 0L9.354 8.354a.5.5 0 0 0-.707 0L2 15" />
-                    <path d="M4 18v3" />
-                    <path d="M8 14v7" />
-                </svg>
-                <span>Current Phase : {{ startup.stage }}</span>
-            </div>
+            <StartupStage :startup="startup" />
             <div class="flex items-center gap-1 text-xs">
 
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"

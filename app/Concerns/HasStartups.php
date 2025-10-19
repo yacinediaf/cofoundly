@@ -86,11 +86,9 @@ trait HasStartups
      */
     public function startups()
     {
-        return Startup::whereIn(
-            'id',
-            $this->teams->pluck('startup_id')
-            ->unique()
-        )->get();
+        return $this->teams->map(function ($team) {
+            return $team->startup;
+        })->filter()->unique('id');
     }
 
     /**

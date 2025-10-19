@@ -70,6 +70,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Startup::class, 'owner_id');
     }
 
+    public function canSendRequest(Startup $startup)
+    {
+        return !$startup->isMember($this)
+        && $startup->owner_id != $this->id;
+    }
+
     public function allProjects()
     {
         return $this->hasManyThrough(
@@ -94,5 +100,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function tasks(): HasMany
     {
         return $this->hasMany(Task::class, 'assigned_to');
+    }
+
+    public function requests(): HasMany
+    {
+        return $this->hasMany(StartupRequest::class);
     }
 }

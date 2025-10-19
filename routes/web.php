@@ -5,17 +5,21 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\StartupBannerController;
 use App\Http\Controllers\StartupController;
 use App\Http\Controllers\StartupLogoController;
+use App\Http\Controllers\StartupMemberController;
+use App\Http\Controllers\StartupRequestController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\TaskCommentController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserStartupController;
-use App\Models\Startup;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', [StartupController::class, 'index'])->name('startups.index');
+//Startups
+Route::get('/startups', [StartupController::class, 'index'])->name('startups.index');
+Route::get('/startups/{startup}', [StartupController::class, 'show'])->name('startups.show');
 
 Route::get('/email/verify', function () {
     return Inertia::render('Auth/VerifyEmail');
@@ -36,7 +40,6 @@ Route::post('/email/verification-notification', function (Request $request) {
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
-    'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
@@ -44,9 +47,6 @@ Route::middleware([
 
     //Switch Current Startup
     Route::put('/current-startup', [CurrentStartupController::class, 'update'])->name('current-startup.update');
-    //Startups
-    Route::get('/startups', [StartupController::class, 'index'])->name('startups.index');
-    Route::get('/startups/{startup}', [StartupController::class, 'show'])->name('startups.show');
 
     Route::get('/startups/create', [UserStartupController::class, 'create'])->name('user-startups.create');
     Route::post('/startups', [UserStartupController::class, 'store'])->name('user-startups.store');
@@ -55,6 +55,14 @@ Route::middleware([
 
     Route::delete('/startups/{startup}/logo', [StartupLogoController::class, 'destroy'])->name('current-startup-logo.destroy');
     Route::delete('/startups/{startup}/banner', [StartupBannerController::class, 'destroy'])->name('current-startup-banner.destroy');
+
+    //Requests
+    Route::get('/startups/{startup}/requests', [StartupRequestController::class, 'index'])->name('startup.requests.index');
+    Route::post('/startups/{startup}/requests', [StartupRequestController::class, 'store'])->name('startup.requests');
+    Route::delete('/startup-requests/{request:code}', [StartupRequestController::class, 'delete'])->name('startup.requests.delete');
+
+    //Startup Members
+    Route::post('/startups/{startup}/members', [StartupMemberController::class, 'store'])->name('startup.members.store');
 
     //Projects
     Route::post('/projects', [ProjectController::class, 'store']);

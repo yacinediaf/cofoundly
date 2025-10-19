@@ -3,6 +3,7 @@ import AppLayout from '@/Layouts/AppLayout.vue';
 import SectionBorder from '@/Components/SectionBorder.vue';
 import UpdateStartupInformationForm from '@/Pages/UserStartups/Partials/UpdateStartupInformationForm.vue';
 import UpdateStartupDetailsForm from '@/Pages/UserStartups/Partials/UpdateStartupDetailsForm.vue';
+import UpdateStartupPositions from '@/Pages/UserStartups/Partials/UpdateStartupPositions.vue';
 
 defineProps({
     startup: Object,
@@ -27,6 +28,12 @@ defineProps({
 
                 <div v-if="$page.props.jetstream.canUpdateProfileInformation">
                     <UpdateStartupDetailsForm :startup="$page.props.startup" class="mt-10 sm:mt-0" />
+
+                    <SectionBorder />
+                </div>
+
+                <div v-if="$page.props.jetstream.canUpdateProfileInformation">
+                    <UpdateStartupPositions :startup="$page.props.startup" class="mt-10 sm:mt-0" />
 
                     <SectionBorder />
                 </div>

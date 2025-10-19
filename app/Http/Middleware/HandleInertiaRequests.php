@@ -47,7 +47,7 @@ class HandleInertiaRequests extends Middleware
                         return;
                     }
 
-                    $user->currentStartup;
+                    $user->currentStartup->load('requests');
 
                     return array_merge(
                         $jetstreamAuthUser(),

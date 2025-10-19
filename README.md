@@ -2,7 +2,7 @@
 ## A project management platform
 Planora is a SAAS that allows you to manage your projects with breeze.
 
-User (owner) has many startups
-startup has many teams 
-team has many projects
-When user get invited to a team it is automatically a member of a startup
+When user clicks on join:
+-create startup request record with pending status and a motivation letter
+-startup founder receives this request either accept it or reject it.
+-if accept must provide the new role in the team

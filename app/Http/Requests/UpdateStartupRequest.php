@@ -19,6 +19,7 @@ class UpdateStartupRequest extends FormRequest
             'logo' => 'logo',
             'banner' => 'banner',
             'industry' => 'industry_id',
+            'looking_for' => 'looking_for',
         ];
 
         $attributesToUpdate = [];
@@ -62,6 +63,7 @@ class UpdateStartupRequest extends FormRequest
             'logo' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'banner' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             'industry' => 'sometimes|exists:industries,id',
+            'looking_for' => 'sometimes|string|max:5000',
         ];
     }
 }

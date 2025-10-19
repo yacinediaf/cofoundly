@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\MemberResource;
 use App\Models\Startup;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class StartupController extends Controller
@@ -16,11 +17,14 @@ class StartupController extends Controller
         ]);
     }
 
-    public function show(Startup $startup)
+    public function show(Request $request, Startup $startup)
     {
+        
         return Inertia::render('Startups/Show', [
             'startup' => $startup->load(['industry', 'owner']),
             'members' => MemberResource::collection($startup->members()),
+            'canRequest' => $request->user() ? $request->user()->canSendRequest($startup) : false,
+            'alreadyRequested' => $request->user() ? $startup->hasPendingRequest($request->user()) : false,
         ]);
     }
 }

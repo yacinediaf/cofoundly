@@ -22,10 +22,14 @@ const switchToStartup = (startup) => {
             <span class="inline-flex rounded-md items-center">
                 <button type="button"
                     class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
-                    <RocketIcon v-if="!currentStartup.logo_path"
-                        class="h-8 w-8 text-gray-500 border rounded-lg p-2 mr-2" />
-                    <span v-else class="h-8 w-8 block border rounded-lg bg-cover bg-no-repeat bg-center"
-                        :style="'background-image: url(\'' + currentStartup.logo_path + '\');'" />
+                    <div class="relative">
+                        <RocketIcon v-if="!currentStartup.logo_path"
+                            class="relative h-8 w-8 text-gray-500 border rounded-lg p-2 mr-2" />
+                        <span v-else class="relative h-8 w-8 block border rounded-lg bg-cover bg-no-repeat bg-center"
+                            :style="'background-image: url(\'' + currentStartup.logo_path + '\');'" />
+                        <span v-if="currentStartup.requests.length"
+                            class="absolute bottom-0 right-0 w-2 h-2 bg-red-500 border-2 border-white rounded-full"></span>
+                    </div>
 
                     <svg class="ms-2 -me-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                         stroke-width="1.5" stroke="currentColor">
@@ -46,6 +50,14 @@ const switchToStartup = (startup) => {
                 <!-- Startup Settings -->
                 <DropdownLink :href="route('user-startups.show', $page.props.auth.user.current_startup)">
                     Startup Settings
+                </DropdownLink>
+
+                <DropdownLink :href="route('startup.requests.index', $page.props.auth.user.current_startup)">
+                    Startup Requests
+                    <span v-if="currentStartup.requests.length > 0"
+                        class="ms-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                        {{ currentStartup.requests.length }}
+                    </span>
                 </DropdownLink>
 
                 <DropdownLink v-if="$page.props.jetstream.canCreateTeams" :href="route('user-startups.create')">

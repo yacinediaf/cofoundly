@@ -1,17 +1,51 @@
 <script setup>
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+import { Label } from "@/components/ui/label"
 import IndustryTag from '@/Components/IndustryTag.vue';
 import LocationTag from '@/Components/LocationTag.vue';
 import Startuplogo from '@/Components/Startuplogo.vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, useForm } from '@inertiajs/vue3';
 import { Motion } from "motion-v"
 import TrendyStartups from './Partials/TrendyStartups.vue';
 import StartupStage from '@/Components/StartupStage.vue';
+import Button from "@/Components/ui/button/Button.vue";
+import Textarea from "@/Components/ui/textarea/Textarea.vue";
+import { ref } from "vue";
 
-defineProps({
+let props = defineProps({
     startup: Object,
-    members: Array
+    members: Object,
+    canRequest: Boolean,
+    alreadyRequested: Boolean,
 })
+
+let form = useForm({
+    message: '',
+})
+
+let dialogIsOpen = ref(false)
+
+function openDialog() {
+    dialogIsOpen.value = true
+}
+
+function requestToJoin() {
+    form.post(route('startup.requests', props.startup), {
+        onSuccess: () => {
+            form.reset('message')
+            dialogIsOpen.value = false
+        },
+    })
+}
 </script>
 
 <template>
@@ -48,32 +82,82 @@ defineProps({
                                     <StartupStage :startup="startup" />
                                 </div>
                             </div>
-                            <button
-                                class="bg-orange-300 px-3 py-1 text-gray-600 rounded-md text-xs flex items-center gap-1 hover:shadow-md transition-all ease-in-out">
+                            <Dialog v-if="canRequest" v-model:open="dialogIsOpen">
+                                <DialogTrigger @click="openDialog" asChild>
+                                    <Button class="flex gap-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                            viewBox="0 0 24 24" fill="none" stroke="#8f8f8f" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            class="lucide lucide-circle-plus-icon lucide-circle-plus">
+                                            <circle cx="12" cy="12" r="10" />
+                                            <path d="M8 12h8" />
+                                            <path d="M12 8v8" />
+                                        </svg>
+                                        Join
+                                    </Button>
+                                </DialogTrigger>
+                                <DialogContent class="sm:max-w-[600px]">
+                                    <DialogHeader>
+                                        <DialogTitle>Ask To join Startup</DialogTitle>
+                                        <DialogDescription class="text-xs bg-blue-300 p-2 rounded-md text-black">
+                                            Nice Step 🎉!
+                                            <br>
+                                            What <b>motivates</b> you to join this startup?
+                                            <br>
+                                            and How can you <b>contribute</b>?
+
+                                        </DialogDescription>
+                                    </DialogHeader>
+                                    <div class="gap-4 py-4 h-full">
+                                        <div class="flex flex-col gap-2">
+                                            <Label for="message">
+                                                Motivation Message
+                                            </Label>
+                                            <Textarea id="message" v-model="form.message" class="h-full" autofocus />
+                                        </div>
+                                    </div>
+                                    <DialogFooter>
+                                        <Button @click="requestToJoin" class="text-xs" :disabled="form.processing"
+                                            :loading="form.processing">
+                                            Send Request
+                                        </Button>
+                                    </DialogFooter>
+                                </DialogContent>
+                            </Dialog>
+                            <Button variant="outline" class="flex gap-2 text-xs" disabled v-if="alreadyRequested">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
                                     fill="none" stroke="#8f8f8f" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" class="lucide lucide-circle-plus-icon lucide-circle-plus">
-                                    <circle cx="12" cy="12" r="10" />
-                                    <path d="M8 12h8" />
-                                    <path d="M12 8v8" />
+                                    stroke-linejoin="round" class="lucide lucide-send-icon lucide-send">
+                                    <path
+                                        d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" />
+                                    <path d="m21.854 2.147-10.94 10.939" />
                                 </svg>
-                                Join
-                            </button>
-
+                                Request Sent
+                            </Button>
                         </div>
+                        <!-- ABOUT  -->
+                        <div class="bg-white mt-4 p-4 rounded-lg">
+                            <h1 class="font-semibold text-lg mb-2">About</h1>
+                            <p class="text-xs text-gray-500 mt-1 ">{{ startup.description }}</p>
+                        </div>
+
                         <div>
                             <!-- Open Positions -->
                             <div class="bg-white mt-4 p-4 rounded-lg">
                                 <h1 class="font-semibold text-lg mb-2">Open Positions</h1>
-                                <p class="text-xs text-gray-500 mt-1 ">Currently, there are no open positions.</p>
+                                <p v-if="startup.looking_for"
+                                    class="text-xs text-gray-500 mt-1 code prose prose-sm min-w-full"
+                                    v-html="startup.looking_for">
+                                </p>
+                                <p v-else class="text-xs text-gray-500 mt-1">
+                                    Currently, there are no
+                                    open positions.
+                                </p>
                             </div>
+
                         </div>
                     </div>
-                    <!-- ABOUT  -->
-                    <div class="bg-white mt-4 p-4 rounded-lg">
-                        <h1 class="font-semibold text-lg mb-2">About</h1>
-                        <p class="text-xs text-gray-500 mt-1 ">{{ startup.description }}</p>
-                    </div>
+
                     <!-- Team -->
                     <div class="bg-white mt-4 p-4 rounded-lg">
                         <h1 class="font-semibold text-lg mb-2">Team</h1>

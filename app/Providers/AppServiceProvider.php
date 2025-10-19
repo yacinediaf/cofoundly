@@ -2,9 +2,12 @@
 
 namespace App\Providers;
 
+use App\Listeners\TeamMemberAddedListener;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Jetstream\Events\TeamMemberAdded;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,5 +34,10 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('delete-task', function ($user, $task) {
             return $user->hasTeamPermission($user->currentTeam, 'delete');
         });
+
+        Event::listen(
+            TeamMemberAdded::class,
+            TeamMemberAddedListener::class
+        );
     }
 }

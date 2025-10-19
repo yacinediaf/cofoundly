@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Jetstream\Events\TeamCreated;
 use Laravel\Jetstream\Events\TeamDeleted;
 use Laravel\Jetstream\Events\TeamUpdated;
@@ -46,8 +48,13 @@ class Team extends JetstreamTeam
         ];
     }
 
+    public function startup(): BelongsTo
+    {
+        return $this->belongsTo(Startup::class);
+    }
+
     //Get teams projects
-    public function Projects()
+    public function projects(): HasMany
     {
         return $this->hasMany(Project::class);
     }

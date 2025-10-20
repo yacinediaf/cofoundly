@@ -217,7 +217,7 @@ const clearbannerFileInput = () => {
             <!-- description -->
             <div class="col-span-6">
                 <InputLabel for="description" value="Description" />
-                <MarkdownEditor v-model="form.description" class="mt-1" />
+                <MarkdownEditor v-model="form.description" class="mt-1 overflow-y-scroll" />
                 <InputError :message="form.errors.description" class="mt-2" />
             </div>
         </template>

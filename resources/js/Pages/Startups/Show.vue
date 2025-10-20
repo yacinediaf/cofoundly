@@ -7,8 +7,8 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
+} from "@/Components/ui/dialog"
+import { Label } from "@/Components/ui/label"
 import IndustryTag from '@/Components/IndustryTag.vue';
 import LocationTag from '@/Components/LocationTag.vue';
 import Startuplogo from '@/Components/Startuplogo.vue';

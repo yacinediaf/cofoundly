@@ -82,7 +82,7 @@ function requestToJoin() {
                                     <StartupStage :startup="startup" />
                                 </div>
                             </div>
-                            <Dialog v-if="canRequest" v-model:open="dialogIsOpen">
+                            <Dialog v-if="canRequest && !alreadyRequested" v-model:open="dialogIsOpen">
                                 <DialogTrigger @click="openDialog" asChild>
                                     <Button class="flex gap-2">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"

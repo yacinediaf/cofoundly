@@ -21,7 +21,8 @@ defineProps({
                 <div class="text-3xl/relaxed md:text-4xl/relaxed text-black text-center font-bold">
                     Explore
                     <br>
-                    <div class="bg-orange-500 text-white rounded flex items-center justify-center">
+                    <div
+                        class="bg-orange-500 text-white rounded flex items-center justify-center text-2xl/relaxed md:text-3xl/relaxed">
                         <h1>Innovative Startup Ideas</h1>
                         <Motion as="span" :initial="{ x: -100, y: 100, opacity: 0 }"
                             :animate="{ x: 0, y: 0, opacity: 1, transition: { duration: 0.5 } }">

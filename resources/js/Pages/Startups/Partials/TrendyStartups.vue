@@ -15,21 +15,18 @@ defineProps({
                     <Startuplogo :logoPath="startup.logo_path" />
                     <div class="flex flex-col">
                         <h1 class="font-medium text-lg">{{ startup.name }}</h1>
-                        <p class="text-sm text-gray-500 truncate w-full">{{ startup.description }}</p>
                     </div>
                 </li>
                 <li class="flex gap-2 hover:bg-gray-100 p-1 rounded-lg cursor-pointer truncate">
                     <Startuplogo :logoPath="startup.logo_path" />
                     <div class="flex flex-col">
                         <h1 class="font-medium text-lg">{{ startup.name }}</h1>
-                        <p class="text-xs text-gray-500 mt-1 ">{{ startup.description }}</p>
                     </div>
                 </li>
                 <li class="flex gap-2 hover:bg-gray-100 p-1 rounded-lg cursor-pointer truncate">
                     <Startuplogo :logoPath="startup.logo_path" />
                     <div class="flex flex-col">
                         <h1 class="font-medium text-lg">{{ startup.name }}</h1>
-                        <p class="text-xs text-gray-500 mt-1">{{ startup.description }}</p>
                     </div>
                 </li>
             </ul>

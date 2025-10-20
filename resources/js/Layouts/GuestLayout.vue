@@ -8,7 +8,7 @@ import { Link } from '@inertiajs/vue3';
         <div class="relative">
             <div class="w-full relative">
                 <header class="py-4 lg:grid-cols-3 bg-white/70 sticky top-0 z-50 shadow-lg text-black">
-                    <nav class="container mx-auto flex items-center justify-between">
+                    <nav class="px-2 md:px-0 text-sm md:container mx-auto flex items-center justify-between">
                         <div>
                             <Link :href="'/'">Home</Link>
                         </div>

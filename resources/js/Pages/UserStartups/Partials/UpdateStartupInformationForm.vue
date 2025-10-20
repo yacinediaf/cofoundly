@@ -19,8 +19,8 @@ const form = useForm({
     name: props.startup.name,
     description: props.startup.description,
     location: props.startup.location?.id ?? null,
-    logo: props.startup.logo_path ?? null,
-    banner: props.startup.banner_path ?? null,
+    logo: props.startup.logo_url ?? null,
+    banner: props.startup.banner_url ?? null,
     industry: props.startup.industry_id ?? null,
 });
 
@@ -147,7 +147,7 @@ const clearbannerFileInput = () => {
                         class="w-full h-48 bg-cover bg-no-repeat bg-center rounded-lg relative cursor-pointer"
                         :style="'background-image: url(\'' + bannerPreview + '\');'">
                     </div>
-                    <TrashIcon v-if="startup.banner_path" @click.prevent="deleteBanner"
+                    <TrashIcon v-if="startup.banner_url" @click.prevent="deleteBanner"
                         class="absolute -top-2 -right-1 h-6 w-6 p-0.5 rounded-full text-white bg-red-500 cursor-pointer">
                     </TrashIcon>
                 </div>
@@ -167,7 +167,7 @@ const clearbannerFileInput = () => {
                         <span @click.prevent="selectNewlogo"
                             class="h-16 w-16 block shadow-xl border-2 bg-white border-gray-500 rounded-lg bg-cover bg-no-repeat bg-center cursor-pointer"
                             :style="'background-image: url(\'' + logoPreview + '\');'" />
-                        <TrashIcon v-if="startup.logo_path" @click.prevent="deletelogo"
+                        <TrashIcon v-if="startup.logo_url" @click.prevent="deletelogo"
                             class="absolute -top-2 -right-1 h-6 w-6 p-0.5 rounded-full text-white bg-red-500 cursor-pointer">
                         </TrashIcon>
                     </div>

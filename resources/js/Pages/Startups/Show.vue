@@ -60,12 +60,12 @@ function requestToJoin() {
                     class="col-span-12 md:col-span-8 rounded-b-lg">
                     <div class="relative border">
                         <!-- Startup Banner -->
-                        <div v-if="!startup.banner_path" class="w-full bg-gray-300 h-48 rounded-t-lg"></div>
+                        <div v-if="!startup.banner_url" class="w-full bg-gray-300 h-48 rounded-t-lg"></div>
                         <div v-else class="w-full h-48 bg-cover bg-no-repeat bg-center rounded-t-lg cursor-pointer"
-                            :style="'background-image: url(\'' + startup.banner_path + '\');'">
+                            :style="'background-image: url(\'' + startup.banner_url + '\');'">
                         </div>
                         <div class="absolute -bottom-10 left-0 mx-3 my-6">
-                            <Startuplogo :logoPath="startup.logo_path" />
+                            <Startuplogo :logoPath="startup.logo_url" />
                         </div>
                     </div>
                     <div>

@@ -12,10 +12,10 @@ defineProps(['startup'])
     <Motion :initial="{ opacity: 0, y: 100 }" :whileInView="{ opacity: 1, y: 0, delay: 100 }"
         :inViewOptions="{ once: true }" class="bg-white p-4 rounded-lg shadow-sm col-span-6 md:col-span-3 border">
         <div class="flex items-start gap-6">
-            <div v-if="startup.logo_path">
+            <div v-if="startup.logo_url">
                 <span
                     class="h-16 w-16 block shadow-xl border-2 bg-white border-gray-300 rounded-lg bg-cover bg-no-repeat bg-center cursor-pointer"
-                    :style="'background-image: url(\'' + startup.logo_path + '\');'" />
+                    :style="'background-image: url(\'' + startup.logo_url + '\');'" />
             </div>
             <div v-else>
                 <RocketIcon

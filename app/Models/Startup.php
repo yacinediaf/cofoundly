@@ -15,6 +15,16 @@ class Startup extends Model
 {
     use HasFactory;
 
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array<int, string>
+     */
+    protected $appends = [
+        'logo_url',
+        'banner_url',
+    ];
+
     public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -76,17 +86,17 @@ class Startup extends Model
         });
     }
 
-    protected function logoPath(): Attribute
+    protected function logoUrl(): Attribute
     {
-        return Attribute::get(function ($value) {
-            return $value ? Storage::disk('public')->url($value) : null;
+        return new Attribute(get: function () {
+            return $this->logo_path ? Storage::disk('public')->url($this->logo_path) : null;
         });
     }
 
-    protected function bannerPath(): Attribute
+    protected function bannerUrl(): Attribute
     {
-        return Attribute::get(function ($value) {
-            return $value ? Storage::disk('public')->url($value) : null;
+        return new Attribute(get: function () {
+            return $this->banner_path ? Storage::disk('public')->url($this->banner_path) : null;
         });
     }
 

@@ -23,10 +23,10 @@ const switchToStartup = (startup) => {
                 <button type="button"
                     class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
                     <div class="relative">
-                        <RocketIcon v-if="!currentStartup.logo_path"
+                        <RocketIcon v-if="!currentStartup.logo_url"
                             class="relative h-8 w-8 text-gray-500 border rounded-lg p-2 mr-2" />
                         <span v-else class="relative h-8 w-8 block border rounded-lg bg-cover bg-no-repeat bg-center"
-                            :style="'background-image: url(\'' + currentStartup.logo_path + '\');'" />
+                            :style="'background-image: url(\'' + currentStartup.logo_url + '\');'" />
                         <span v-if="currentStartup.requests.length"
                             class="absolute bottom-0 right-0 w-2 h-2 bg-red-500 border-2 border-white rounded-full"></span>
                     </div>

@@ -25,7 +25,7 @@ class UserStartupController extends Controller
     {
         $attributes = Validator::make($request->all(), [
             'name' => 'required|string|max:255|unique:startups,name',
-            'description' => ['required', 'text'],
+            'description' => ['required'],
             'website' => 'sometimes|max:255',
             'location' => [
                 'required',

@@ -46,7 +46,7 @@ class UpdateStartupRequest extends FormRequest
     {
         return [
             'name' => 'sometimes|string|max:255',
-            'description' => 'sometimes|text',
+            'description' => ['sometimes'],
             'website' => 'sometimes|max:255',
             'location' => [
                 'sometimes',

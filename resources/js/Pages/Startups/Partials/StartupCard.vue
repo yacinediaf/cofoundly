@@ -46,10 +46,6 @@ defineProps(['startup'])
                 <span>Open Positions</span>
             </div>
         </div>
-        <div>
-            <h1 class="text-sm text-gray-300">About {{ startup.name }}:</h1>
-            <p class="text-gray-500 text-sm mt=1 truncate ">{{ startup.description }}</p>
-        </div>
         <div class="mt-4">
             <Link :href="route('startups.show', startup.id)" :prefetch="true"
                 class="text-sm text-gray-500 border rounded-full px-2 py-1 hover:text-orange-500 hover:border-orange-500 transition-all ease-in-out delay-75">

@@ -138,7 +138,7 @@ function requestToJoin() {
                         <!-- ABOUT  -->
                         <div class="bg-white mt-4 p-4 rounded-lg">
                             <h1 class="font-semibold text-lg mb-2">About</h1>
-                            <p class="text-xs text-gray-500 mt-1 ">{{ startup.description }}</p>
+                            <p class="text-xs text-gray-500 mt-1 " v-html="startup.description"></p>
                         </div>
 
                         <div>

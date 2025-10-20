@@ -55,6 +55,13 @@ class Startup extends Model
         return $this->members()->contains('id', $user->id);
     }
 
+    protected function description(): ?Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $value ? Str::markdown($value) : null
+        );
+    }
+
     protected function lookingFor(): ?Attribute
     {
         return Attribute::make(

@@ -1,6 +1,7 @@
 <script setup>
+import MarkdownEditor from '@/Components/MarkdownEditor.vue';
 import { ref } from 'vue';
-import { Link, router, useForm } from '@inertiajs/vue3';
+import { router, useForm } from '@inertiajs/vue3';
 import ActionMessage from '@/Components/ActionMessage.vue';
 import FormSection from '@/Components/FormSection.vue';
 import InputError from '@/Components/InputError.vue';
@@ -17,7 +18,7 @@ const form = useForm({
     _method: 'PUT',
     name: props.startup.name,
     description: props.startup.description,
-    location: props.startup.location.id,
+    location: props.startup.location?.id ?? null,
     logo: props.startup.logo_path ?? null,
     banner: props.startup.banner_path ?? null,
     industry: props.startup.industry_id ?? null,
@@ -138,7 +139,7 @@ const clearbannerFileInput = () => {
                     <!-- Startup Banner File Input -->
                     <input id="banner" ref="bannerInput" type="file" class="hidden" @change="updateBannerPreview">
                     <Pencil1Icon @click.prevent="selectNewBanner"
-                        class="absolute top-1 right-1 h-6 w-6 p-0.5 rounded-full text-white bg-gray-500 cursor-pointer" />
+                        class="absolute top-1 right-1 h-8 w-8 p-1 border-2 border-white rounded-full text-white bg-gray-500 cursor-pointer" />
                 </div>
                 <!-- New Banner Preview -->
                 <div v-show="bannerPreview" class="mt-2 relative">
@@ -183,35 +184,14 @@ const clearbannerFileInput = () => {
                 <InputError :message="form.errors.name" class="mt-2" />
             </div>
 
-            <!-- description -->
-            <div class="col-span-6">
-                <InputLabel for="description" value="Description" />
-                <TextInput id="description" v-model="form.description" type="text" class="mt-1 block w-full" required
-                    autocomplete="username" />
-                <InputError :message="form.errors.description" class="mt-2" />
-
-                <div v-if="$page.props.jetstream.hasEmailVerification && user.email_verified_at === null">
-                    <p class="text-sm mt-2">
-                        Your email address is unverified.
-
-                        <Link :href="route('verification.send')" method="post" as="button"
-                            class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                            @click.prevent="sendEmailVerification">
-                        Click here to re-send the verification email.
-                        </Link>
-                    </p>
-
-                    <div v-show="verificationLinkSent" class="mt-2 font-medium text-sm text-green-600">
-                        A new verification link has been sent to your email address.
-                    </div>
-                </div>
-            </div>
             <!-- Location -->
             <div class="col-span-6">
                 <InputLabel for="location" value="Location" />
                 <select id="location" v-model="form.location"
                     class="block mt-1 py-2 border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm px-2 w-full font-medium text-sm text-gray-700">
-                    <option :selected="form.location == null" value="" class="text-gray-900">Select a location</option>
+                    <option :selected="form.location == null" class="text-gray-900">
+                        Select a location
+                    </option>
                     <option :selected="wilaya.id == form.location" class="text-gray-900"
                         v-for="wilaya in $page.props.wilayas" :value="wilaya.id">
                         {{ wilaya.name }}
@@ -226,12 +206,19 @@ const clearbannerFileInput = () => {
                 <select id="industry" v-model="form.industry"
                     class="block mt-1 py-2 border border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm px-2 w-full font-medium text-sm text-gray-700">
                     <option value="" class="text-gray-900">Select an industry</option>
-                    <option :selected="industry.id == form.industry_id" class="text-gray-900"
+                    <option :selected="industry.id == form.industry" class="text-gray-900"
                         v-for="industry in $page.props.industries" :value="industry.id">
                         {{ industry.name }}
                     </option>
                 </select>
                 <InputError :message="form.errors.industry" class="mt-2" />
+            </div>
+
+            <!-- description -->
+            <div class="col-span-6">
+                <InputLabel for="description" value="Description" />
+                <MarkdownEditor v-model="form.description" class="mt-1" />
+                <InputError :message="form.errors.description" class="mt-2" />
             </div>
         </template>
 

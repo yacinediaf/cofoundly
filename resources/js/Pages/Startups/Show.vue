@@ -13,7 +13,7 @@ import IndustryTag from '@/Components/IndustryTag.vue';
 import LocationTag from '@/Components/LocationTag.vue';
 import Startuplogo from '@/Components/Startuplogo.vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head, router, useForm } from '@inertiajs/vue3';
 import { Motion } from "motion-v"
 import TrendyStartups from './Partials/TrendyStartups.vue';
 import StartupStage from '@/Components/StartupStage.vue';
@@ -26,6 +26,7 @@ let props = defineProps({
     members: Object,
     canRequest: Boolean,
     alreadyRequested: Boolean,
+    isGuest: Boolean,
 })
 
 let form = useForm({
@@ -35,6 +36,11 @@ let form = useForm({
 let dialogIsOpen = ref(false)
 
 function openDialog() {
+
+    if (props.isGuest) {
+        router.visit(route('login'))
+        return
+    }
     dialogIsOpen.value = true
 }
 
@@ -82,20 +88,18 @@ function requestToJoin() {
                                     <StartupStage :startup="startup" />
                                 </div>
                             </div>
-                            <Dialog v-if="canRequest && !alreadyRequested" v-model:open="dialogIsOpen">
-                                <DialogTrigger @click="openDialog" asChild>
-                                    <Button class="flex gap-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
-                                            viewBox="0 0 24 24" fill="none" stroke="#8f8f8f" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
-                                            class="lucide lucide-circle-plus-icon lucide-circle-plus">
-                                            <circle cx="12" cy="12" r="10" />
-                                            <path d="M8 12h8" />
-                                            <path d="M12 8v8" />
-                                        </svg>
-                                        Join
-                                    </Button>
-                                </DialogTrigger>
+                            <Button v-if="canRequest && !alreadyRequested || isGuest" class="flex gap-2"
+                                @click="openDialog">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                    fill="none" stroke="#8f8f8f" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="lucide lucide-circle-plus-icon lucide-circle-plus">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <path d="M8 12h8" />
+                                    <path d="M12 8v8" />
+                                </svg>
+                                Join
+                            </Button>
+                            <Dialog v-model:open="dialogIsOpen">
                                 <DialogContent class="sm:max-w-[600px]">
                                     <DialogHeader>
                                         <DialogTitle>Ask To join Startup</DialogTitle>

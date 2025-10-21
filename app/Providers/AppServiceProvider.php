@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Listeners\SendEmailVerificationNotification;
 use App\Listeners\TeamMemberAddedListener;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
@@ -38,6 +40,11 @@ class AppServiceProvider extends ServiceProvider
         Event::listen(
             TeamMemberAdded::class,
             TeamMemberAddedListener::class
+        );
+
+        Event::listen(
+            Registered::class,
+            SendEmailVerificationNotification::class
         );
     }
 }

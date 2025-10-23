@@ -2,7 +2,6 @@
 
 namespace App\Events;
 
-use App\Models\Task;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
@@ -18,7 +17,7 @@ class TaskCreated implements ShouldBroadcastNow
     /**
      * Create a new event instance.
      */
-    public function __construct(public Task $task)
+    public function __construct(public $task)
     {
     }
 

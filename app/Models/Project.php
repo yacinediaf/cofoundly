@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\TaskStatus;
 use App\Events\TaskCreated;
+use App\Http\Resources\TaskResource;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -46,7 +47,11 @@ class Project extends Model
         $task = $this->tasks()
                     ->create($attributes)
                     ->assignTags($tags);
-        broadcast(new TaskCreated($task))->toOthers();
+
+        $task->load('assignedTo', 'tags', 'comments.user');
+
+        broadcast(new TaskCreated(TaskResource::make($task)))
+        ->toOthers();
     }
 
     public function tags(): HasMany

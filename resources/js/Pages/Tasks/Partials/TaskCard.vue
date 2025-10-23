@@ -10,15 +10,13 @@ import {
     DropdownMenuTrigger,
 } from '@/Components/ui/dropdown-menu';
 import { router, Link } from '@inertiajs/vue3';
-import { inject } from 'vue';
 import ShowTask from '@/Components/task/ShowTask.vue';
+import { inject } from 'vue';
 
 let props = defineProps(['task'])
-
-let project = inject('project');
-
+inject('project')
 function deleteTask() {
-    router.delete(route('tasks.delete', [project.project_code, props.task.id]));
+    router.delete(route('tasks.delete', [props.project.project_code, props.task.id]));
 }
 
 </script>
@@ -48,7 +46,7 @@ function deleteTask() {
                                         <ShowTask :task="task"></ShowTask>
 
                                         <DropdownMenuItem v-if="task.can.editTask">
-                                            <Link :href="route('tasks.edit', [project.project_code, task.id])">
+                                            <Link :href="route('tasks.edit', [props.project.project_code, task.id])">
                                             Edit
                                             </Link>
                                         </DropdownMenuItem>

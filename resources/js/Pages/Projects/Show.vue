@@ -4,15 +4,15 @@ import Button from '@/Components/ui/button/Button.vue';
 import TasksManager from '@/Pages/Projects/Partials/TasksManager.vue';
 import { PlusIcon } from '@radix-icons/vue';
 import { Link, router } from '@inertiajs/vue3';
-import { provide, ref, computed } from 'vue';
+import { ref, computed, provide } from 'vue';
 
 defineOptions({
     layout: AppLayout
 })
 let props = defineProps(['project', 'tasks', 'currentDate'])
-let tasks = computed(() => props.tasks)
-let selectedTags = ref([])
 provide('project', props.project)
+let tasks = ref(props.tasks)
+let selectedTags = ref([])
 
 const assignTag = (tag) => {
     if (selectedTags.value.includes(tag)) {
@@ -76,7 +76,7 @@ const removeTag = (tag) => {
                 </div>
             </div>
 
-            <TasksManager v-model="tasks"></TasksManager>
+            <TasksManager v-model="tasks" :project="project"></TasksManager>
 
         </div>
     </div>

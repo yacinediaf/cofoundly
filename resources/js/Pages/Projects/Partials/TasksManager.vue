@@ -1,7 +1,7 @@
 <script setup>
 import draggable from 'vuedraggable';
 import { router, usePage } from '@inertiajs/vue3';
-import { inject, watch, ref } from 'vue';
+import { inject, ref } from 'vue';
 import TaskCard from '@/Pages/Tasks/Partials/TaskCard.vue';
 import {
     Table,
@@ -59,19 +59,23 @@ function removeFromPreviousStatusList(updatedTask) {
 }
 
 function InsertInNewStatusList(updatedTask) {
-    if (updatedTask.status === "Todo") {
-        todos.value.push(updatedTask);
-    } else if (updatedTask.status === "In Progress") {
-        inProgress.value.push(updatedTask);
-    } else if (updatedTask.status === "Done") {
-        done.value.push(updatedTask);
+    switch (updatedTask.status) {
+        case 'Todo':
+            todos.value.push(updatedTask);
+            break;
+        case 'In Progress':
+            inProgress.value.push(updatedTask);
+            break;
+        case 'Done':
+            done.value.push(updatedTask);
+            break;
     }
+    emit('update:modelValue', {
+        Todo: todos.value,
+        'In Progress': inProgress.value,
+        Done: done.value
+    })
 }
-watch(() => props.modelValue, (newValue) => {
-    todos.value = newValue['Todo'] ?? []
-    inProgress.value = newValue['In Progress'] ?? []
-    done.value = newValue['Done'] ?? []
-}, { deep: true })
 </script>
 <template>
     <div class="mt-8 h-full">
@@ -83,7 +87,7 @@ watch(() => props.modelValue, (newValue) => {
                 <draggable v-model="todos" group="test" :move="canDrag" class="w-full space-y-2 h-full cursor-move"
                     item-key="id" @change="e => update(e, 'Todo')">
                     <template #item="{ element }">
-                        <TaskCard :task="element"></TaskCard>
+                        <TaskCard :task="element" :project="project"></TaskCard>
                     </template>
                 </draggable>
             </div>

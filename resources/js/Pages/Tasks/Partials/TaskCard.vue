@@ -46,7 +46,7 @@ function deleteTask() {
                                         <ShowTask :task="task"></ShowTask>
 
                                         <DropdownMenuItem v-if="task.can.editTask">
-                                            <Link :href="route('tasks.edit', [props.project.project_code, task.id])">
+                                            <Link :href="route('tasks.edit', [project.project_code, task.id])">
                                             Edit
                                             </Link>
                                         </DropdownMenuItem>

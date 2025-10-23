@@ -4,7 +4,7 @@ import Button from '@/Components/ui/button/Button.vue';
 import TasksManager from '@/Pages/Projects/Partials/TasksManager.vue';
 import { PlusIcon } from '@radix-icons/vue';
 import { Link, router } from '@inertiajs/vue3';
-import { ref, computed, provide } from 'vue';
+import { ref, computed, provide, watch } from 'vue';
 
 defineOptions({
     layout: AppLayout
@@ -40,6 +40,10 @@ const removeTag = (tag) => {
         selectedTags.value.splice(index, 1);
     }
 }
+
+watch(() => props.tasks, (newTasks) => {
+    tasks.value = newTasks
+})
 </script>
 <template>
     <div class="h-full">

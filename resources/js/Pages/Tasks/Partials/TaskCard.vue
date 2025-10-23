@@ -14,9 +14,9 @@ import ShowTask from '@/Components/task/ShowTask.vue';
 import { inject } from 'vue';
 
 let props = defineProps(['task'])
-inject('project')
+let project = inject('project')
 function deleteTask() {
-    router.delete(route('tasks.delete', [props.project.project_code, props.task.id]));
+    router.delete(route('tasks.delete', [project.project_code, props.task.id]));
 }
 
 </script>

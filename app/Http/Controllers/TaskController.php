@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Enums\TaskStatus;
 use App\Events\TaskDeleted;
-use App\Events\TaskStatusUpdated;
 use App\Http\Requests\Tasks\ReplaceTaskRequest;
 use App\Http\Requests\Tasks\StoreTaskRequest;
 use App\Models\Project;
@@ -77,8 +76,7 @@ class TaskController extends Controller
         ]);
         //Update status
         $task->updateStatus($attributes['status']);
-        //Broadcast
-        broadcast(new TaskStatusUpdated($task))->toOthers();
+
         //Return
         return back()->with('success', 'task status updated. ✅.');
     }
@@ -86,8 +84,7 @@ class TaskController extends Controller
     public function delete(Project $project, Task $task)
     {
         $deletedTask = $task;
-        $task->delete();
-        broadcast(new TaskDeleted($deletedTask));
+        $task->destroy($deletedTask);
         return back()->with('success', 'task deleted with success ✅.');
     }
 }

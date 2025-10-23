@@ -15,3 +15,12 @@ Broadcast::channel('projects.{project_code}', function ($user, $project_code) {
 
     return true;
 });
+
+Broadcast::channel('projects.{project_code}.tasks.{task_id}', function ($user, $project_code, $task_id) {
+    $project = Project::where('project_code', $project_code)->first();
+    if (!in_array($user->id, $project->team->allUsers()->pluck('id')->toArray())) {
+        return false;
+    }
+
+    return true;
+});

@@ -2,11 +2,12 @@
 import MarkdownEditor from '@/Components/MarkdownEditor.vue';
 import LoadedButton from '@/Components/LoadedButton.vue';
 import Button from '@/Components/ui/button/Button.vue';
-import { computed, reactive, ref } from 'vue';
+import { computed, inject, reactive, ref } from 'vue';
 import { router, usePage } from '@inertiajs/vue3';
 import { ChevronDownIcon, ChevronUpIcon, PaperPlaneIcon } from '@radix-icons/vue';
 
 let props = defineProps(['task'])
+let project = inject('project')
 let comments = computed(() => props.task.comments);
 let newComment = reactive({
     content: '',
@@ -51,6 +52,21 @@ let deleteComment = (comment) => {
         onFinish: () => isLoading.value = false
     });
 }
+
+Echo.private('projects.' + project.project_code + '.tasks.' + props.task.id)
+    .listen('CommentCreated', (event) => {
+        comments.value.push(event.comment);
+    }).listen('CommentUpdated', (event) => {
+        const index = comments.value.findIndex(comment => comment.id === event.comment.id);
+        if (index !== -1) {
+            comments.value[index] = event.comment;
+        }
+    }).listen('CommentDeleted', (event) => {
+        const index = comments.value.findIndex(comment => comment.id === event.comment_id);
+        if (index !== -1) {
+            comments.value.splice(index, 1);
+        }
+    })
 </script>
 <template>
     <div class="mt-10">

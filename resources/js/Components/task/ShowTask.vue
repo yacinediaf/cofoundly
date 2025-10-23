@@ -14,7 +14,6 @@ import {
 import { MixerHorizontalIcon } from '@radix-icons/vue';
 
 let props = defineProps(['task'])
-
 </script>
 
 <template>

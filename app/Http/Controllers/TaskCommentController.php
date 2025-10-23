@@ -18,7 +18,7 @@ class TaskCommentController extends Controller
         ]);
 
         DB::transaction(function () use ($attributes, $task) {
-            $task->comments()->create($attributes);
+            $task->createComment($attributes);
         });
 
         return back()->with('success', 'New Task Created successfully.');
@@ -30,14 +30,14 @@ class TaskCommentController extends Controller
             'content' => ['required'],
         ]);
 
-        $comment->update($attributes);
+        $comment->reformulate($attributes['content']);
 
         return back()->with('success', 'Comment updated successfully.');
     }
 
     public function delete(Comment $comment)
     {
-        $comment->delete();
+        $comment->erase();
 
         return back()->with('success', 'Comment deleted successfully.');
     }

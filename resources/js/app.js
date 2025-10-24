@@ -1,6 +1,7 @@
 import './bootstrap';
 import '../css/app.css';
 import { notifications } from './Plugins/notifications';
+import GTMPlugin from './Plugins/gtm'
 
 import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
@@ -19,6 +20,7 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue)
             .use(notifications)
+            .use(GTMPlugin)
             .mount(el);
     },
     progress: {

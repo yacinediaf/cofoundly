@@ -27,6 +27,14 @@ const submit = () => {
     <Head title="Register" />
 
     <AuthenticationCard>
+        <div class="flex flex-col items-center gap-2 text-center">
+            <h1 class="text-2xl font-bold">
+                Register
+            </h1>
+            <p class="text-balance text-sm text-muted-foreground">
+                Fill the form below to create an account
+            </p>
+        </div>
         <form @submit.prevent="submit">
             <div>
                 <Label for="email">Name</Label>

@@ -75,12 +75,12 @@ function requestToJoin() {
                         </div>
                     </div>
                     <div>
-                        <div class="bg-white pt-6 px-4 pb-4 rounded-b-lg flex items-center justify-between">
-                            <div class="flex flex-col gap-2">
-                                <h1 class="text-2xl font-semibold flex flex-wrap items-center gap-2">
+                        <div class="bg-white pt-6 px-4 pb-4 rounded-b-lg flex gap-2 items-center justify-between">
+                            <div class="flex flex-col gap-2 flex-wrap">
+                                <h1 class="text-2xl font-semibold flex items-center gap-2">
                                     {{ startup.name }}
                                 </h1>
-                                <div class="flex items-center gap-2">
+                                <div class="flex flex-col md:flex-row items-start gap-2">
                                     <LocationTag :location="startup.location" />
                                     <IndustryTag :industry="startup.industry" />
                                 </div>

@@ -84,7 +84,7 @@ class TaskController extends Controller
     public function delete(Project $project, Task $task)
     {
         $deletedTask = $task;
-        $task->destroy($deletedTask);
+        $task->erase($deletedTask);
         return back()->with('success', 'task deleted with success ✅.');
     }
 }

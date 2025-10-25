@@ -8,7 +8,9 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
+use Throwable;
 
 class TeamInvitation extends Mailable implements ShouldQueue
 {
@@ -21,6 +23,11 @@ class TeamInvitation extends Mailable implements ShouldQueue
     public function __construct(public TeamInvitationModel $invitation, public Startup $startup)
     {
         //
+    }
+
+    public function failed(Throwable $throwable)
+    {
+        Log::error($throwable->getMessage());
     }
 
     /**

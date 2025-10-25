@@ -5,11 +5,12 @@ namespace App\Mail;
 use App\Models\Startup;
 use App\Models\TeamInvitation as TeamInvitationModel;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\URL;
 
-class TeamInvitation extends Mailable
+class TeamInvitation extends Mailable implements ShouldQueue
 {
     use Queueable;
     use SerializesModels;

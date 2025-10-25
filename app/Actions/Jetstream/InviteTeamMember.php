@@ -35,7 +35,7 @@ class InviteTeamMember implements InvitesTeamMembers
         ]);
 
         Mail::to($email)->queue(
-            new MailTeamInvitation($invitation->load('team.startup'))
+            new MailTeamInvitation($invitation, $team->startup)
         );
     }
 

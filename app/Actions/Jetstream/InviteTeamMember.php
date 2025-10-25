@@ -2,7 +2,6 @@
 
 namespace App\Actions\Jetstream;
 
-use App\Mail\TeamInvitation;
 use App\Models\Team;
 use App\Models\User;
 use Closure;
@@ -14,6 +13,7 @@ use Illuminate\Validation\Rule;
 use Laravel\Jetstream\Contracts\InvitesTeamMembers;
 use Laravel\Jetstream\Events\InvitingTeamMember;
 use Laravel\Jetstream\Jetstream;
+use Laravel\Jetstream\Mail\TeamInvitation;
 use Laravel\Jetstream\Rules\Role;
 
 class InviteTeamMember implements InvitesTeamMembers
@@ -34,7 +34,7 @@ class InviteTeamMember implements InvitesTeamMembers
             'role' => $role,
         ]);
 
-        Mail::to($email)->queue(new TeamInvitation($invitation, $team->startup));
+        Mail::to($email)->queue(new TeamInvitation($invitation));
     }
 
     /**

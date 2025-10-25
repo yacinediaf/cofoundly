@@ -24,7 +24,7 @@ class StartupController extends Controller
             'members' => MemberResource::collection($startup->members()),
             'canRequest' => $request->user() ? $request->user()->canSendRequest($startup) : false,
             'alreadyRequested' => $request->user() ? $startup->hasPendingRequest($request->user()) : false,
-            'isGuest' => !$request->user(),
+            'isGuest' => is_null($request->user()),
         ]);
     }
 }

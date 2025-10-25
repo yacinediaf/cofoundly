@@ -34,7 +34,7 @@ class InviteTeamMember implements InvitesTeamMembers
             'role' => $role,
         ]);
 
-        Mail::to($email)->send(
+        Mail::to($email)->queue(
             new MailTeamInvitation($invitation, $team->startup)
         );
     }

@@ -26,8 +26,8 @@ defineProps(['startup'])
                     <h2 class="text-lg font-semibold">{{ startup.name }}</h2>
                 </div>
                 <div class="flex items-center gap-2">
-                    <LocationTag :location="startup.location" />
-                    <IndustryTag :industry="startup.industry" />
+                    <LocationTag v-if="startup.location" :location="startup.location" />
+                    <IndustryTag v-if="startup.industry" :industry="startup.industry" />
                 </div>
             </div>
         </div>

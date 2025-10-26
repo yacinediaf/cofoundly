@@ -9,8 +9,14 @@ import { Link } from '@inertiajs/vue3';
             <div class="w-full relative">
                 <header class="py-4 lg:grid-cols-3 bg-white/70 sticky top-0 z-50 shadow-lg text-black">
                     <nav class="px-2 text-sm md:container mx-auto flex items-center justify-between font-semibold">
-                        <div>
-                            <Link :href="'/'">Home</Link>
+                        <div class="flex justify-center gap-2 md:justify-start">
+                            <Link href="/" class="flex items-center gap-2 font-medium">
+                            <div
+                                class="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
+                                <img src="/images/cofoundly.png" class="w-full h-full rounded-lg" />
+                            </div>
+                            Cofoundly.
+                            </Link>
                         </div>
                         <div>
                             <Link v-if="$page.props.auth.user" :href="route('dashboard')"

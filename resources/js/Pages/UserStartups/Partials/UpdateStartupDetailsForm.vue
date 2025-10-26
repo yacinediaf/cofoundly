@@ -46,6 +46,10 @@ const sendEmailVerification = () => {
             <!-- stage -->
             <div class="col-span-6">
                 <InputLabel for="stage" value="Stage (Current Stage of your startup)" />
+                <span class="bg-red-500 text-white py-1 px-2 rounded-lg text-xs mt-2">
+                    You have to select one of these stages in order
+                    to be visible to others
+                </span>
                 <div class="space-y-2 space-x-2 mt-1">
                     <label v-for="option in $page.props.startupStages" :key="option"
                         class="inline-flex items-center border py-1 px-2 rounded-md cursor-pointer">

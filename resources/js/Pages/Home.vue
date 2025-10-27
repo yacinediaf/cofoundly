@@ -40,7 +40,8 @@ defineProps({
                             </p>
                         </Motion>
                         <Motion as="div" :initial="{ opacity: 0 }" :inViewOptions="{ once: true }"
-                            :whileInView="{ opacity: 1, transition: { duration: 0.5 } }" class="w-full h-1/2 md:h-full">
+                            :whileInView="{ opacity: 1, transition: { duration: 0.5 } }"
+                            class="w-full h-[250px] md:h-full">
                             <img src="/images/team_management_capture.png" alt="Collaboration"
                                 class="mx-auto w-full md:w-2/3 h-full mb-4 md:-skew-x-[10deg] border-2 rounded-lg shadow-md block md:absolute top-0 right-0"
                                 style="--mask-bottom: linear-gradient(to bottom, #000 50%, transparent 100%);

@@ -18,7 +18,7 @@ import { Link } from '@inertiajs/vue3';
                             Cofoundly.
                             </Link>
                         </div>
-                        <div>
+                        <div class="hidden md:inline">
                             <NavLink :href="route('startups.index')" :active="route().current('startups.index')"
                                 :class="{ 'text-orange-500 border-none': route().current('startups.index') }">
                                 Startups
@@ -35,7 +35,7 @@ import { Link } from '@inertiajs/vue3';
                                 Log in
                                 </Link>
                                 <Link :href="route('register')"
-                                    class="bg-orange-500 text-white hover:bg-orange-400 rounded-md px-3 py-2 ring-1 ring-transparent transition focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
+                                    class="hidden md:inline bg-orange-500 text-white hover:bg-orange-400 rounded-md px-3 py-2 ring-1 ring-transparent transition focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white">
                                 Register
                                 </Link>
                             </template>

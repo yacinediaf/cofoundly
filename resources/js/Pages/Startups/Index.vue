@@ -2,6 +2,7 @@
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import StartupCard from '@/Pages/Startups/Partials/StartupCard.vue';
+import { Button } from "@/Components/ui/button"
 import { Motion } from "motion-v"
 
 
@@ -16,13 +17,13 @@ defineProps({
 
         <Head title="Startups" />
 
-        <div class="bg-gray-100">
-            <header class="py-6 md:py-20 px-4 md:w-[600px] mx-auto">
-                <div class="text-3xl/relaxed md:text-4xl/relaxed text-black text-center font-bold">
+        <div class="bg-gray-100 min-h-screen">
+            <header class="px-4 md:w-[600px] h-screen mx-auto flex flex-col items-center justify-center gap-4">
+                <div class="text-3xl/relaxed md:text-5xl/relaxed text-black text-center font-bold">
                     Explore
                     <br>
                     <div
-                        class="bg-orange-500 text-white rounded flex items-center justify-center text-2xl/relaxed md:text-3xl/relaxed">
+                        class="bg-orange-500 text-white rounded flex items-center justify-center text-2xl/relaxed md:text-4xl/relaxed">
                         <h1>Innovative Startup Ideas</h1>
                         <Motion as="span" :initial="{ x: -100, y: 100, opacity: 0 }"
                             :animate="{ x: 0, y: 0, opacity: 1, transition: { duration: 0.5 } }">
@@ -35,9 +36,22 @@ defineProps({
                     Here you find startup in starter phase and ideas where you can join and co-found, teams, investors
                     and mentors, from Algeria.
                 </p>
+
+                <div class="flex items-center gap-3 w-full justify-center mt-10">
+                    <Button class="py-5 px-6">
+                        <Link :href="route('dashboard')" class="text-white">
+                        Create Startup
+                        </Link>
+                    </Button>
+                    <Button class="py-5 px-6 bg-orange-500 hover:bg-orange-400">
+                        <Link :href="'/'" class="text-white">
+                        Join Startup
+                        </Link>
+                    </Button>
+                </div>
             </Header>
 
-            <section class="w-full h-full lg:w-[900px] mx-auto py-10 md:py-20 px-2">
+            <!-- <section class="w-full h-full lg:w-[900px] mx-auto py-10 md:py-20 px-2">
                 <h1 v-if="startups.length > 0" class="font-semibold text-2xl">Startups</h1>
 
                 <div>
@@ -66,6 +80,82 @@ defineProps({
                                 <Link class="mx-2 text-orange-500 font-semibold" :href="route('login')">Join one
                                 </Link>
                             </p>
+                        </div>
+                    </div>
+                </div>
+            </section> -->
+
+            <!-- Features Section -->
+            <section id="features" class="py-20 md:py-40 bg-white">
+                <div class="max-w-6xl mx-auto px-4">
+                    <div class="flex flex-col gap-2 text-center md:text-start mb-20 md-40 w-full md:w-1/2">
+                        <h2 class="text-3xl font-bold">Simple, Useful, and Powerful Features
+                        </h2>
+                        <p class="text-sm text-gray-600">We have a range of features that make you familiar with
+                            startup management experience easy
+                            and efficient.
+                        </p>
+                    </div>
+                    <div class="md:flex gap-4 flex-col space-y-15">
+                        <div
+                            class="w-full h-[400px] mt-10 bg-white rounded-2xl shadow-smborder text-center flex flex-col gap-6 md:flex-row items-start relative">
+                            <div class="flex flex-col gap-2 md:w-1/3 text-start">
+                                <h3 class="text-xl font-semibold">Team Management</h3>
+                                <p class="text-gray-600 text-sm">
+                                    Invite Co-founders and Members to your startup and give them access to your startup
+                                    projects.
+                                </p>
+                            </div>
+                            <div class="w-full">
+                                <img src="/images/team_management_capture.png" alt="Collaboration"
+                                    class="mx-auto md:w-2/3 h-full mb-4 md:-skew-x-[10deg] border-2 rounded-lg shadow-md block md:absolute top-0 right-0"
+                                    style="--mask-bottom: linear-gradient(to bottom, #000 50%, transparent 100%);
+                                    --mask-right: linear-gradient(to right, #000 80%, transparent 100%);
+                                    mask-image: var(--mask-bottom), var(--mask-right);
+                                    mask-composite: intersect;">
+                            </div>
+                        </div>
+
+                        <div
+                            class="w-full h-[400px] mt-10 bg-white rounded-2xl shadow-smborder text-center flex flex-col gap-6 md:flex-row items-start relative">
+                            <div class="flex flex-col gap-2 md:w-1/3 text-start">
+                                <h3 class="text-xl font-semibold">Task Handling</h3>
+                                <p class="text-gray-600 text-sm">
+                                    Simple, easy interactive task management system to manage your startup projects in
+                                    <b>realtime</b>.
+                                </p>
+                            </div>
+                            <div class="w-full">
+                                <img src="/images/task_management.png" alt="task_management"
+                                    class="mx-auto md:w-2/3 h-full mb-4 md:-skew-x-[10deg] border-2 rounded-lg shadow-md block md:absolute top-0 right-0"
+                                    style="--mask-bottom: linear-gradient(to bottom, #000 50%, transparent 100%);
+                                    --mask-right: linear-gradient(to right, #000 80%, transparent 100%);
+                                    mask-image: var(--mask-bottom), var(--mask-right);
+                                    mask-composite: intersect;">
+                            </div>
+                        </div>
+
+                        <div
+                            class="w-full h-[400px] mt-10 bg-white rounded-2xl shadow-smborder text-center flex flex-col gap-6 md:flex-row items-start relative">
+                            <div class="flex flex-col gap-2 md:w-1/3 text-start">
+                                <h3 class="text-xl font-semibold">Request Management</h3>
+                                <p class="text-gray-600 text-sm">
+                                    Invite Co-founders and Members to your startup and give them access to your startup
+                                    projects.
+                                </p>
+                            </div>
+                            <div class="w-full">
+                                <img src="/images/notification_management.png" alt="notification_management"
+                                    class="mx-auto md:w-2/3 h-full mb-4 md:-skew-x-[10deg] border-2 rounded-lg shadow-md block md:absolute top-0 right-0"
+                                    style="--mask-bottom: linear-gradient(to bottom, #000 50%, transparent 100%);
+                                    --mask-right: linear-gradient(to right, #000 80%, transparent 100%);
+                                    mask-image: var(--mask-bottom), var(--mask-right);
+                                    mask-composite: intersect;">
+                            </div>
+                        </div>
+
+                        <div class="w-full flex items-center justify-center mt-10">
+                            <h1 class="text-3xl font-semibold">And much more... </h1>
                         </div>
                     </div>
                 </div>

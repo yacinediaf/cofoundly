@@ -60,9 +60,9 @@ const switchToStartup = (startup) => {
                     </span>
                 </DropdownLink>
 
-                <DropdownLink v-if="$page.props.jetstream.canCreateTeams" :href="route('user-startups.create')">
+                <!-- <DropdownLink v-if="$page.props.jetstream.canCreateTeams" :href="route('user-startups.create')">
                     Create New Startup
-                </DropdownLink>
+                </DropdownLink> -->
 
                 <!-- <DropdownLink v-if="$page.props.jetstream.canCreateTeams" :href="route('teams.create')">
                     Create New Team

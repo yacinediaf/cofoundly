@@ -16,7 +16,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', [StartupController::class, 'index'])->name('startups.index');
+Route::get('/', function () {
+    return Inertia::render('Home');
+})->name('home');
 //Startups
 Route::get('/startups', [StartupController::class, 'index'])->name('startups.index');
 Route::get('/startups/{startup}', [StartupController::class, 'show'])->name('startups.show');

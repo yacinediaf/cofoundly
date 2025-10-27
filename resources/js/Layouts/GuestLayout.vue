@@ -1,6 +1,6 @@
 <script setup>
+import NavLink from '@/Components/NavLink.vue';
 import { Link } from '@inertiajs/vue3';
-
 </script>
 
 <template>
@@ -17,6 +17,12 @@ import { Link } from '@inertiajs/vue3';
                             </div>
                             Cofoundly.
                             </Link>
+                        </div>
+                        <div>
+                            <NavLink :href="route('startups.index')" :active="route().current('startups.index')"
+                                :class="{ 'text-orange-500 border-none': route().current('startups.index') }">
+                                Startups
+                            </NavLink>
                         </div>
                         <div>
                             <Link v-if="$page.props.auth.user" :href="route('dashboard')"

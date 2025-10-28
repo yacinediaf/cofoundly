@@ -1,8 +1,9 @@
 <script setup>
+import { Button } from "@/Components/ui/button"
+import { Motion } from "motion-v"
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import StartupCard from '@/Pages/Startups/Partials/StartupCard.vue';
-import PageHeader from '@/Components/PageHeader.vue';
 
 defineProps({
     startups: Array
@@ -15,7 +16,34 @@ defineProps({
 
         <Head title="Startups" />
 
-        <PageHeader></PageHeader>
+        <header class="px-4 md:w-[600px] h-screen mx-auto flex flex-col items-center justify-center gap-4">
+            <div class="text-3xl/relaxed text-black text-center">
+                <div class="rounded flex flex-col gap-6 items-center italic justify-center text-2xl/relaxed">
+                    <div>
+                        <svg class="w-8 h-8 text-orange-500 mb-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor" viewBox="0 0 18 14">
+                            <path
+                                d="M6 0H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3H2a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Zm10 0h-4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3h-1a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Z" />
+                        </svg>
+                        <div class="text-gray-700">
+                            <h1>You Really don't have to worry about your idea.</h1>
+                            <h1>
+                                Ideas are cheap what counts is the ability
+                                to
+                                translate an idea into a reality.
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center justify-center gap-3">
+                        <div class="w-16 h-16">
+                            <img class="w-full h-full rounded-full opacity-80"
+                                src="https://files.joshkaufman.net/joshkaufman-square.jpg" alt="Josh kaufman">
+                        </div>
+                        <span class="text-sm">Josh Kaufman.</span>
+                    </div>
+                </div>
+            </div>
+        </Header>
 
         <section id="startups_section" class="w-full h-full lg:w-[900px] mx-auto py-10 md:py-20 px-2">
             <h1 v-if="startups.length > 0" class="font-semibold text-2xl">Startups</h1>

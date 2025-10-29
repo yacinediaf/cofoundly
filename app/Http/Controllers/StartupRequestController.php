@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Startup;
 use App\Models\StartupRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Laravel\Jetstream\Jetstream;
 
@@ -12,6 +13,8 @@ class StartupRequestController extends Controller
 {
     public function index(Startup $startup)
     {
+        Gate::authorize('view-request', $startup);
+
         return Inertia::render('StartupRequests/Index', [
             'requests' => StartupRequest::pendingRequests($startup),
             'availableRoles' => array_values(Jetstream::$roles),

@@ -27,6 +27,16 @@ class AppServiceProvider extends ServiceProvider
         Model::unguard();
         Model::preventLazyLoading();
 
+        $this->registerGates();
+
+        Event::listen(
+            TeamMemberAdded::class,
+            TeamMemberAddedListener::class
+        );
+    }
+
+    public function registerGates()
+    {
         Gate::define('edit-task', function ($user, $task) {
             return $user->id === $task->assigned_to || $user->ownsTeam($user->currentTeam);
         });
@@ -35,9 +45,8 @@ class AppServiceProvider extends ServiceProvider
             return $user->hasTeamPermission($user->currentTeam, 'delete');
         });
 
-        Event::listen(
-            TeamMemberAdded::class,
-            TeamMemberAddedListener::class
-        );
+        Gate::define('view-request', function ($user, $startup) {
+            return $user->ownsStartup($startup);
+        });
     }
 }

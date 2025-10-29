@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Concerns\HasStartups;
+use App\Notifications\StartupJoinRequest;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -68,6 +69,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function ownedStartups(): HasMany
     {
         return $this->hasMany(Startup::class, 'owner_id');
+    }
+
+    public function sendRequest($startup, $message)
+    {
+        $this->requests()->create([
+            'message' => $message,
+            'startup_id' => $startup->id
+        ]);
+
+        $startup->owner->notify(new StartupJoinRequest($this, $startup));
     }
 
     public function canSendRequest(Startup $startup)

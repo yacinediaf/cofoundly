@@ -25,10 +25,7 @@ class StartupRequestController extends Controller
         ]);
 
         // Create the startup request
-        $request->user()->requests()->create([
-            'message' => $request->message,
-            'startup_id' => $startup->id
-        ]);
+        $request->user()->sendRequest($startup, $request->message);
 
         return back()->with('success', 'Request sent successfully.');
     }
